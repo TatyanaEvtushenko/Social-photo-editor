@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.LandViewModels;
+using SocialPhotoEditor.DataLayer.DbContext;
+using SocialPhotoEditor.DataLayer.Models;
 using SocialPhotoEditor.Models;
 
 namespace SocialPhotoEditor.Controllers

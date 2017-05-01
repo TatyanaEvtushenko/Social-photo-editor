@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
-namespace SocialPhotoEditor.Models
+namespace SocialPhotoEditor.DataLayer.Models
 {
     public class Image
     {
-        public int Id { get; set; }
+        [Key]
+        public string FieName { get; set; }
 
-        public int OwnerId { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
+        
+        public string FolderId { get; set; }
 
-        public string Path { get; set; }
-
-        public int FolderId { get; set; }
-
+        [Required]
         public DateTime Date { get; set; }
 
+        [Required]
         public DateTime Time { get; set; }
     }
 }

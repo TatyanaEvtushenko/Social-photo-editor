@@ -1,22 +1,18 @@
-using SocialPhotoEditor.DataLayer.DbContext;
-using SocialPhotoEditor.DataLayer.Models;
-
-namespace SocialPhotoEditor.Migrations
+namespace SocialPhotoEditor.DataLayer.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SocialPhotoEditor.DataLayer.DbContext.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "SocialPhotoEditor.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(SocialPhotoEditor.DataLayer.DbContext.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

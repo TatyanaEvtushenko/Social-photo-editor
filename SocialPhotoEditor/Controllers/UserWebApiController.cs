@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
+using SocialPhotoEditor.DataLayer.DbContext;
+using SocialPhotoEditor.DataLayer.Models;
 using SocialPhotoEditor.Models;
 using SociaPhotoEditor.Settings;
 
@@ -40,7 +42,6 @@ namespace SocialPhotoEditor.Controllers
                         UserName = info.UserName,
                         AvatarFileName = info.AvatarFileName ?? defaultAvatarFileName,
                         Name = $"{info.Name} {info.Surname}",
-                        IsFemale = info.IsFemale,
                         Age = GetAge(info.Birthday),
                        // IsSubscriber = db.Subscribers.FirstOrDefault(x => x.UserName == info.UserName && x.SubscriberName == User.Identity.Name) != null
                     };

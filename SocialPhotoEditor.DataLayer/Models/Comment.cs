@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
-namespace SocialPhotoEditor.Models
+namespace SocialPhotoEditor.DataLayer.Models
 {
     public class Comment
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        public int CommentatorId { get; set; }
+        [Required]
+        public string CommentatorId { get; set; }
 
-        public int ImageId { get; set; }
+        [Required]
+        public string ImageId { get; set; }
 
+        [Required]
         public DateTime Time { get; set; }
 
+        [Required]
         public string Text { get; set; }
 
-        public int RecipientId { get; set; }
+        public string RecipientId { get; set; }
     }
 }

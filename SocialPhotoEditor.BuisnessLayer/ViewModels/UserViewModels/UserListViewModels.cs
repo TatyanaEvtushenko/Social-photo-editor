@@ -1,4 +1,6 @@
-﻿namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
+﻿using SocialPhotoEditor.DataLayer.Enums;
+
+namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 {
     public class UserListViewModels
     {
@@ -8,7 +10,7 @@
         public string Land { get; set; }
         public string City { get; set; }
         public int Age { get; set; }
-        public bool IsFemale { get; set; }
+        public SexEnum Sex { get; set; } = SexEnum.Unknown;
         public bool IsSubscriber { get; set; }
     }
 }

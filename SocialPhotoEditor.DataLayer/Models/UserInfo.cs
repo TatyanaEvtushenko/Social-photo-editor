@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using SocialPhotoEditor.DataLayer.Enums;
 
-namespace SocialPhotoEditor.Models
+namespace SocialPhotoEditor.DataLayer.Models
 {
     public class UserInfo
     {
@@ -20,6 +21,6 @@ namespace SocialPhotoEditor.Models
 
         public string Subscribe { get; set; }
 
-        public bool IsFemale { get; set; }
+        public SexEnum Sex { get; set; }
     }
 }

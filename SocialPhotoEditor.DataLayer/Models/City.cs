@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SocialPhotoEditor.Models
+namespace SocialPhotoEditor.DataLayer.Models
 {
     public class City
     {

@@ -21,15 +21,11 @@ namespace SocialPhotoEditor.BuisnessLayer.FileStorage.Implementations
             return uploadResult.Uri.AbsolutePath; 
         }
 
-        //public async Task<AvatarModels> DownloadAvatarToStorage(string fileName)
-        //{
-        //    var param = new ImageUploadParams { File = new FileDescription(fileName) };
-        //    var image = await cloudinary.UploadAsync(param);
-        //    var avatar = new AvatarModels() {FileName = image.};
-
-        //    var width = image.Width < image.Height ? image.Width : image.Height;
-        //    var imageCrop = cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(width).Height(width).Crop("fill").Gravity("face")).BuildUrl(image.PublicId);
-        //    return imageCrop;
-        //}
+        public string GetAvatarFileName(string fileName)
+        {
+            var width = 200;
+            var imageCrop = cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(width).Height(width).Crop("fill").Gravity("face").Radius("max")).BuildUrl(fileName);
+            return imageCrop;
+        }
     }
 }

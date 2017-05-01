@@ -57,11 +57,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SexEnum.cs" />
+    <Compile Include="Migrations\201705011453344_upload_db.cs" />
+    <Compile Include="Migrations\201705011453344_upload_db.Designer.cs">
+      <DependentUpon>201705011453344_upload_db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Folder.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="DbContext\ApplicationDbContext.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Land.cs" />
     <Compile Include="Models\Like.cs" />
@@ -72,6 +80,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705011453344_upload_db.resx">
+      <DependentUpon>201705011453344_upload_db.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

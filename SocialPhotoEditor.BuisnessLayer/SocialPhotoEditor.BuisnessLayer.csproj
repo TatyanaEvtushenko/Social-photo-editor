@@ -75,6 +75,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SocialPhotoEditor.DataLayer\SocialPhotoEditor.DataLayer.csproj">
+      <Project>{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}</Project>
+      <Name>SocialPhotoEditor.DataLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

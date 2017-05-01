@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SocialPhotoEditor.DataLayer.DbContext;
+using SocialPhotoEditor.DataLayer.Models;
 using SocialPhotoEditor.Models;
 
 namespace SocialPhotoEditor.Controllers
@@ -301,7 +303,7 @@ namespace SocialPhotoEditor.Controllers
             }
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+            return View(new SendCodeViewModel { /*Providers = factorOptions,*/ ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //

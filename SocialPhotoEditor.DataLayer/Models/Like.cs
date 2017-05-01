@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SocialPhotoEditor.Models
+namespace SocialPhotoEditor.DataLayer.Models
 {
     public class Like
     {
-        public int Id { get; set; } 
+        public string Id { get; set; } 
 
-        public int OwnerId { get; set; }
+        [Required]
+        public string OwnerId { get; set; }
 
-        public int ImageId { get; set; }
+        [Required]
+        public string ImageId { get; set; }
     }
 }
