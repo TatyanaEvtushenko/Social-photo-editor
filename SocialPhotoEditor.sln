@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialPhotoEditor", "SocialPhotoEditor\SocialPhotoEditor.csproj", "{12AC7459-06F8-4A72-BE73-578426D01ECD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialPhotoEditor.Tests", "SocialPhotoEditor.Tests\SocialPhotoEditor.Tests.csproj", "{DFAFF50E-00B5-4CDB-A983-366B71E6C2C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SociaPhotoEditor.Settings", "SociaPhotoEditor.Settings\SociaPhotoEditor.Settings.csproj", "{F34AEE87-9488-43BC-BB32-37F17FBF15BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialPhotoEditor.DataLayer", "SocialPhotoEditor.DataLayer\SocialPhotoEditor.DataLayer.csproj", "{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialPhotoEditor.BuisnessLayer", "SocialPhotoEditor.BuisnessLayer\SocialPhotoEditor.BuisnessLayer.csproj", "{C8688E8A-7A74-4244-A89F-A5D6D0822473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12AC7459-06F8-4A72-BE73-578426D01ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12AC7459-06F8-4A72-BE73-578426D01ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12AC7459-06F8-4A72-BE73-578426D01ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12AC7459-06F8-4A72-BE73-578426D01ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFAFF50E-00B5-4CDB-A983-366B71E6C2C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAFF50E-00B5-4CDB-A983-366B71E6C2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAFF50E-00B5-4CDB-A983-366B71E6C2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAFF50E-00B5-4CDB-A983-366B71E6C2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34AEE87-9488-43BC-BB32-37F17FBF15BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34AEE87-9488-43BC-BB32-37F17FBF15BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34AEE87-9488-43BC-BB32-37F17FBF15BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34AEE87-9488-43BC-BB32-37F17FBF15BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8688E8A-7A74-4244-A89F-A5D6D0822473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8688E8A-7A74-4244-A89F-A5D6D0822473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8688E8A-7A74-4244-A89F-A5D6D0822473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8688E8A-7A74-4244-A89F-A5D6D0822473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

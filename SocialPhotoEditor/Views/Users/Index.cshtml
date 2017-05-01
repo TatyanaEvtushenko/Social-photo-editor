@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+<div ng-controller="UsersController">
+    <div class="row">
+        <div class="col-md-9">
+            <div ng-repeat="user in users track by $index">
+                <a href="~/User/Page?userName={{user.UserName}}">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар" />
+                                </div>
+                                <div class="col-md-8">
+                                    <p class="username">{{user.UserName}}</p>
+                                    <p class="name">{{user.Name}}</p>
+                                    <p ng-if="user.Age !== 0" ng-click="changeFilterAge(user.Age)">{{user.Age}}</p>
+                                    <p ng-click="">{{user.Land}}</p>
+                                    <p ng-click="">{{user.City}}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
+                                    <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="input-group-lg">
+                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="filterUsers()">
+                        @*<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>*@
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group">
+                        <label for="sort">Сортировать</label>
+                        <select id="sort" class="form-control">
+                            <option value="sort_data">По дате регистрации</option>
+                            <option value="sort_popular">По популярности</option>
+                        </select>
+                    </div>
+                </li>
+                @*<li class="list-group-item">
+                    <div class="input-group">
+                        <label for="categorie">Искать среди</label>
+                        <select id="categorie" class="form-control">
+                            <option value="sort_data">Всех пользователей</option>
+                            <option value="sort_popular">Подписчиков</option>
+                            <option value="sort_data">Подписок</option>
+                            <option value="sort_popular">Друзей</option>
+                        </select>
+                    </div>
+                </li>*@
+                <li class="list-group-item">
+                    <div class="input-group">
+                        <label for="min_age">Возраст</label>
+                        <br/>
+                        <input id="min_age" type="number" min="0" max="99" placeholder="От" ng-model="minAge" ng-change="filterUsers()"/> -
+                        <input id="max_age" type="number" min="0" max="99" placeholder="До" ng-model="maxAge" ng-change="filterUsers()"/>
+                        <br/><br/>
+                        <label for="sex">Пол</label>
+                        <select id="sex" class="form-control">
+                            <option value="defaulte">Не выбран</option>
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
+                        </select>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="input-group">
+                        <label for="land">Страна</label>
+                        <select id="land" class="form-control">
+                            <option value="defaulte">Не выбрана</option>
+                            @*@foreach (var land in ViewBag.Lands)
+                            {
+                                <option value="@land.Id">@land.Name</option>
+                            }*@
+                        </select>
+                        <br/><br/><br/><br/>
+                        <label for="city">Город</label>
+                        <select id="city" class="form-control" disabled="disabled">
+                            <option value="defaulte">Не выбран</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Angular/users.service.js"></script>
+<script src="~/Scripts/Angular/users.controller.js"></script>
