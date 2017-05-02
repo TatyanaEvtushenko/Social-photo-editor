@@ -1,22 +1,22 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using SocialPhotoEditor.DataLayer.DbContext;
-using SocialPhotoEditor.DataLayer.Models;
-using SocialPhotoEditor.Models;
+using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
+using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.ViewModels;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 
 namespace SocialPhotoEditor.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private static readonly IUserService UserService = new UserService();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -153,18 +153,13 @@ namespace SocialPhotoEditor.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    using (var db = new ApplicationDbContext())
-                    {
-                        var info = new UserInfo {UserName = model.Email};
-                        db.UserInfos.Add(info);
-                        db.SaveChanges();
-                    }
+                    
+                    UserService.AddUserInfo(model.UserName);
 
                     // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
                     // Отправка сообщения электронной почты с этой ссылкой

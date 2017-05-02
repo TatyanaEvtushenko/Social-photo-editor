@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace SocialPhotoEditor.Views
+namespace SocialPhotoEditor.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         public ActionResult Index()
         {

@@ -10,9 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using SocialPhotoEditor.DataLayer.DbContext;
-using SocialPhotoEditor.DataLayer.Models;
-using SocialPhotoEditor.Models;
+using SocialPhotoEditor.DataLayer.DatabaseContextes;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 
 namespace SocialPhotoEditor
 {

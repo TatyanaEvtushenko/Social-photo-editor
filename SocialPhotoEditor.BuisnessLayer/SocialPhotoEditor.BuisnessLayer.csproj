@@ -43,6 +43,7 @@
       <HintPath>..\packages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -62,15 +63,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileStorage\IFileStorage.cs" />
-    <Compile Include="FileStorage\Implementations\CloudinaryStorage.cs" />
+    <Compile Include="Services\CommentServices\ICommentService.cs" />
+    <Compile Include="Services\...FileService\FileStorage\IFileStorage.cs" />
+    <Compile Include="Services\...FileService\FileStorage\Implementations\CloudinaryStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommentServices\Implementations\CommentService.cs" />
+    <Compile Include="Services\CountryServices\ICountryService.cs" />
+    <Compile Include="Services\CountryServices\Implementations\CountryService.cs" />
+    <Compile Include="Services\FolderServices\IFolderService.cs" />
+    <Compile Include="Services\FolderServices\Implementations\FolderService.cs" />
+    <Compile Include="Services\ImageServices\Implementations\ImageService.cs" />
+    <Compile Include="Services\ImageServices\IImageService.cs" />
+    <Compile Include="Services\LikeServices\ILikeService.cs" />
+    <Compile Include="Services\LikeServices\Implementations\LikeService.cs" />
+    <Compile Include="Services\RelationshipServices\Implementations\RelationshipService.cs" />
+    <Compile Include="Services\RelationshipServices\IRelationshipService.cs" />
+    <Compile Include="Services\UserServices\Implementations\UserService.cs" />
+    <Compile Include="Services\UserServices\IUserService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
-    <Compile Include="ViewModels\LandViewModels\LandViewModel.cs" />
+    <Compile Include="ViewModels\CountryViewModels\CountryViewModel.cs" />
+    <Compile Include="ViewModels\CountryViewModels\LocationViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModels\ImageListViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
-    <Compile Include="ViewModels\PhotoViewModels\FolderViewModels.cs" />
-    <Compile Include="ViewModels\UserViewModels\UserListViewModels.cs" />
-    <Compile Include="ViewModels\UserViewModels\UserPageViewModels.cs" />
+    <Compile Include="ViewModels\FolderViewModels\FolderListViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModels\ImageViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\CurrentUserMinInfoViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserListViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -80,7 +99,12 @@
       <Project>{EF321EB8-EAA0-4B7E-9CCA-87CEBEC56F5B}</Project>
       <Name>SocialPhotoEditor.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SociaPhotoEditor.Settings\SociaPhotoEditor.Settings.csproj">
+      <Project>{F34AEE87-9488-43BC-BB32-37F17FBF15BF}</Project>
+      <Name>SociaPhotoEditor.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

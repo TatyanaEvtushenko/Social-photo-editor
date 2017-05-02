@@ -6,10 +6,10 @@
         $scope.maxAge = 99;
         $scope.searchString = "";
 
-        UsersService.getUsers().then(function (http) {
-            $scope.usersData = http.data;
+        UsersService.getUserList().then(function (http) {
+            $scope.users = $scope.usersData = http.data;
             $scope.filterUsers();
-        }, function(error) {
+        }, function (error) {
             console.log("Error with Server!");
         });
 

@@ -1,21 +1,7 @@
-﻿@using SocialPhotoEditor.DataLayer.DbContext
-@using SocialPhotoEditor.DataLayer.Models
-@using SocialPhotoEditor.Models
-@{
-    if (Request.IsAuthenticated)
-    {
-        using (var db = new ApplicationDbContext())
-        {
-            var user = db.UserInfos.FirstOrDefault(x => x.UserName == User.Identity.Name);
-            ViewBag.Name = (user.Name != null && user.Surname != null) ? user.Name + " " + user.Surname : user.UserName;
-            ViewBag.AvatarFileName = user.AvatarFileName ?? "Content/avatar.jpg";
-        }
-    }
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – Social photo editor</title>
@@ -23,30 +9,22 @@
     @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/angular")
-
+    @Scripts.Render("~/Scripts/Angular/current-user.service.js")
+    @Scripts.Render("~/Scripts/Angular/current-user.controller.js")
 </head>
 <body data-ng-app="APIModule">
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container" ng-controller="CurrentUserController">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 @Html.ActionLink("Social photo editor", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
             </div>
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated)
                 {
                     <ul class="nav navbar-nav">
-                        <li><a href="~/Users/Index"><span class="glyphicon glyphicon-user"></span></a></li> 
-                        <li class="divider-vertical"></li>
-                        <li><a href="~/Users/Index"><span class="glyphicon glyphicon-heart"></span></a></li>
-                        <li class="divider-vertical"></li>
-                        <li><a href="~/Users/Index"><span class="glyphicon glyphicon-bullhorn"></span></a></li>
-                        <li class="divider-vertical"></li>
-                        <li><a href="~/Users/Index"><span class="glyphicon glyphicon-globe"></span></a></li>
+                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-heart"></span></a></li>
+                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-bullhorn"></span></a></li>
+                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-globe"></span></a></li>
                     </ul>
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                     {
@@ -55,7 +33,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-link"><img src="@ViewBag.AvatarFileName" class="small_avatar" />@ViewBag.Name</button>
+                                    <button type="button" class="btn btn-link" ng-click=""><img src="{{currentUserAvatar}}" class="small_avatar" />{{currentUserName}}</button>
                                     <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="~/Users/Page?userName=@User.Identity.Name">Профиль</a></li>
