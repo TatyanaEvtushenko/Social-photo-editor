@@ -7,15 +7,23 @@
         $scope.maxAge = 99;
         $scope.searchString = "";
 
-        //$scope.userPage = {};
+        $scope.userPage = {};
         
 
-        //UsersService.getUserPage().then(function(http) {
-        //    $scope.userPage = http.data;
-        //});
+        function getUserNameFromUrl() {
+            var url = window.location.search;
+            var params = url.substring(url.indexOf("?") + 1).split("=");
+            return params[1];
+        }
+
+        UsersService.getUserPage(getUserNameFromUrl()).then(function (http) {
+            $scope.userPage = http.data;
+        });
 
         UsersService.getUserList().then(function (http) {
             $scope.filteredUserLists = $scope.userLists = http.data;
+        }, function(error) {
+            console.log("Error from server!");
         });
 
         $scope.filterUserLists = function () {
