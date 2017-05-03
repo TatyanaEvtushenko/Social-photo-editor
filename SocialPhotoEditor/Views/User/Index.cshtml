@@ -6,7 +6,7 @@
 <div ng-controller="UsersController">
     <div class="row">
         <div class="col-md-9">
-            <div ng-repeat="user in users track by $index">
+            <div ng-repeat="user in filteredUserLists track by $index">
                 <a href="~/User/Page?userName={{user.UserName}}">
                     <div class="panel panel-default">
                         <div class="panel-body">

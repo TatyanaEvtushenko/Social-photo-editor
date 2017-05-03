@@ -14,14 +14,19 @@ namespace SocialPhotoEditor.Controllers
         //GET
         public IEnumerable<UserListViewModel> Get()
         {
-            var result = Service.GetUserLists(User.Identity.Name, MaxCountUsersOnPage);
-            return result;
+            return Service.GetUserLists(User.Identity.Name, MaxCountUsersOnPage); ;
         }
 
-        //// POST: api/Test
+        // POST
+        public UserPageViewModel Post([FromBody]string userName)
+        {
+            return Service.GetUserPage(userName, User.Identity.Name);
+        }
 
-        //public void Post([FromBody]string value)
+        ////GET
+        //public UserPageViewModel Get(string userName)
         //{
+        //    return Service.GetUserPage(userName, User.Identity.Name);
         //}
 
         //// PUT: api/Test/5

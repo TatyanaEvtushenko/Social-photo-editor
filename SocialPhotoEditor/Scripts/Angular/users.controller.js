@@ -1,21 +1,34 @@
 ﻿app.controller("UsersController", [
     "$scope", "UsersService", function ($scope, UsersService) {
-        $scope.usersData = [];
-        $scope.users = [];
+
+        $scope.userLists = [];
+        $scope.filteredUserLists = [];
         $scope.minAge = 0;
         $scope.maxAge = 99;
         $scope.searchString = "";
 
-        UsersService.getUserList().then(function (http) {
-            $scope.users = $scope.usersData = http.data;
-            $scope.filterUsers();
-        }, function (error) {
-            console.log("Error with Server!");
+        $scope.userPage = {};
+        
+
+        function getUserNameFromUrl() {
+            var url = window.location.search;
+            var params = url.substring(url.indexOf("?") + 1).split("=");
+            return params[1];
+        }
+
+        UsersService.getUserPage(getUserNameFromUrl()).then(function (http) {
+            $scope.userPage = http.data;
         });
 
-        $scope.filterUsers = function () {
-            $scope.users = $scope.usersData.filter(function (user) {
-                return user.UserName.indexOf($scope.searchString) > -1 && user.Age >= $scope.minAge && user.Age <= $scope.maxAge;
+        UsersService.getUserList().then(function (http) {
+            $scope.filteredUserLists = $scope.userLists = http.data;
+        }, function(error) {
+            console.log("Error from server!");
+        });
+
+        $scope.filterUserLists = function () {
+            $scope.filteredUserLists = $scope.userLists.filter(function (user) {
+                return (user.UserName.indexOf($scope.searchString) > -1 || user.Name.indexOf($scope.searchString) > -1) && user.Age >= $scope.minAge && user.Age <= $scope.maxAge;
             });
         }
 

@@ -6,21 +6,20 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-3">
-            <img class="big_avatar" src="@ViewBag.User.AvatarFileName"/>
+            <img class="big_avatar" src=""/>
         </div>
         <div class="col-md-9">
-            <h4>@ViewBag.User.Name
-            </h4>
+            <h4></h4>
         </div>
     </div>
 </div>
 <div class="row">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#">Все фотографии</a></li>
-        @foreach (var folder in ViewBag.User.Folders)
+        @*@foreach (var folder in ViewBag.User.Folders)
         {
             <li><a href="#?userName=@ViewBag.User.UserName&&folderId=@folder.Id">@folder.Name</a></li>
-        }
+        }*@
         <li><button>+</button></li>
     </ul>
 </div>
