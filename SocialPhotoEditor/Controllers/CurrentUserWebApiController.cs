@@ -15,25 +15,25 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetCurrentUserMinInfo(User.Identity.Name);
         }
 
-        // GET: api/CurrentUserWebApi/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET: api/CurrentUserWebApi/5
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
-        // POST: api/CurrentUserWebApi
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST: api/CurrentUserWebApi
+        //public void Post([FromBody]string value)
+        //{
+        //}
 
-        // PUT: api/CurrentUserWebApi/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //// PUT: api/CurrentUserWebApi/5
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
 
-        // DELETE: api/CurrentUserWebApi/5
-        public void Delete(int id)
-        {
-        }
+        //// DELETE: api/CurrentUserWebApi/5
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
