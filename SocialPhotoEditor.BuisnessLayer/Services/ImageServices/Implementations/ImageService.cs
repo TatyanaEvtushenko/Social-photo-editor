@@ -19,7 +19,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
 
         private static readonly ILikeService LikeService = new LikeService();
         private static readonly ICommentService CommentService = new CommentService();
-        private static readonly IFolderService FolderService = new FolderService();
+    //    private static readonly IFolderService FolderService = new FolderService();
 
         public int GetPopularity(string userName)
         {
@@ -32,10 +32,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
             return likesCount / images.Count();
         }
 
-        public IEnumerable<ImageListViewModel> GetImageLists(string userName, string folderName)
+        public IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count)
         {
-            var folderId = FolderService.GetFolderId(userName, folderName);
-            return ImageRepository.GetAll().Where(x => x.FolderId == folderId).Select(x => new ImageListViewModel
+            return ImageRepository.GetAll().Where(x => x.FolderId == folderId).Take(count).Select(x => new ImageListViewModel
             {
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),

@@ -9,8 +9,8 @@
             return $http({ method: "POST", url: "/api/UserWebApi/", params: { 'userName': userName } });
         }
 
-        this.getImages = function (userName, folderName) {
-            return $http({ method: "POST", url: "/api/ImageWebApi/", params: { 'userName': { 'UserName': userName }, 'folderName': folderName } });
+        this.getImageLists = function (folderId) {
+            return $http({ method: "POST", url: "/api/ImageWebApi/", params: { 'folderId': folderId } });
         }
     }
 ]);

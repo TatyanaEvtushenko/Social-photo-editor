@@ -10,10 +10,12 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IImageService Service = new ImageService();
 
+        private readonly int MaxImagesCountOnPage = 21;
+
         // POST
-        public IEnumerable<ImageListViewModel> Post(string userName, string folderName)
+        public IEnumerable<ImageListViewModel> Post(string folderId)
         {
-            return Service.GetImageLists(userName, folderName);
+            return Service.GetImageLists(folderId, MaxImagesCountOnPage);
         }
     }
 }

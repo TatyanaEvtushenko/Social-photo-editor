@@ -33,8 +33,12 @@
 
     <div class="row">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#">Все фотографии</a></li>
-            <li ng-repeat="folder in userPage.Folders track by $index"><a href="#">{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+            <li class="active"><a ng-click="getImages(0)">Все фотографии</a></li>
+            <li ng-repeat="folder in userPage.Folders track by $index"><a ng-click="getImages(folder.Id)">{{folder.Name}} ({{folder.ImagesCount}})</a></li>
         </ul>
+    </div>
+
+    <div ng-repeat="image in imageLists track by $index">
+        <img src="{{image.FileName}}"/>
     </div>
 </div>

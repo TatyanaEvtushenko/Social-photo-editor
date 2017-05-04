@@ -6,29 +6,23 @@
 <div ng-controller="UsersController">
     <div class="row">
         <div class="col-md-9">
-            <div ng-repeat="user in filteredUserLists track by $index">
+            <div class="panel panel-default panel-body row" ng-repeat="user in filteredUserLists track by $index">
                 <a href="~/User/Page?userName={{user.UserName}}">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар" />
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="username">{{user.UserName}}</p>
-                                    <p class="name">{{user.Name}}</p>
-                                    <p ng-if="user.Age !== 0" ng-click="changeFilterAge(user.Age)">{{user.Age}}</p>
-                                    <p ng-click="">{{user.Country}}</p>
-                                    <p ng-click="">{{user.City}}</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
-                                    <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-2">
+                        <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар" />
+                    </div>
+                    <div class="col-md-8">
+                        <p class="username">{{user.UserName}}</p>
+                        <p class="name">{{user.Name}}</p>
+                        <p ng-if="user.Age !== 0" ng-click="changeFilterAge(user.Age)">{{user.Age}}</p>
+                        <p ng-click="">{{user.Country}}</p>
+                        <p ng-click="">{{user.City}}</p>
                     </div>
                 </a>
+                <div class="col-md-2">
+                    <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
+                    <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
+                </div>
             </div>
         </div>
 
@@ -49,17 +43,6 @@
                         </select>
                     </div>
                 </li>
-                @*<li class="list-group-item">
-                    <div class="input-group">
-                        <label for="categorie">Искать среди</label>
-                        <select id="categorie" class="form-control">
-                            <option value="sort_data">Всех пользователей</option>
-                            <option value="sort_popular">Подписчиков</option>
-                            <option value="sort_data">Подписок</option>
-                            <option value="sort_popular">Друзей</option>
-                        </select>
-                    </div>
-                </li>*@
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="min_age">Возраст</label>
