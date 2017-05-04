@@ -12,13 +12,17 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string AvatarFileName { get; set; }
 
-        public string City { get; set; }
-
-        public string Country { get; set; }
+        public string Location { get; set; }
 
         public DateTime? Birthday { get; set; }
 
         public string Subscribe { get; set; }
+
+        public int SubscribersCount { get; set; }
+
+        public int SubscriptionsCount { get; set; }
+
+        public bool IsSubscriber { get; set; }
 
         public IEnumerable<FolderListViewModel> Folders { get; set; }
     }

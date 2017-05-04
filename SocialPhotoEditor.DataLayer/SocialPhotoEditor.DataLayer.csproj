@@ -90,6 +90,26 @@
     <Compile Include="Migrations\201705012102051_improvedDb.Designer.cs">
       <DependentUpon>201705012102051_improvedDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705040908023_changeFolder.cs" />
+    <Compile Include="Migrations\201705040908023_changeFolder.Designer.cs">
+      <DependentUpon>201705040908023_changeFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705040908557_changeFolder1.cs" />
+    <Compile Include="Migrations\201705040908557_changeFolder1.Designer.cs">
+      <DependentUpon>201705040908557_changeFolder1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705040913446_changeFolder2.cs" />
+    <Compile Include="Migrations\201705040913446_changeFolder2.Designer.cs">
+      <DependentUpon>201705040913446_changeFolder2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705040917225_changeFolder3.cs" />
+    <Compile Include="Migrations\201705040917225_changeFolder3.Designer.cs">
+      <DependentUpon>201705040917225_changeFolder3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705040919316_changeFolder4.cs" />
+    <Compile Include="Migrations\201705040919316_changeFolder4.Designer.cs">
+      <DependentUpon>201705040919316_changeFolder4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\IChangedRepository.cs" />
@@ -123,6 +143,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705012102051_improvedDb.resx">
       <DependentUpon>201705012102051_improvedDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705040908023_changeFolder.resx">
+      <DependentUpon>201705040908023_changeFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705040908557_changeFolder1.resx">
+      <DependentUpon>201705040908557_changeFolder1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705040913446_changeFolder2.resx">
+      <DependentUpon>201705040913446_changeFolder2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705040917225_changeFolder3.resx">
+      <DependentUpon>201705040917225_changeFolder3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705040919316_changeFolder4.resx">
+      <DependentUpon>201705040919316_changeFolder4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

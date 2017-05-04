@@ -11,7 +11,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.UserInfos.Select(x => x).ToList();
+                return db.UserInfos.ToList();
             }
         }
 

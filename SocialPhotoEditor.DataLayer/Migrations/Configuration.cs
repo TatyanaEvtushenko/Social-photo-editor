@@ -6,7 +6,7 @@ namespace SocialPhotoEditor.DataLayer.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(SocialPhotoEditor.DataLayer.DatabaseContextes.ApplicationDbContext context)

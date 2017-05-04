@@ -6,7 +6,11 @@
         }
 
         this.getUserPage = function(userName) {
-            return $http({ method: "POST", url: "/api/UserWebApi/" + userName });
+            return $http({ method: "POST", url: "/api/UserWebApi/", params: { 'userName': userName } });
+        }
+
+        this.getImages = function (userName, folderName) {
+            return $http({ method: "POST", url: "/api/ImageWebApi/", params: { 'userName': { 'UserName': userName }, 'folderName': folderName } });
         }
     }
 ]);

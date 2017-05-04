@@ -7,7 +7,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
     {
         int GetPopularity(string userName);
 
-        IEnumerable<ImageListViewModel> GetImageLists(string folderId);
+        IEnumerable<ImageListViewModel> GetImageLists(string userName, string folderName);
 
         int GetImageCount(string folderId);
     }

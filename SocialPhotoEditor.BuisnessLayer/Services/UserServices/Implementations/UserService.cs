@@ -57,6 +57,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             return info.AvatarFileName ?? defaultAvatarFileName;
         }
 
+        private static string GetLocation(UserInfo info)
+        {
+            var location = CountryService.GetLocation(info.CityId);
+            return location.CountryName == null ? location.CityName : $"{location.CountryName}, {location.CityName}";
+        }
+
         public void AddUserInfo(string userName)
         {
             var info = new UserInfo {UserName = userName, RegisterDate = DateTime.Today.Date};
@@ -83,12 +89,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 };
         }
 
-        public CurrentUserMinInfoViewModel GetCurrentUserMinInfo(string currentUserName)
+        public UserMinInfoViewModel GetUserMinInfo(string userName)
         {
-            if (string.IsNullOrEmpty(currentUserName))
+            if (string.IsNullOrEmpty(userName))
                 return null;
-            var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == currentUserName);
-            return new CurrentUserMinInfoViewModel
+            var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
+            return new UserMinInfoViewModel
             {
                 AvatarFileName = GetAvatarFileName(info),
                 Name = GetName(info)
@@ -100,17 +106,18 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
             if (info == null)
                 return null;
-            var location = CountryService.GetLocation(info.CityId);
             return new UserPageViewModel
             {
                 UserName = info.UserName,
                 AvatarFileName = GetAvatarFileName(info),
-                Name = GetName(info),
+                Name = GetFullTrueName(info),
                 Birthday = info.Birthday,
                 Subscribe = info.Subscribe,
-                Country = location.CountryName,
-                City = location.CityName,
+                Location = GetLocation(info),
                 Folders = FolderService.GetFolderLists(userName),
+                SubscribersCount = RelationshipService.GetSubscribersCount(userName),
+                SubscriptionsCount = RelationshipService.GetSubscriptionsCount(userName),
+                IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName),
             };
         }
     }

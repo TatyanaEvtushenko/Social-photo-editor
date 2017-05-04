@@ -10,30 +10,9 @@ namespace SocialPhotoEditor.Controllers
         private static readonly IUserService Service = new UserService();
 
         // GET: api/CurrentUserWebApi
-        public CurrentUserMinInfoViewModel Get()
+        public UserMinInfoViewModel Get()
         {
-            return Service.GetCurrentUserMinInfo(User.Identity.Name);
+            return Service.GetUserMinInfo(User.Identity.Name);
         }
-
-        //// GET: api/CurrentUserWebApi/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST: api/CurrentUserWebApi
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT: api/CurrentUserWebApi/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/CurrentUserWebApi/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

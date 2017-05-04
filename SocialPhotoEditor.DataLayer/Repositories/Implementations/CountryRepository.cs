@@ -11,7 +11,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.Implementations
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Lands.Select(x => x).ToList();
+                return db.Lands.ToList();
             }
         }
     }

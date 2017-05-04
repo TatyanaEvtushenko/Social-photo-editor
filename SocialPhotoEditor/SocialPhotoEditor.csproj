@@ -218,6 +218,7 @@
     <Compile Include="Controllers\CountryWebApiController.cs" />
     <Compile Include="Controllers\CurrentUserWebApiController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\ImageWebApiController.cs" />
     <Compile Include="Controllers\UserWebApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -226,6 +227,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\UserNameResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
   </ItemGroup>

@@ -14,5 +14,15 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
             var relationships = SubscriberRepository.GetAll();
             return relationships.FirstOrDefault(x => x.UserName == userName && x.SubscriberName == subscriberUserName) != null;
         }
+
+        public int GetSubscribersCount(string userName)
+        {
+            return SubscriberRepository.GetAll().Count(x => x.UserName == userName);
+        }
+
+        public int GetSubscriptionsCount(string userName)
+        {
+            return SubscriberRepository.GetAll().Count(x => x.SubscriberName == userName);
+        }
     }
 }

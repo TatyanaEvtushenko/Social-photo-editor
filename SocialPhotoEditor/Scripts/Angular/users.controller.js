@@ -18,12 +18,14 @@
 
         UsersService.getUserPage(getUserNameFromUrl()).then(function (http) {
             $scope.userPage = http.data;
+        }, function (error) {
+            console.log("Error from server! (user page)");
         });
 
         UsersService.getUserList().then(function (http) {
             $scope.filteredUserLists = $scope.userLists = http.data;
         }, function(error) {
-            console.log("Error from server!");
+            console.log("Error from server! (user lists)");
         });
 
         $scope.filterUserLists = function () {

@@ -24,5 +24,10 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
                         Name = x.Name
                     });
         }
+
+        public string GetFolderId(string userName, string folderName)
+        {
+            return FolderRepository.GetAll().FirstOrDefault(x => x.OwnerId == userName && x.Name == folderName)?.Id;
+        }
     }
 }

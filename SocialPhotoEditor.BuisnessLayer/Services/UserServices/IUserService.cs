@@ -9,7 +9,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 
         IEnumerable<UserListViewModel> GetUserLists(string currentUserName, int count);
 
-        CurrentUserMinInfoViewModel GetCurrentUserMinInfo(string currentUserName);
+        UserMinInfoViewModel GetUserMinInfo(string userName);
 
         UserPageViewModel GetUserPage(string userName, string currentUserName);
     }
