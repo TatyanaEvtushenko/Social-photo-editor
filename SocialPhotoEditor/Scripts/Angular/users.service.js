@@ -9,7 +9,7 @@
             return $http({ method: "POST", url: "/api/UserWebApi/", params: { 'userName': userName } });
         }
 
-        this.getImageLists = function (folderId) {
+        this.getFolder = function (folderId) {
             return $http({ method: "POST", url: "/api/ImageWebApi/", params: { 'folderId': folderId } });
         }
     }

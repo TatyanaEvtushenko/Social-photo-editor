@@ -2,8 +2,6 @@
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
-using SocialPhotoEditor.BuisnessLayer.Services.FolderServices;
-using SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;

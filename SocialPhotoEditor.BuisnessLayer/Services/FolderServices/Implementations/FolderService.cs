@@ -25,5 +25,14 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
                         Name = x.Name
                     });
         }
+
+        public FolderViewModel GetFolder(string folderId, int imagesCount)
+        {
+            return new FolderViewModel
+            {
+                Subscribe = FolderRepository.GetAll().FirstOrDefault(x => x.Id == folderId)?.Subscribe,
+                Images = ImageService.GetImageLists(folderId, imagesCount)
+            };
+        }
     }
 }

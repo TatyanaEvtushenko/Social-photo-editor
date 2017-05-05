@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
-using SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations;
-using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
+﻿using System.Web.Http;
+using SocialPhotoEditor.BuisnessLayer.Services.FolderServices;
+using SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.ViewModels.FolderViewModels;
 
 namespace SocialPhotoEditor.Controllers
 {
     public class ImageWebApiController : ApiController
     {
-        private static readonly IImageService Service = new ImageService();
+        private static readonly IFolderService Service = new FolderService();
 
         private readonly int MaxImagesCountOnPage = 21;
 
         // POST
-        public IEnumerable<ImageListViewModel> Post(string folderId)
+        public FolderViewModel Post(string folderId)
         {
-            return Service.GetImageLists(folderId, MaxImagesCountOnPage);
+            return Service.GetFolder(folderId, MaxImagesCountOnPage);
         }
     }
 }

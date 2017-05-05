@@ -30,9 +30,9 @@
             });
         }
 
-        function getImageLists(folderId) {
-            UsersService.getImageLists(folderId).then(function (http) {
-                $scope.imageLists = http.data;
+        function getFolder(folderId) {
+            UsersService.getFolder(folderId).then(function (http) {
+                $scope.folder = http.data;
             }, function (error) {
                 console.log("Error from server! (image lists)");
             });
@@ -47,12 +47,12 @@
         }
         else {
             getUserPage(userName);
-            getImageLists(userName);
+            getFolder(userName);
         }
 
 
-        $scope.getImages = function (folderId) {
-            getImageLists(folderId);
+        $scope.getFolder = function (folderId) {
+            getFolder(folderId);
         }
 
         $scope.filterUserLists = function () {
