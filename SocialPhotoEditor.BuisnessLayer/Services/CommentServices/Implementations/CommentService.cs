@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
@@ -12,6 +14,22 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
         public int GetCommentsCount(string imageId)
         {
             return CommentRepository.GetAll().Count(x => x.ImageId == imageId);
+        }
+
+        public IEnumerable<CommentViewModel> GetComments(string imageId)
+        {
+            return
+                CommentRepository.GetAll()
+                    .Where(x => x.ImageId == imageId)
+                    .Select(
+                        x =>
+                            new CommentViewModel
+                            {
+                                OwnerUserName = x.CommentatorId,
+                                RecipientUserName = x.RecipientId,
+                                Text = x.Text,
+                                Time = x.Time
+                            });
         }
     }
 }

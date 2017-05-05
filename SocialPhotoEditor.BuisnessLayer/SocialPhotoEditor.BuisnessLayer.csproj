@@ -81,6 +81,7 @@
     <Compile Include="Services\UserServices\Implementations\UserService.cs" />
     <Compile Include="Services\UserServices\IUserService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\CommentViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModels\LocationViewModel.cs" />
     <Compile Include="ViewModels\FolderViewModels\FolderViewModel.cs" />

@@ -10,5 +10,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
         IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count);
 
         int GetImageCount(string folderId);
+
+        ImageViewModel GetImage(string imageId);
     }
 }

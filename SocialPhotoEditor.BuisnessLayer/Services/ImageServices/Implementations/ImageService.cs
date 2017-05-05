@@ -47,5 +47,18 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
         {
             return ImageRepository.GetAll().Count(x => x.FolderId == folderId);
         }
+
+        public ImageViewModel GetImage(string imageId)
+        {
+            var image = ImageRepository.GetAll().FirstOrDefault(x => x.FileName == imageId);
+            if (image == null) return null;
+            return new ImageViewModel
+            {
+                FileName = image.FileName,
+                Comments = CommentService.GetComments(imageId),
+                LikesCount = LikeService.GetLikesCount(imageId),
+                Time = image.Time
+            };
+        }
     }
 }

@@ -39,5 +39,11 @@
     </div>
 
     <p>{{folder.Subscribe}}</p>
-    <img class="image_list" src="{{image.FileName}}" ng-repeat="image in folder.Images track by $index" />
+    <div class="row">
+        <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
+            <a href="~/Image/Index?imageId={{image.FileName}}" class="thumbnail">
+                <img data-src="holder.js/100%x180" alt="..." src="{{image.FileName}}">
+            </a>
+        </div>
+    </div>
 </div>
