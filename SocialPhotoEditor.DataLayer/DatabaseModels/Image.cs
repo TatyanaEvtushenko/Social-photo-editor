@@ -12,10 +12,7 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
         public string OwnerId { get; set; }
         
         public string FolderId { get; set; }
-
-        [Required]
-        public DateTime Date { get; set; }
-
+        
         [Required]
         public DateTime Time { get; set; }
     }

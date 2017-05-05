@@ -33,10 +33,12 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-link" ng-click=""><img src="{{currentUserAvatar}}" class="small_avatar" />{{currentUserName}}</button>
-                                    <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                    <a href="~/User/Page?userName=@User.Identity.Name">
+                                        <button type="button" class="btn btn-link" ng-click=""><img src="{{currentUserAvatar}}" class="small_avatar" />{{currentUserName}}</button>
+                                        <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                    </a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="~/Users/Page?userName=@User.Identity.Name">Профиль</a></li>
+                                        <li><a href="~/User/Page?userName=@User.Identity.Name">Профиль</a></li>
                                         <li class="divider"></li>
                                         <li><a href="#">Редактировать</a></li>
                                         <li><a href="#">Настроить</a></li>

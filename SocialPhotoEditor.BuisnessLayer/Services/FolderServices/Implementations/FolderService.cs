@@ -20,9 +20,19 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
             return FolderRepository.GetAll().Where(x => x.OwnerId == userName).Select(x =>
                     new FolderListViewModel
                     {
+                        Id = x.Id,
                         ImagesCount = ImageService.GetImageCount(x.Id),
                         Name = x.Name
                     });
+        }
+
+        public FolderViewModel GetFolder(string folderId, int imagesCount)
+        {
+            return new FolderViewModel
+            {
+                Subscribe = FolderRepository.GetAll().FirstOrDefault(x => x.Id == folderId)?.Subscribe,
+                Images = ImageService.GetImageLists(folderId, imagesCount)
+            };
         }
     }
 }

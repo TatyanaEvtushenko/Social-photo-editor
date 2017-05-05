@@ -3,23 +3,41 @@
     ViewBag.Title = "Page";
 }
 
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-3">
-            <img class="big_avatar" src=""/>
-        </div>
-        <div class="col-md-9">
-            <h4></h4>
+<script src="~/Scripts/Angular/users.service.js"></script>
+<script src="~/Scripts/Angular/users.controller.js"></script>
+
+<div ng-controller="UsersController">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="big_avatar" src="{{userPage.AvatarFileName}}"/>
+            </div>
+            <div class="col-md-9">
+                <div class="col-md-10">
+                    <div class="row">
+                        {{userPage.UserName}}
+                        <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
+                    </div>
+                    <p>{{userPage.Name}}</p>
+                    <p>{{userPage.Birthday}}</p>
+                    <p>{{userPage.Location}}</p>
+                    <p>{{userPage.Subscribe}}</p>
+                    <div class="row">
+                        <div>{{userPage.SubscribersCount}} подписчиков</div>
+                        <div>{{userPage.SubscriptionsCount}} подписок</div></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#">Все фотографии</a></li>
-        @*@foreach (var folder in ViewBag.User.Folders)
-        {
-            <li><a href="#?userName=@ViewBag.User.UserName&&folderId=@folder.Id">@folder.Name</a></li>
-        }*@
-        <li><button>+</button></li>
-    </ul>
+
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a ng-click="getFolder(userPage.UserName)">Все фотографии</a></li>
+            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a >{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+        </ul>
+    </div>
+
+    <p>{{folder.Subscribe}}</p>
+    <img class="image_list" src="{{image.FileName}}" ng-repeat="image in folder.Images track by $index" />
 </div>

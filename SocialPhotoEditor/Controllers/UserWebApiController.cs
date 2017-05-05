@@ -18,16 +18,10 @@ namespace SocialPhotoEditor.Controllers
         }
 
         // POST
-        public UserPageViewModel Post([FromBody]string userName)
+        public UserPageViewModel Post(string userName)
         {
             return Service.GetUserPage(userName, User.Identity.Name);
         }
-
-        ////GET
-        //public UserPageViewModel Get(string userName)
-        //{
-        //    return Service.GetUserPage(userName, User.Identity.Name);
-        //}
 
         //// PUT: api/Test/5
         //public void Put(int id, [FromBody]string value)

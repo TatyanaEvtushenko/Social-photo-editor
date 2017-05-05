@@ -11,7 +11,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Subscribers.Select(x => x).ToList();
+                return db.Subscribers.ToList();
             }
         }
 

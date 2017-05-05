@@ -83,11 +83,12 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\CountryViewModels\CountryViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModels\LocationViewModel.cs" />
+    <Compile Include="ViewModels\FolderViewModels\FolderViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModels\ImageListViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="ViewModels\FolderViewModels\FolderListViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModels\ImageViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModels\CurrentUserMinInfoViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserMinInfoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserPageViewModel.cs" />
   </ItemGroup>

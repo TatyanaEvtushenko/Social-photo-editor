@@ -29,9 +29,13 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
             return likesCount / images.Count();
         }
 
-        public IEnumerable<ImageListViewModel> GetImageLists(string folderId)
+        public IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count)
         {
-            return ImageRepository.GetAll().Where(x => x.FolderId == folderId).Select(x => new ImageListViewModel
+            var images = ImageRepository.GetAll();
+            var imagesInFolder = images.Where(x => x.FolderId == folderId);
+            if (!imagesInFolder.Any())
+                imagesInFolder = images.Where(x => x.OwnerId == folderId);
+            return imagesInFolder.Take(count).Select(x => new ImageListViewModel
             {
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),

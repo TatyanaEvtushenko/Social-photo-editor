@@ -1,6 +1,6 @@
 ﻿namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 {
-    public class CurrentUserMinInfoViewModel
+    public class UserMinInfoViewModel
     {
         public string Name { get; set; }
 

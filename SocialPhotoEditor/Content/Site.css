@@ -24,11 +24,11 @@ textarea {
 }
 
 
-.user_list_item {
-    background: lightgray;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 10px;
+
+.image_list {
+    margin: 10px;
+    width: 200px;
+    height: 200px;
 }
 
 .name {
