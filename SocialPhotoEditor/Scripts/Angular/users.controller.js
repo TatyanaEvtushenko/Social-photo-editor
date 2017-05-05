@@ -30,28 +30,30 @@
             });
         }
 
-        //function getImageLists(folderId) {
-        //    UsersService.getImageLists(folderId).then(function (http) {
-        //        $scope.imageLists = http.data;
-        //    }, function (error) {
-        //        console.log("Error from server! (image lists)");
-        //    });
-        //}
+        function getImageLists(folderId) {
+            UsersService.getImageLists(folderId).then(function (http) {
+                $scope.imageLists = http.data;
+            }, function (error) {
+                console.log("Error from server! (image lists)");
+            });
+        }
 
         var userName = getParamFromUrl("userName");
         if (userName == null) {
             getUserLists();
+            $scope.minAge = 0;
+            $scope.maxAge = 99;
+            $scope.searchString = "";
         }
         else {
             getUserPage(userName);
-           // getImageLists(null);
+            getImageLists(userName);
         }
 
-        $scope.minAge = 0;
-        $scope.maxAge = 99;
-        $scope.searchString = "";
 
-    //    $scope.getImages = getImageLists(folderId);
+        $scope.getImages = function (folderId) {
+            getImageLists(folderId);
+        }
 
         $scope.filterUserLists = function () {
             $scope.filteredUserLists = $scope.userLists.filter(function (user) {
