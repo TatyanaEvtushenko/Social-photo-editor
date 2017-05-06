@@ -5,15 +5,13 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 {
     public class Comment
     {
-        public string Id { get; set; }
-
-        [Required]
+        [Key]
         public string CommentatorId { get; set; }
 
-        [Required]
+        [Key]
         public string ImageId { get; set; }
 
-        [Required]
+        [Key]
         public DateTime Time { get; set; }
 
         [Required]

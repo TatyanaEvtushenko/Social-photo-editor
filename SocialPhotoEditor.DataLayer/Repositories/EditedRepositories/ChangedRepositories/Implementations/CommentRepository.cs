@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 
@@ -45,10 +46,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                var comment = db.Comments.FirstOrDefault(x => x.Id == data.Id);
+                var comment = db.Comments.FirstOrDefault(x => x.Time == data.Time && x.ImageId == data.ImageId && x.CommentatorId == data.CommentatorId);
                 if (comment == null)
                     return;
-                comment.Time = data.Time;
                 comment.Text = data.Text;
                 comment.RecipientId = data.RecipientId;
                 db.SaveChanges();

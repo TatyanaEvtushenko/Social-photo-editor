@@ -14,23 +14,21 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CountryServices.Implementatio
 
         public IEnumerable<CountryViewModel> GetCountries()
         {
-            var countries = CountryRepository.GetAll();
             var cities = CityRepository.GetAll();
-            return countries.Select(country => new CountryViewModel
+            return CountryRepository.GetAll().Select(country => new CountryViewModel
             {
                 Name = country.Name,
-                Cities = cities.Where(x => x.CountryId == country.Id).Select(x => x.Name)
-            }).ToList();
+                Cities = cities.Where(x => x.CountryName == country.Name).Select(x => x.Name)
+            });
         }
 
         public LocationViewModel GetLocation(int cityId)
         {
             var city = CityRepository.GetAll().FirstOrDefault(x => x.Id == cityId);
-            var country = CountryRepository.GetAll().FirstOrDefault(x => x.Id == city?.CountryId);
             return new LocationViewModel
             {
                 CityName = city?.Name,
-                CountryName = country?.Name
+                CountryName = city?.CountryName
             };
         }
     }

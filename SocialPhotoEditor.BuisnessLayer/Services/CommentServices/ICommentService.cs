@@ -10,5 +10,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices
         IEnumerable<CommentViewModel> GetComments(string imageId);
 
         void AddComment(string commentatorUserName, string imageId, string text);
+
+        void DeleteComment(string commentId);
     }
 }

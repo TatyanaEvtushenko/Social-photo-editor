@@ -48,5 +48,11 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 Time = DateTime.Now
             });
         }
+
+        public void DeleteComment(string commentId)
+        {
+            //var comment = CommentRepository.GetAll().FirstOrDefault(x => x.Id == commentId);
+            //CommentRepository.Delete(comment);
+        }
     }
 }

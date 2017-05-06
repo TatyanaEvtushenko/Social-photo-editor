@@ -118,6 +118,14 @@
     <Compile Include="Migrations\201705061225396_changeLike.Designer.cs">
       <DependentUpon>201705061225396_changeLike.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705061322005_ReorganizeDb.cs" />
+    <Compile Include="Migrations\201705061322005_ReorganizeDb.Designer.cs">
+      <DependentUpon>201705061322005_ReorganizeDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705061327340_ReorganizeDb1.cs" />
+    <Compile Include="Migrations\201705061327340_ReorganizeDb1.Designer.cs">
+      <DependentUpon>201705061327340_ReorganizeDb1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\IChangedRepository.cs" />
@@ -172,6 +180,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705061225396_changeLike.resx">
       <DependentUpon>201705061225396_changeLike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705061322005_ReorganizeDb.resx">
+      <DependentUpon>201705061322005_ReorganizeDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705061327340_ReorganizeDb1.resx">
+      <DependentUpon>201705061327340_ReorganizeDb1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

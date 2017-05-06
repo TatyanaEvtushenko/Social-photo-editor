@@ -4,10 +4,10 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 {
     public class City
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
 
         [Required]
-        public int CountryId { get; set; }
+        public string CountryName { get; set; }
 
         [Required]
         [MaxLength(50)]
