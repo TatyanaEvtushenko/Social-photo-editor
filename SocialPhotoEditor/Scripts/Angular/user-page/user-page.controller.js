@@ -30,45 +30,6 @@
             });
         }
 
-        function getComments(imageId) {
-            UserPageService.getComments(imageId).then(function (http) {
-                $scope.comments = http.data;
-            }, function (error) {
-                console.log("Error from server! (comments)");
-            });
-        }
-
-        function addComment(text, imageId) {
-            UserPageService.addComment(text, imageId).then(function (http) {
-                $scope.comments = http.data;
-            }, function (error) {
-                console.log("Error from server! (add comment)");
-            });
-        }
-
-        function deleteComment(commentatorUserName, imageId, time) {
-            UserPageService.deleteComment(commentatorUserName, imageId, time).then(function (http) {
-                $scope.comments = http.data;
-            }, function (error) {
-                console.log("Error from server! (delete comment)");
-            });
-        }
-
-        function changeLike(imageId) {
-            UserPageService.changeLike(imageId).then(function (http) {
-            }, function (error) {
-                console.log("Error from server! (change like)");
-            });
-        }
-
-        function getLike(imageId) {
-            UserPageService.getLike(imageId).then(function (http) {
-                $scope.like = http.data;
-            }, function (error) {
-                console.log("Error from server! (comments)");
-            });
-        }
-
         var userName = getParamFromUrl("userName");
         getUserPage(userName);
         getFolder(userName);
@@ -80,26 +41,10 @@
             $scope.owner = {};
             $scope.owner.UserName = userName;
             $scope.owner.AvatarFileName = $scope.userPage.AvatarFileName;
-            getLike(image.FileName);
-            getComments(image.FileName);
         }
 
         $scope.getFolder = function (folderId) {
             getFolder(folderId);
-        }
-
-        $scope.changeLike = function(imageId) {
-            changeLike(imageId);
-            $scope.like.IsLiked = !$scope.like.IsLiked;
-            if ($scope.like.IsLiked)
-                $scope.like.Count++;
-            else
-                $scope.like.Count--;
-        }
-
-        $scope.addComment = function () {
-            addComment($scope.commentText.trim(), $scope.image.FileName);
-            $scope.commentText = "";
         }
     }
 ]);

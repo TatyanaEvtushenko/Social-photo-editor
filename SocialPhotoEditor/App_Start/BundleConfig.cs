@@ -44,6 +44,10 @@ namespace SocialPhotoEditor
             bundles.Add(new ScriptBundle("~/bundles/user-page").Include(
                 "~/Scripts/Angular/user-page/user-page.controller.js",
                 "~/Scripts/Angular/user-page/user-page.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/image").Include(
+                "~/Scripts/Angular/image/image.controller.js",
+                "~/Scripts/Angular/image/image.service.js"));
         }
     }
 }

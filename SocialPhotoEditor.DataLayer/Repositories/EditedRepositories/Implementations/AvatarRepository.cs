@@ -5,31 +5,33 @@ using SocialPhotoEditor.DataLayer.DatabaseModels;
 
 namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations
 {
-    public class LikeRepository : IEditedRepository<Like>
+    public class AvatarRepository : IEditedRepository<Avatar>
     {
-        public List<Like> GetAll()
+        public List<Avatar> GetAll()
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Likes.ToList();
+                return db.Avatars.ToList();
             }
         }
 
-        public void Add(Like data)
+        public void Add(Avatar data)
         {
             using (var db = new ApplicationDbContext())
             {
-                db.Likes.Add(data);
+                db.Avatars.Add(data);
                 db.SaveChanges();
             }
         }
 
-        public void Delete(Like data)
+        public void Delete(Avatar data)
         {
             using (var db = new ApplicationDbContext())
             {
-                data = db.Likes.FirstOrDefault(x => x.ImageId == data.ImageId && x.OwnerId == data.OwnerId);
-                db.Likes.Remove(data);
+                data = db.Avatars.FirstOrDefault(x => x.AvatarFileName == data.AvatarFileName);
+                if (data == null)
+                    return;
+                db.Avatars.Remove(data);
                 db.SaveChanges();
             }
         }

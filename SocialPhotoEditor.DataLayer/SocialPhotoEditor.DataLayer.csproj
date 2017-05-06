@@ -133,6 +133,7 @@
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\FolderRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\IEditedRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\ImageRepository.cs" />
+    <Compile Include="Repositories\EditedRepositories\Implementations\AvatarRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\LikeRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\UserInfoRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\SubscriberRepository.cs" />

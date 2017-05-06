@@ -215,6 +215,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AvatarWebApiController.cs" />
     <Compile Include="Controllers\CommentWebApiController.cs" />
     <Compile Include="Controllers\CountryWebApiController.cs" />
     <Compile Include="Controllers\CurrentUserWebApiController.cs" />
@@ -275,6 +276,8 @@
     </Content>
     <Content Include="Scripts\Angular\current-user\current-user.service.js" />
     <Content Include="Scripts\Angular\current-user\current-user.controller.js" />
+    <Content Include="Scripts\Angular\image\image.controller.js" />
+    <Content Include="Scripts\Angular\image\image.service.js" />
     <Content Include="Scripts\Angular\module.js" />
     <Content Include="Scripts\Angular\user-page\user-page.controller.js" />
     <Content Include="Scripts\Angular\user-page\user-page.service.js" />

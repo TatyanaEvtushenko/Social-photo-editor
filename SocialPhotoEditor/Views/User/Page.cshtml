@@ -6,8 +6,6 @@
 @Scripts.Render("~/bundles/user-page")
 
 <div ng-controller="UserPageController">
-    @Html.Partial("ImageModal")
-
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
@@ -49,4 +47,6 @@
             </a>
         </div>
     </div>
+
+    @Html.Partial("ImageModal")
 </div>

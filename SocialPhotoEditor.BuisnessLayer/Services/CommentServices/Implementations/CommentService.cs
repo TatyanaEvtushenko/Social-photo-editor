@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
-using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
@@ -13,8 +11,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
     public class CommentService : ICommentService
     {
         private static readonly IChangedRepository<Comment> CommentRepository = new CommentRepository();
-
-        private static readonly IUserService UserService = new UserService();
 
         public int GetCommentsCount(string imageId)
         {
@@ -34,7 +30,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                                 RecipientUserName = x.RecipientId,
                                 Text = x.Text,
                                 Time = x.Time,
-                                AvatarFileName = UserService.GetUserAvatar(x.CommentatorId)
                             });
         }
 
@@ -52,7 +47,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
 
         public IEnumerable<CommentViewModel> DeleteComment(string commentatorUserName, string imageId, DateTime time)
         {
-            var comment = CommentRepository.GetAll().FirstOrDefault(x => x.CommentatorId == commentatorUserName && x.ImageId == imageId && x.Time == time);
+            var comment = new Comment {CommentatorId = commentatorUserName, Time = time, ImageId = imageId};
             CommentRepository.Delete(comment);
             return GetComments(imageId);
         }

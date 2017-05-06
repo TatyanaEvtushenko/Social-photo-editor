@@ -11,9 +11,9 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/current-user")
 </head>
-<body data-ng-app="APIModule">
+<body data-ng-app="APIModule" ng-controller="CurrentUserController">
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container" ng-controller="CurrentUserController">
+        <div class="container">
             <div class="navbar-header">
                 @Html.ActionLink("Social photo editor", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
             </div>
