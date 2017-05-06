@@ -38,7 +38,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                             });
         }
 
-        public void AddComment(string commentatorUserName, string imageId, string text)
+        public IEnumerable<CommentViewModel> AddComment(string commentatorUserName, string imageId, string text)
         {
             CommentRepository.Add(new Comment
             {
@@ -47,12 +47,14 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 Text = text,
                 Time = DateTime.Now
             });
+            return GetComments(imageId);
         }
 
-        public void DeleteComment(string commentId)
+        public IEnumerable<CommentViewModel> DeleteComment(string commentatorUserName, string imageId, DateTime time)
         {
-            //var comment = CommentRepository.GetAll().FirstOrDefault(x => x.Id == commentId);
-            //CommentRepository.Delete(comment);
+            var comment = CommentRepository.GetAll().FirstOrDefault(x => x.CommentatorId == commentatorUserName && x.ImageId == imageId && x.Time == time);
+            CommentRepository.Delete(comment);
+            return GetComments(imageId);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly ILikeService Service = new LikeService();
 
-        public LikeViewModel PostCheckLiked(string imageFileName)
+        public LikeViewModel Post(string imageFileName)
         {
             return Service.GetLike(imageFileName, User.Identity.Name);
         }
 
-        public void PutChangeLike(string imageFileName)
+        public void Put(string imageFileName)
         {
             Service.ChangeLike(imageFileName, User.Identity.Name);
         }

@@ -6,7 +6,7 @@
         }
 
         this.getFolder = function (folderId) {
-            return $http({ method: "POST", url: "/api/ImageWebApi/", params: { 'folderId': folderId } });
+            return $http({ method: "POST", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
 
         this.getLike = function (imageFileName) {
@@ -22,7 +22,11 @@
         }
 
         this.addComment = function (text, imageId) {
-            return $http({ method: "POST", url: "/api/CommentWebApi/", params: { 'text': text, 'imageId': imageId } });
+            return $http({ method: "PUT", url: "/api/CommentWebApi/", params: { 'text': text, 'imageId': imageId } });
+        }
+
+        this.deleteComment = function (commentatorUserName, imageId, time) {
+            return $http({ method: "DELETE", url: "/api/CommentWebApi/", params: { 'commentatorUserName': commentatorUserName, 'imageId': imageId, 'time': time } });
         }
     }
 ]);

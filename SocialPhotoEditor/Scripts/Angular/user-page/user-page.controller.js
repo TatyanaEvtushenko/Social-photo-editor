@@ -40,8 +40,17 @@
 
         function addComment(text, imageId) {
             UserPageService.addComment(text, imageId).then(function (http) {
+                $scope.comments = http.data;
             }, function (error) {
-                console.log("Error from server! (comments)");
+                console.log("Error from server! (add comment)");
+            });
+        }
+
+        function deleteComment(commentatorUserName, imageId, time) {
+            UserPageService.deleteComment(commentatorUserName, imageId, time).then(function (http) {
+                $scope.comments = http.data;
+            }, function (error) {
+                console.log("Error from server! (delete comment)");
             });
         }
 
@@ -88,11 +97,9 @@
                 $scope.like.Count--;
         }
 
-        $scope.changeComment = function() {
-            if ($scope.commentText.indexOf("\n") > 0) {
-                addComment($scope.commentText.trim(), $scope.image.FileName);
-                $scope.commentText = "";
-            }
+        $scope.addComment = function () {
+            addComment($scope.commentText.trim(), $scope.image.FileName);
+            $scope.commentText = "";
         }
     }
 ]);

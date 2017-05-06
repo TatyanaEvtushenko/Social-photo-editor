@@ -218,6 +218,7 @@
     <Compile Include="Controllers\CommentWebApiController.cs" />
     <Compile Include="Controllers\CountryWebApiController.cs" />
     <Compile Include="Controllers\CurrentUserWebApiController.cs" />
+    <Compile Include="Controllers\FolderWebApiController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImageWebApiController.cs" />
     <Compile Include="Controllers\LikeWebApiController.cs" />

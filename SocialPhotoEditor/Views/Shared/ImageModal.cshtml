@@ -1,64 +1,66 @@
 ﻿<div class="modal fade bs-example-modal-lg" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            @*<div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Название модали</h4>
-            </div>*@
-            <div class="modal-body">
+            <div class="modal-body container-fluid">
                 <div class="row">
                     <div class="col-md-8">
-                        <img src="{{image.FileName}}" class="big_avatar"/>
+                        <img src="{{image.FileName}}" class="image"/>
                     </div>
+
                     <div class="col-md-4">
                         <div class="row">
-                            <div class="col-md-2"><img class="small_avatar" src="{{owner.AvatarFileName}}"/>
+                            <div class="col-md-2">
+                                <img class="small_avatar" src="{{owner.AvatarFileName}}"/>
                             </div>
-                            <div class="col-md-9">{{owner.UserName}}</div>
-                            <div class="col-md-1"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h5 class="col-md-10 center-block">
+                                <strong>{{owner.UserName}}</strong>
+                                <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            </h5>
+                        </div>
+
+                        <hr/>
+                        
+                        <div class="row">
+                            <div class="col-md-9">
+                                <strong>{{like.Count}} отметок "Нравится"</strong>
+                            </div>
+                            <div class="col-md-2 text-muted">{{image.CreatingTime}}</div>
+                        </div>
+
+                        <div class="container-fluid">
+                            <div class="row" ng-repeat="comment in comments track by $index">
+                                <div class="col-md-3">
+                                    <img class="small_avatar" src="{{comment.AvatarFileName}}"/>
+                                </div>
+                                <div class="col-md-9">
+                                    <a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a>
+                                    <p>{{comment.Time}}</p>
+                                    <p>
+                                        <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}} {{comment.Text}}</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
                         <hr/>
                         <div class="row">
-                            <p>{{like.Count}} отметок "Нравится"</p>
-                            <div class="text-muted">{{image.CreatingTime}}</div>
-                        </div>
-
-                        <div class="row" ng-repeat="comment in comments track by $index">
                             <div class="col-md-2">
-                                <img class="small_avatar" src="{{comment.AvatarFileName}}"/>
-                            </div>
-                            <div class="col-md-10">
-                                <a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a>
-                                <p>{{comment.Time}}</p>
-                                <p>
-                                    <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}} {{comment.Text}}</a>
-                                </p>
-                            </div>
-                        </div>
-
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <h1>
+                                <h2>
                                     <a ng-click="changeLike(image.FileName)">
                                         <span ng-if="!like.IsLiked" class="glyphicon glyphicon-heart"></span>
                                         <span ng-if="like.IsLiked" class="glyphicon glyphicon-heart-empty"></span>
                                     </a>
-                                </h1>
+                                </h2>
                             </div>
                             <div class="col-md-10">
-                                <textarea class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-change="changeComment()"></textarea>
+                                <h2>
+                                    <input type="text" class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-enter="addComment()"/>
+                                </h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
-                </div>*@
-
         </div>
     </div>
 </div>
