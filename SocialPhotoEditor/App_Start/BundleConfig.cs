@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace SocialPhotoEditor
 {
@@ -25,13 +24,26 @@ namespace SocialPhotoEditor
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/Site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.min.js",
                 "~/Scripts/angular-route.min.js",
                 "~/Scripts/angular-resource.min.js",
                 "~/Scripts/Angular/module.js"));
+
+            //MVC ANGULAR __ MY
+            bundles.Add(new ScriptBundle("~/bundles/current-user").Include(
+                "~/Scripts/Angular/current-user/current-user.controller.js",
+                "~/Scripts/Angular/current-user/current-user.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/user-list").Include(
+                "~/Scripts/Angular/user-list/user-list.controller.js",
+                "~/Scripts/Angular/user-list/user-list.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/user-page").Include(
+                "~/Scripts/Angular/user-page/user-page.controller.js",
+                "~/Scripts/Angular/user-page/user-page.service.js"));
         }
     }
 }

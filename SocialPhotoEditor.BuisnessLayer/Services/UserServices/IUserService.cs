@@ -12,5 +12,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
         UserMinInfoViewModel GetUserMinInfo(string userName);
 
         UserPageViewModel GetUserPage(string userName, string currentUserName);
+
+        string GetUserAvatar(string userName);
     }
 }

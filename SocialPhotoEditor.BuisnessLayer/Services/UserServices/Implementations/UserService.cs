@@ -120,5 +120,10 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName),
             };
         }
+
+        public string GetUserAvatar(string userName)
+        {
+            return InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName)?.AvatarFileName;
+        }
     }
 }

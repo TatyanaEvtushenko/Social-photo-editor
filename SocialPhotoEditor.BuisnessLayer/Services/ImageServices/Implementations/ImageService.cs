@@ -40,6 +40,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),
                 LikesCount = LikeService.GetLikesCount(x.FileName),
+                CreatingTime = x.Time
             });
         }
 
@@ -47,6 +48,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
         {
             return ImageRepository.GetAll().Count(x => x.FolderId == folderId);
         }
+
+
+
+
+
+
 
         public ImageViewModel GetImage(string imageId)
         {

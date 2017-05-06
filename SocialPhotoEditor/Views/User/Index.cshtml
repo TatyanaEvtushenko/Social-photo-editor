@@ -2,14 +2,16 @@
     ViewBag.Title = "Users";
 }
 
+@Scripts.Render("~/bundles/user-list")
+
 <h2>Users</h2>
-<div ng-controller="UsersController">
+<div ng-controller="UserListController">
     <div class="row">
         <div class="col-md-9">
             <div class="panel panel-default panel-body row" ng-repeat="user in filteredUserLists track by $index">
                 <a href="~/User/Page?userName={{user.UserName}}">
                     <div class="col-md-2">
-                        <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар" />
+                        <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
                     </div>
                     <div class="col-md-8">
                         <p class="username">{{user.UserName}}</p>
@@ -79,5 +81,3 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Angular/users.service.js"></script>
-<script src="~/Scripts/Angular/users.controller.js"></script>

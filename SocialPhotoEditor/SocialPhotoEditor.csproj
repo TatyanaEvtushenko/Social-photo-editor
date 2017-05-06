@@ -215,10 +215,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CommentWebApiController.cs" />
     <Compile Include="Controllers\CountryWebApiController.cs" />
     <Compile Include="Controllers\CurrentUserWebApiController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ImageWebApiController.cs" />
+    <Compile Include="Controllers\LikeWebApiController.cs" />
     <Compile Include="Controllers\UserWebApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -270,11 +272,13 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\Angular\current-user.service.js" />
-    <Content Include="Scripts\Angular\current-user.controller.js" />
+    <Content Include="Scripts\Angular\current-user\current-user.service.js" />
+    <Content Include="Scripts\Angular\current-user\current-user.controller.js" />
     <Content Include="Scripts\Angular\module.js" />
-    <Content Include="Scripts\Angular\users.controller.js" />
-    <Content Include="Scripts\Angular\users.service.js" />
+    <Content Include="Scripts\Angular\user-page\user-page.controller.js" />
+    <Content Include="Scripts\Angular\user-page\user-page.service.js" />
+    <Content Include="Scripts\Angular\user-list\user-list.controller.js" />
+    <Content Include="Scripts\Angular\user-list\user-list.service.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\errors.json" />
@@ -1083,6 +1087,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\User\Page.cshtml" />
     <Content Include="Views\Image\Index.cshtml" />
+    <Content Include="Views\Shared\ImageModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

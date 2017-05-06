@@ -27,6 +27,7 @@ namespace SocialPhotoEditor.DataLayer.DatabaseContextes
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Subscriber>().HasKey(x => new {x.UserName, x.SubscriberName});
+            modelBuilder.Entity<Like>().HasKey(x => new {x.ImageId, x.OwnerId});
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -8,5 +8,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices
         int GetCommentsCount(string imageId);
 
         IEnumerable<CommentViewModel> GetComments(string imageId);
+
+        void AddComment(string commentatorUserName, string imageId, string text);
     }
 }

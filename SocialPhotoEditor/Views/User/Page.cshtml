@@ -3,10 +3,11 @@
     ViewBag.Title = "Page";
 }
 
-<script src="~/Scripts/Angular/users.service.js"></script>
-<script src="~/Scripts/Angular/users.controller.js"></script>
+@Scripts.Render("~/bundles/user-page")
 
-<div ng-controller="UsersController">
+<div ng-controller="UserPageController">
+    @Html.Partial("ImageModal")
+
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
@@ -24,8 +25,9 @@
                     <p>{{userPage.Location}}</p>
                     <p>{{userPage.Subscribe}}</p>
                     <div class="row">
-                        <div>{{userPage.SubscribersCount}} подписчиков</div>
-                        <div>{{userPage.SubscriptionsCount}} подписок</div></div>
+                        <div class="col-md-3">{{userPage.SubscribersCount}} подписчиков</div>
+                        <div class="col-md-3">{{userPage.SubscriptionsCount}} подписок</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,15 +36,15 @@
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="active"><a ng-click="getFolder(userPage.UserName)">Все фотографии</a></li>
-            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a >{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
         </ul>
     </div>
 
     <p>{{folder.Subscribe}}</p>
     <div class="row">
         <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
-            <a href="~/Image/Index?imageId={{image.FileName}}" class="thumbnail">
-                <img data-src="holder.js/100%x180" alt="..." src="{{image.FileName}}">
+            <a href="#imageModal" class="thumbnail" data-toggle="modal">
+                <img alt="..." src="{{image.FileName}}" ng-click="getImage(image)">
             </a>
         </div>
     </div>

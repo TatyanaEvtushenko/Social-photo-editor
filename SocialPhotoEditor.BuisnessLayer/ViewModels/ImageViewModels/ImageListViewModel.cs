@@ -1,4 +1,6 @@
-﻿namespace SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels
+﻿using System;
+
+namespace SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels
 {
     public class ImageListViewModel
     {
@@ -7,5 +9,7 @@
         public int LikesCount { get; set; }
 
         public int CommentsCount { get; set; }
+
+        public DateTime CreatingTime { get; set; }
     }
 }
