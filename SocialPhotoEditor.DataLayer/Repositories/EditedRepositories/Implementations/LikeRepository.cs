@@ -28,6 +28,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
+                data = db.Likes.FirstOrDefault(x => x.ImageId == data.ImageId && x.OwnerId == data.OwnerId);
                 db.Likes.Remove(data);
                 db.SaveChanges();
             }

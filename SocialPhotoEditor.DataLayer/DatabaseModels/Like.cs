@@ -4,12 +4,10 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 {
     public class Like
     {
-        public string Id { get; set; } 
-
-        [Required]
+        [Key]
         public string OwnerId { get; set; }
 
-        [Required]
+        [Key]
         public string ImageId { get; set; }
     }
 }

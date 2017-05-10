@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.CountryServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CountryServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.FolderServices;
 using SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
@@ -11,8 +13,10 @@ using SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices;
 using SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
 using SociaPhotoEditor.Settings;
 
 namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
@@ -20,11 +24,13 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
     public class UserService : IUserService
     {
         private static readonly IChangedRepository<UserInfo> InfoRepository = new UserInfoRepository();
+        private static readonly IEditedRepository<Avatar> AvatarRepository = new AvatarRepository();
 
         private static readonly ICountryService CountryService = new CountryService();
         private static readonly IImageService ImageService = new ImageService();
         private static readonly IRelationshipService RelationshipService = new RelationshipService();
         private static readonly IFolderService FolderService = new FolderService();
+        private static readonly IFileService FileService = new CloudinaryService();
 
         private readonly string defaultAvatarFileName = StringSettings.DefaultAvatar;
 
@@ -38,13 +44,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 DateTime.Today.Month == birthday.Month && DateTime.Today.Day < birthday.Day)
                 return yearSubtract - 1;
             return yearSubtract;
-        }
-
-        private static string GetName(UserInfo info)
-        {
-            if (info == null)
-                return null;
-            return info.Name == null ? info.UserName : GetFullTrueName(info);
         }
 
         private static string GetFullTrueName(UserInfo info)
@@ -97,7 +96,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             return new UserMinInfoViewModel
             {
                 AvatarFileName = GetAvatarFileName(info),
-                Name = GetName(info)
+                Name = userName
             };
         }
 
@@ -119,6 +118,26 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 SubscriptionsCount = RelationshipService.GetSubscriptionsCount(userName),
                 IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName),
             };
+        }
+
+        public string GetUserAvatar(string userName)
+        {
+            var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
+            return GetAvatarFileName(info);
+        }
+
+        public void ChangeAvatar(string userName, string imageFileName)
+        {
+            var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
+            AvatarRepository.Delete(new Avatar {AvatarFileName = info.AvatarFileName});
+            var avatar = new Avatar
+            {
+                ImageFileName = imageFileName,
+                AvatarFileName = FileService.GetAvatarUrl(imageFileName)
+            };
+            AvatarRepository.Add(avatar);
+            info.AvatarFileName = avatar.AvatarFileName;
+            InfoRepository.Update(info);
         }
     }
 }

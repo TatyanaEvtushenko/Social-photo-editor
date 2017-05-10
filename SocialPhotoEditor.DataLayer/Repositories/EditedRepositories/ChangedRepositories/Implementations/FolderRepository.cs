@@ -45,7 +45,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                var folder = db.Folders.FirstOrDefault(x => x.Id == data.Id);
+                var folder = db.Folders.FirstOrDefault(x => x.OwnerId == data.OwnerId && x.Name == data.Name);
                 if (folder == null)
                     return;
                 folder.Name = data.Name;

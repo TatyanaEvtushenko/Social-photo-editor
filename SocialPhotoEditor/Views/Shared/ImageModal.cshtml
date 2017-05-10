@@ -1,0 +1,76 @@
+﻿@Scripts.Render("~/bundles/image")
+
+<div ng-controller="ImageController" class="modal fade bs-example-modal-lg" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <img src="{{image.FileName}}" class="image"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img class="small_avatar" src="{{owner.AvatarFileName}}"/>
+                            </div>
+                            <h5 class="col-md-8">
+                                <strong>{{owner.UserName}}</strong>
+                            </h5>
+                            <div class="col-md-1">
+                                <div ng-if="owner.UserName == currentUserName" class="btn-group pull-right">
+                                    <span class="caret dropdown-toggle" data-toggle="dropdown"></span>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a ng-click="changeAvatar(image.FileName)">Сделать изображением профиля</a></li>
+                                        <li><a href="#">Редактировать</a></li>
+                                        <li><a href="#">Удалить</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" class="col-md-1 close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+
+                        <hr/>
+                        
+                        <div class="row">
+                            <div class="col-md-9">
+                                <strong>{{like.Count}} отметок "Нравится"</strong>
+                            </div>
+                            <div class="col-md-2 text-muted">{{image.CreatingTime}}</div>
+                        </div>
+
+                        <div class="container-fluid" ng-repeat="comment in comments track by $index">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <strong><a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a></strong>
+                                    <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}}</a>
+                                    {{comment.Text}}
+                                </div>
+                                <div class="col-md-2">
+                                    <a ng-click="deleteComment(comment.OwnerUserName, comment.Time)"><span class="glyphicon glyphicon-trash" ng-if="owner.UserName == currentUserName || comment.OwnerUserName == currentUserName"></span></a>
+                                </div>
+                            </div>
+                         </div>
+
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h2>
+                                    <a ng-click="changeLike(image.FileName)">
+                                        <span ng-if="!like.IsLiked" class="glyphicon glyphicon-heart-empty"></span>
+                                        <span ng-if="like.IsLiked" class="glyphicon glyphicon-heart"></span>
+                                    </a>
+                                </h2>
+                            </div>
+                            <div class="col-md-10">
+                                <h2>
+                                    <input type="text" class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-enter="addComment()"/>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

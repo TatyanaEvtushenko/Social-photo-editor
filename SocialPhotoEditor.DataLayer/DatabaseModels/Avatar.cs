@@ -7,9 +7,6 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
         [Key]
         public string AvatarFileName { get; set; }
 
-        public string ImageId { get; set; }
-
-        [Required]
-        public string OwnerId { get; set; }
+        public string ImageFileName { get; set; }
     }
 }

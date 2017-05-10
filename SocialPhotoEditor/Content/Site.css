@@ -24,6 +24,10 @@ textarea {
 }
 
 
+.image {
+    max-height: 650px;
+    max-width: 580px;
+}
 
 .image_list {
     margin: 10px;

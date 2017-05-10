@@ -28,6 +28,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                data = db.Comments.FirstOrDefault(x => x.CommentatorId == data.CommentatorId && x.ImageId == data.ImageId && x.Time == data.Time);
+                if (data == null)
+                    return;
                 db.Comments.Remove(data);
                 db.SaveChanges();
             }
@@ -45,10 +48,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                var comment = db.Comments.FirstOrDefault(x => x.Id == data.Id);
+                var comment = db.Comments.FirstOrDefault(x => x.Time == data.Time && x.ImageId == data.ImageId && x.CommentatorId == data.CommentatorId);
                 if (comment == null)
                     return;
-                comment.Time = data.Time;
                 comment.Text = data.Text;
                 comment.RecipientId = data.RecipientId;
                 db.SaveChanges();
