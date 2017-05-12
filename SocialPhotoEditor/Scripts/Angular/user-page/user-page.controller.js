@@ -30,6 +30,36 @@
             });
         }
 
+        function subscribe(userName) {
+            UserPageService.subscribe(userName).then(function (http) {
+            }, function (error) {
+                console.log("Error from server! (subscribe)");
+            });
+        }
+
+        function unsubscribe(userName) {
+            UserPageService.unsubscribe(userName).then(function (http) {
+            }, function (error) {
+                console.log("Error from server! (unsubscribe)");
+            });
+        }
+
+        function getSubscribers(userName) {
+            UserPageService.getSubscribers(userName).then(function (http) {
+                $scope.users = http.data;
+            }, function (error) {
+                console.log("Error from server! (subscribers)");
+            });
+        }
+
+        function getSubscriptions(userName) {
+            UserPageService.getSubscriptions(userName).then(function (http) {
+                $scope.users = http.data;
+            }, function (error) {
+                console.log("Error from server! (subscriptions)");
+            });
+        }
+
         var userName = getParamFromUrl("userName");
         getUserPage(userName);
         getFolder(userName);
@@ -45,6 +75,26 @@
 
         $scope.getFolder = function (folderId) {
             getFolder(folderId);
+        }
+
+        $scope.subscribe = function() {
+            subscribe(userName);
+            $scope.userPage.IsSubscriber = true;
+            $scope.userPage.SubscribersCount++;
+        }
+
+        $scope.unsubscribe = function () {
+            unsubscribe(userName);
+            $scope.userPage.IsSubscriber = false;
+            $scope.userPage.SubscribersCount--;
+        }
+
+        $scope.getSubscribers = function() {
+            getSubscribers(userName);
+        }
+
+        $scope.getSubscriptions = function () {
+            getSubscriptions(userName);
         }
     }
 ]);

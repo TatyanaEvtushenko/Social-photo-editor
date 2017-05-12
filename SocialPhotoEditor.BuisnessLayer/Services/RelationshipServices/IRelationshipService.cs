@@ -15,8 +15,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices
 
         void Unsubscribe(string followerName, string userName);
 
-        IEnumerable<UserMinInfoViewModel> GetSubscribers(string userName);
+        IEnumerable<UserRelationshipListViewModel> GetSubscribers(string currentUserName, string userName);
 
-        IEnumerable<UserMinInfoViewModel> GetSubscriptions(string userName);
+        IEnumerable<UserRelationshipListViewModel> GetSubscriptions(string currentUserName, string userName);
     }
 }

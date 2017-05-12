@@ -19,6 +19,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Subscribers.FirstOrDefault(x => x.UserName == data.UserName && x.SubscriberName == data.SubscriberName) != null)
+                    return;
                 db.Subscribers.Add(data);
                 db.SaveChanges();
             }
@@ -28,6 +30,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
+                data = db.Subscribers.FirstOrDefault(x => x.UserName == data.UserName && x.SubscriberName == data.SubscriberName);
+                if (data == null)
+                    return;
                 db.Subscribers.Remove(data);
                 db.SaveChanges();
             }
