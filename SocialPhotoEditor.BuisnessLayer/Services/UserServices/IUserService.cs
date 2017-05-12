@@ -16,5 +16,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
         string GetUserAvatar(string userName);
 
         void ChangeAvatar(string userName, string imageFileName);
+
+        IEnumerable<UserRelationshipListViewModel> GetRelationshipList(string currentUserName, IEnumerable<string> userNames);
     }
 }

@@ -139,5 +139,20 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             info.AvatarFileName = avatar.AvatarFileName;
             InfoRepository.Update(info);
         }
+
+        public IEnumerable<UserRelationshipListViewModel> GetRelationshipList(string currentUserName, IEnumerable<string> userNames)
+        {
+            var infos = InfoRepository.GetAll();
+            return from userName in userNames
+                let info = infos.FirstOrDefault(x => x.UserName == userName)
+                select
+                    new UserRelationshipListViewModel
+                    {
+                        AvatarFileName = GetAvatarFileName(info),
+                        Name = GetFullTrueName(info),
+                        UserName = userName,
+                        IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName)
+                    };
+        }
     }
 }

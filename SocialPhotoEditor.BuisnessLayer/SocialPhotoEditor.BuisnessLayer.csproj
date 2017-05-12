@@ -93,6 +93,7 @@
     <Compile Include="ViewModels\UserViewModels\UserMinInfoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserPageViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserRelationshipListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
