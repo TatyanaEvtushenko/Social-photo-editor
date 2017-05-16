@@ -25,10 +25,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CountryServices.Implementatio
         public LocationViewModel GetLocation(int cityId)
         {
             var city = CityRepository.GetAll().FirstOrDefault(x => x.Id == cityId);
+            if (city == null)
+                return null;
             return new LocationViewModel
             {
-                CityName = city?.Name,
-                CountryName = city?.CountryName
+                City = city.Name,
+                Country = city.CountryName
             };
         }
     }

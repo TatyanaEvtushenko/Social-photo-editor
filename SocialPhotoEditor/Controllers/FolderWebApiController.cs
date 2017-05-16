@@ -9,11 +9,9 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IFolderService Service = new FolderService();
 
-        private readonly int MaxImagesCountOnPage = 21;
-
         public FolderViewModel Post(string folderId)
         {
-            return Service.GetFolder(folderId, MaxImagesCountOnPage);
+            return Service.GetFolder(folderId);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Images.FirstOrDefault(x => x.OwnerId == data.OwnerId) != null)
+                    return;
                 db.Images.Add(data);
                 db.SaveChanges();
             }
@@ -48,6 +50,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                data = db.Images.FirstOrDefault(x => x.FileName == data.FileName);
+                if (data == null)
+                    return;
                 db.Images.Remove(data);
                 db.SaveChanges();
             }

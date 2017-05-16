@@ -4,8 +4,12 @@ namespace SocialPhotoEditor.Controllers
 {
     public class ImageController : Controller
     {
-        // GET: Image
         public ActionResult Index(string imageId)
+        {
+            return View();
+        }
+
+        public ActionResult News()
         {
             return View();
         }

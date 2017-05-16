@@ -15,22 +15,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
 
         private static readonly IUserService UserService = new UserService();
 
-        public bool CheckSubscription(string userName, string subscriberUserName)
-        {
-            var relationships = SubscriberRepository.GetAll();
-            return relationships.FirstOrDefault(x => x.UserName == userName && x.SubscriberName == subscriberUserName) != null;
-        }
-
-        public int GetSubscribersCount(string userName)
-        {
-            return SubscriberRepository.GetAll().Count(x => x.UserName == userName);
-        }
-
-        public int GetSubscriptionsCount(string userName)
-        {
-            return SubscriberRepository.GetAll().Count(x => x.SubscriberName == userName);
-        }
-
         public void Subscribe(string followerName, string userName)
         {
             var relationship = new Subscriber {SubscriberName = followerName, UserName = userName};
@@ -39,7 +23,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
 
         public void Unsubscribe(string followerName, string userName)
         {
-            var relationship = SubscriberRepository.GetAll().FirstOrDefault(x => x.UserName == userName && x.SubscriberName == followerName);
+            var relationship = new Subscriber {SubscriberName = followerName, UserName = userName};
             SubscriberRepository.Delete(relationship);
         }
 

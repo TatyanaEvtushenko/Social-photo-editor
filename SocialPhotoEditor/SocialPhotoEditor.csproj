@@ -280,6 +280,8 @@
     <Content Include="Scripts\Angular\image\image.controller.js" />
     <Content Include="Scripts\Angular\image\image.service.js" />
     <Content Include="Scripts\Angular\module.js" />
+    <Content Include="Scripts\Angular\news\news.controller.js" />
+    <Content Include="Scripts\Angular\news\news.service.js" />
     <Content Include="Scripts\Angular\user-min-list\user-min-list.controller.js" />
     <Content Include="Scripts\Angular\user-min-list\user-min-list.service.js" />
     <Content Include="Scripts\Angular\user-page\user-page.controller.js" />
@@ -301,6 +303,7 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
     <Content Include="Scripts\i18n\angular-locale_af.js" />
@@ -1096,6 +1099,7 @@
     <Content Include="Views\Image\Index.cshtml" />
     <Content Include="Views\Shared\ImageModal.cshtml" />
     <Content Include="Views\Shared\UsersModal.cshtml" />
+    <Content Include="Views\Image\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

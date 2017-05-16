@@ -16,14 +16,14 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetComments(imageFileName);
         }
 
-        public IEnumerable<CommentViewModel> Put(string text, string imageId)
+        public void Put(string text, string imageId, DateTime time)
         {
-            return Service.AddComment(User.Identity.Name, imageId, text);
+            Service.AddComment(User.Identity.Name, imageId, text, time);
         }
 
-        public IEnumerable<CommentViewModel> Delete(string commentatorUserName, string imageId, DateTime time)
+        public void Delete(string commentatorUserName, string imageId, DateTime time)
         {
-            return Service.DeleteComment(commentatorUserName, imageId, time);
+            Service.DeleteComment(commentatorUserName, imageId, time);
         }
     }
 }

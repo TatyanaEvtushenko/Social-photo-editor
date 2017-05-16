@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "News";
+}
+@Scripts.Render("~/bundles/news")
+@Scripts.Render("~/bundles/image")
+
+<div ng-controller="NewsController">
+    <br />
+    <div ng-controller="ImageController" class="container-fluid col-md-8 col-md-offset-2 panel panel-default" ng-repeat="image in news track by $index">
+        <div class="row panel-heading">
+            <a href="~/User/Page?userName={{image.Owner.UserName}}">
+                <div class="col-md-1">
+                    <img class="small_avatar" src="{{image.Owner.AvatarFileName}}"/>
+                </div>
+                <h5 class="col-md-9">
+                    <strong>{{image.Owner.UserName}}</strong>
+                </h5>
+            </a>
+            <div class="col-md-2 text-muted">
+                <strong class="text-muted">{{getDate(image.Time)}}</strong>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <img src="{{image.FileName}}" class="img-responsive"/>
+                <h6><strong>{{image.LikesCount}} отметок "Нравится"</strong></h6>
+                <div ng-repeat="comment in image.Comments track by $index">
+                    <div class="col-md-10">
+                        <strong><a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a></strong>
+                        <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}}</a>
+                        {{comment.Text}}
+                    </div>
+                    <div class="col-md-2">
+                        <a ng-click="deleteComment(comment.OwnerUserName, comment.Time)"><span class="glyphicon glyphicon-trash" ng-if="owner.UserName == currentUserName || comment.OwnerUserName == currentUserName"></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h2>
+                        <a ng-click="changeLike(image.FileName)">
+                            <span ng-if="!like.IsLiked" class="glyphicon glyphicon-heart-empty"></span>
+                            <span ng-if="like.IsLiked" class="glyphicon glyphicon-heart"></span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="col-md-10">
+                    <h2>
+                        <input type="text" class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-enter="addComment()"/>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

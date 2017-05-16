@@ -9,6 +9,8 @@ using SocialPhotoEditor.BuisnessLayer.Services.FolderServices;
 using SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
+using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices;
 using SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
@@ -24,42 +26,55 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
     public class UserService : IUserService
     {
         private static readonly IChangedRepository<UserInfo> InfoRepository = new UserInfoRepository();
+        private static readonly IEditedRepository<Image> ImageRepository = new ImageRepository();
         private static readonly IEditedRepository<Avatar> AvatarRepository = new AvatarRepository();
+        private static readonly IEditedRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
 
         private static readonly ICountryService CountryService = new CountryService();
-        private static readonly IImageService ImageService = new ImageService();
-        private static readonly IRelationshipService RelationshipService = new RelationshipService();
+        private static readonly ILikeService LikeService = new LikeService();
         private static readonly IFolderService FolderService = new FolderService();
         private static readonly IFileService FileService = new CloudinaryService();
 
-        private readonly string defaultAvatarFileName = StringSettings.DefaultAvatar;
-
-        private static int GetAge(UserInfo info)
-        {
-            if (info.Birthday == null)
-                return 0;
-            var birthday = info.Birthday.Value;
-            var yearSubtract = DateTime.Today.Year - birthday.Year;
-            if (DateTime.Today.Month < birthday.Month ||
-                DateTime.Today.Month == birthday.Month && DateTime.Today.Day < birthday.Day)
-                return yearSubtract - 1;
-            return yearSubtract;
-        }
-
-        private static string GetFullTrueName(UserInfo info)
-        {
-            return $"{info.Name} {info.Surname}";
-        }
-
         private string GetAvatarFileName(UserInfo info)
         {
-            return info.AvatarFileName ?? defaultAvatarFileName;
+            if (info == null || info.AvatarFileName == null)
+                return StringSettings.DefaultAvatar;
+            return info.AvatarFileName;
         }
 
-        private static string GetLocation(UserInfo info)
+        private int GetPopularity(IEnumerable<Image> images)
         {
-            var location = CountryService.GetLocation(info.CityId);
-            return location.CountryName == null ? location.CityName : $"{location.CountryName}, {location.CityName}";
+            if (!images.Any())
+                return 0;
+            var likesCount = images.Sum(image => LikeService.GetLikesCount(image.FileName));
+            return likesCount / images.Count();
+        }
+
+        private IEnumerable<string> GetPopularImages(IEnumerable<Image> images)
+        {
+            var count = IntSettings.CountPopularImages;
+            return images.OrderByDescending(x => LikeService.GetLikesCount(x.FileName)).Take(count).Select(x => x.FileName);
+        }
+
+        private bool CheckSubscription(string userName, string subscriberUserName)
+        {
+            var relationships = SubscriberRepository.GetAll();
+            return relationships.FirstOrDefault(x => x.UserName == userName && x.SubscriberName == subscriberUserName) != null;
+        }
+
+        private int GetSubscribersCount(string userName)
+        {
+            return SubscriberRepository.GetAll().Count(x => x.UserName == userName);
+        }
+
+        private int GetSubscriptionsCount(string userName)
+        {
+            return SubscriberRepository.GetAll().Count(x => x.SubscriberName == userName);
+        }
+
+        private string GetImageFromAvatar(string avatarFileName)
+        {
+            return AvatarRepository.GetAll().FirstOrDefault(x => x.AvatarFileName == avatarFileName)?.ImageFileName;
         }
 
         public void AddUserInfo(string userName)
@@ -68,62 +83,71 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             InfoRepository.Add(info);
         }
 
-        public IEnumerable<UserListViewModel> GetUserLists(string currentUserName, int count)
+        public IEnumerable<UserListViewModel> GetUserLists(string currentUserName)
         {
+            var count = IntSettings.CountUserLists;
             var infos = InfoRepository.Take(count);
             return from info in infos
-                let location = CountryService.GetLocation(info.CityId)
+                let userImages = ImageRepository.GetAll().Where(x => x.OwnerId == info.UserName)
                 select new UserListViewModel
                 {
                     UserName = info.UserName,
                     AvatarFileName = GetAvatarFileName(info),
-                    Name = GetFullTrueName(info),
-                    Country = location.CountryName,
-                    City = location.CityName,
-                    Age = GetAge(info),
+                    Name = info.Name,
+                    Surname = info.Surname,
+                    Location = CountryService.GetLocation(info.CityId),
+                    Birthday = info.Birthday,
                     Sex = info.Sex,
                     RegisterDate = info.RegisterDate,
-                    Popularity = ImageService.GetPopularity(info.UserName),
-                    IsSubscriber = RelationshipService.CheckSubscription(info.UserName, currentUserName)
+                    Popularity = GetPopularity(userImages),
+                    PopularImages = GetPopularImages(userImages),
+                    IsSubscriber = CheckSubscription(info.UserName, currentUserName)
                 };
         }
 
         public UserMinInfoViewModel GetUserMinInfo(string userName)
         {
-            if (string.IsNullOrEmpty(userName))
-                return null;
             var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
             return new UserMinInfoViewModel
             {
                 AvatarFileName = GetAvatarFileName(info),
-                Name = userName
+                UserName = userName
             };
         }
 
         public UserPageViewModel GetUserPage(string userName, string currentUserName)
         {
             var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
-            if (info == null)
-                return null;
             return new UserPageViewModel
             {
-                UserName = info.UserName,
+                UserName = userName,
                 AvatarFileName = GetAvatarFileName(info),
-                Name = GetFullTrueName(info),
-                Birthday = info.Birthday,
-                Subscribe = info.Subscribe,
-                Location = GetLocation(info),
+                AvatarImage = GetImageFromAvatar(info?.AvatarFileName),
+                Name = info?.Name,
+                Surname = info?.Surname,
+                Birthday = info?.Birthday,
+                Subscribe = info?.Subscribe,
+                Location = CountryService.GetLocation(info.CityId),
                 Folders = FolderService.GetFolderLists(userName),
-                SubscribersCount = RelationshipService.GetSubscribersCount(userName),
-                SubscriptionsCount = RelationshipService.GetSubscriptionsCount(userName),
-                IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName),
+                SubscribersCount = GetSubscribersCount(userName),
+                SubscriptionsCount = GetSubscriptionsCount(userName),
+                IsSubscriber = CheckSubscription(userName, currentUserName),
             };
         }
 
-        public string GetUserAvatar(string userName)
+        public IEnumerable<UserRelationshipListViewModel> GetRelationshipList(string currentUserName, IEnumerable<string> userNames)
         {
-            var info = InfoRepository.GetAll().FirstOrDefault(x => x.UserName == userName);
-            return GetAvatarFileName(info);
+            var infos = InfoRepository.GetAll();
+            return from userName in userNames
+                let info = infos.FirstOrDefault(x => x.UserName == userName)
+                select new UserRelationshipListViewModel
+                {
+                    AvatarFileName = GetAvatarFileName(info),
+                    Name = info?.Name,
+                    Surname = info?.Surname,
+                    UserName = userName,
+                    IsSubscriber = CheckSubscription(userName, currentUserName)
+                };
         }
 
         public void ChangeAvatar(string userName, string imageFileName)
@@ -138,21 +162,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             AvatarRepository.Add(avatar);
             info.AvatarFileName = avatar.AvatarFileName;
             InfoRepository.Update(info);
-        }
-
-        public IEnumerable<UserRelationshipListViewModel> GetRelationshipList(string currentUserName, IEnumerable<string> userNames)
-        {
-            var infos = InfoRepository.GetAll();
-            return from userName in userNames
-                let info = infos.FirstOrDefault(x => x.UserName == userName)
-                select
-                    new UserRelationshipListViewModel
-                    {
-                        AvatarFileName = GetAvatarFileName(info),
-                        Name = GetFullTrueName(info),
-                        UserName = userName,
-                        IsSubscriber = RelationshipService.CheckSubscription(userName, currentUserName)
-                    };
         }
     }
 }

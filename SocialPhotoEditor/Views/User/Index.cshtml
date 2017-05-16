@@ -6,24 +6,37 @@
 
 <h2>Users</h2>
 <div ng-controller="UserListController">
+    @Html.Partial("ImageModal")
     <div class="row">
         <div class="col-md-9">
-            <div class="panel panel-default panel-body row" ng-repeat="user in filteredUserLists track by $index">
-                <a href="~/User/Page?userName={{user.UserName}}">
-                    <div class="col-md-2">
-                        <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
+            <div class="panel panel-default" ng-repeat="user in filteredUserLists track by $index">
+                <div class="panel-body row">
+                    <a href="~/User/Page?userName={{user.UserName}}">
+                        <div class="col-md-2">
+                            <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
+                        </div>
+                        <div class="col-md-8">
+                            <h5><strong>{{user.UserName}}</strong></h5>
+                            <div class="name">{{user.Name}} {{user.Surname}}</div>   
+                            <span ng-if="user.Birthday != null" ng-click="changeFilterAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span>
+                            <div ng-if="user.Location != null">
+                                <span ng-click="">{{user.Location.Country}}</span><span ng-click="">, {{user.Location.City}}</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="col-md-2" ng-if="user.UserName != currentUserName">
+                        <button ng-if="user.IsSubscriber" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="!user.IsSubscriber" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
                     </div>
-                    <div class="col-md-8">
-                        <p class="username">{{user.UserName}}</p>
-                        <p class="name">{{user.Name}}</p>
-                        <p ng-if="user.Age !== 0" ng-click="changeFilterAge(user.Age)">{{user.Age}}</p>
-                        <p ng-click="">{{user.Country}}</p>
-                        <p ng-click="">{{user.City}}</p>
+                </div>
+                <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3" ng-repeat="fileName in user.PopularImages track by $index">
+                            <a href="#imageModal" class="thumbnail" data-toggle="modal">
+                                <img src="{{fileName}}" ng-click="getImage(fileName)" >
+                            </a>
+                        </div>
                     </div>
-                </a>
-                <div class="col-md-2">
-                    <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
-                    <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
                 </div>
             </div>
         </div>
@@ -81,3 +94,4 @@
         </div>
     </div>
 </div>
+

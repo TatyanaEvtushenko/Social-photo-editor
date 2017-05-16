@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SocialPhotoEditor.BuisnessLayer.ViewModels.CountryViewModels;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.FolderViewModels;
 
 namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
@@ -10,9 +11,13 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string Name { get; set; }
 
+        public string Surname { get; set; }
+
         public string AvatarFileName { get; set; }
 
-        public string Location { get; set; }
+        public string AvatarImage { get; set; }
+
+        public LocationViewModel Location { get; set; }
 
         public DateTime? Birthday { get; set; }
 

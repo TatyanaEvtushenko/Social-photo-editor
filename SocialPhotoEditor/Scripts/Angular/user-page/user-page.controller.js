@@ -14,14 +14,6 @@
             return null;
         }
 
-        function getUserPage(userName) {
-            UserPageService.getUserPage(userName).then(function (http) {
-                $scope.userPage = http.data;
-            }, function (error) {
-                console.log("Error from server! (user page)");
-            });
-        }
-
         function getFolder(folderId) {
             UserPageService.getFolder(folderId).then(function (http) {
                 $scope.folder = http.data;
@@ -30,21 +22,43 @@
             });
         }
 
-        function subscribe(userName) {
+
+        var userName = getParamFromUrl("userName");
+
+        UserPageService.getUserPage(userName).then(function (http) {
+            $scope.userPage = http.data;
+        }, function (error) {
+            console.log("Error from server! (user page)");
+        });
+        getFolder(userName);
+
+        $scope.getImage = function (fileName) {
+            $scope.imageId = fileName;
+        }
+
+        $scope.getFolder = function (folderId) {
+            getFolder(folderId);
+        }
+
+        $scope.subscribe = function () {
             UserPageService.subscribe(userName).then(function (http) {
+                $scope.userPage.IsSubscriber = true;
+                $scope.userPage.SubscribersCount++;
             }, function (error) {
                 console.log("Error from server! (subscribe)");
             });
         }
 
-        function unsubscribe(userName) {
+        $scope.unsubscribe = function () {
             UserPageService.unsubscribe(userName).then(function (http) {
+                $scope.userPage.IsSubscriber = false;
+                $scope.userPage.SubscribersCount--;
             }, function (error) {
                 console.log("Error from server! (unsubscribe)");
             });
         }
 
-        function getSubscribers(userName) {
+        $scope.getSubscribers = function () {
             UserPageService.getSubscribers(userName).then(function (http) {
                 $scope.users = http.data;
             }, function (error) {
@@ -52,49 +66,12 @@
             });
         }
 
-        function getSubscriptions(userName) {
+        $scope.getSubscriptions = function () {
             UserPageService.getSubscriptions(userName).then(function (http) {
                 $scope.users = http.data;
             }, function (error) {
                 console.log("Error from server! (subscriptions)");
             });
-        }
-
-        var userName = getParamFromUrl("userName");
-        getUserPage(userName);
-        getFolder(userName);
-
-        $scope.getImage = function (image) {
-            $scope.image = {};
-            $scope.image.FileName = image.FileName;
-            $scope.image.CreatingTime = image.CreatingTime;
-            $scope.owner = {};
-            $scope.owner.UserName = userName;
-            $scope.owner.AvatarFileName = $scope.userPage.AvatarFileName;
-        }
-
-        $scope.getFolder = function (folderId) {
-            getFolder(folderId);
-        }
-
-        $scope.subscribe = function() {
-            subscribe(userName);
-            $scope.userPage.IsSubscriber = true;
-            $scope.userPage.SubscribersCount++;
-        }
-
-        $scope.unsubscribe = function () {
-            unsubscribe(userName);
-            $scope.userPage.IsSubscriber = false;
-            $scope.userPage.SubscribersCount--;
-        }
-
-        $scope.getSubscribers = function() {
-            getSubscribers(userName);
-        }
-
-        $scope.getSubscriptions = function () {
-            getSubscriptions(userName);
         }
     }
 ]);

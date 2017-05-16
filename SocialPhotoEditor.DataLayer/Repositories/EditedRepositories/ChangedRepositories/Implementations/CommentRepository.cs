@@ -19,6 +19,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Comments.FirstOrDefault(x => x.CommentatorId == data.CommentatorId && x.Time == data.Time && x.ImageId == data.ImageId) != null)
+                    return;
                 db.Comments.Add(data);
                 db.SaveChanges();
             }
