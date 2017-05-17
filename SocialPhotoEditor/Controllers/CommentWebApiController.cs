@@ -16,9 +16,9 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetComments(imageFileName);
         }
 
-        public void Put(string text, string imageId, DateTime time)
+        public void Put(string text, string imageId, DateTime time, string recipientUserName)
         {
-            Service.AddComment(User.Identity.Name, imageId, text, time);
+            Service.AddComment(User.Identity.Name, imageId, text, time, recipientUserName);
         }
 
         public void Delete(string commentatorUserName, string imageId, DateTime time)

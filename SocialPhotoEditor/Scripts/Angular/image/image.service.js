@@ -13,8 +13,8 @@
             return $http({ method: "DELETE", url: "/api/LikeWebApi/", params: { 'imageFileName': imageFileName } });
         }
 
-        this.addComment = function (text, imageId, time) {
-            return $http({ method: "PUT", url: "/api/CommentWebApi/", params: { 'text': text, 'imageId': imageId, 'time': time } });
+        this.addComment = function (text, imageId, time, recipientUserName) {
+            return $http({ method: "PUT", url: "/api/CommentWebApi/", params: { 'text': text, 'imageId': imageId, 'time': time, 'recipientUserName': recipientUserName } });
         }
 
         this.deleteComment = function (commentatorUserName, imageId, time) {

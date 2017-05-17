@@ -14,30 +14,26 @@
             return null;
         }
 
-        function getFolder(folderId) {
-            UserPageService.getFolder(folderId).then(function (http) {
-                $scope.folder = http.data;
-            }, function (error) {
-                console.log("Error from server! (image lists)");
-            });
-        }
-
-
         var userName = getParamFromUrl("userName");
 
         UserPageService.getUserPage(userName).then(function (http) {
             $scope.userPage = http.data;
+            $scope.getFolder(userName);
         }, function (error) {
             console.log("Error from server! (user page)");
         });
-        getFolder(userName);
+
 
         $scope.getImage = function (fileName) {
             $scope.imageId = fileName;
         }
 
         $scope.getFolder = function (folderId) {
-            getFolder(folderId);
+            UserPageService.getFolder(folderId).then(function (http) {
+                $scope.folder = http.data;
+            }, function (error) {
+                console.log("Error from server! (image lists)");
+            });
         }
 
         $scope.subscribe = function () {

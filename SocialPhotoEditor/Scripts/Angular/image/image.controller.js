@@ -31,6 +31,11 @@
             return count.toString() + " сек.";
         }
 
+        $scope.answer = function (userName) {
+            $scope.answerUserName = userName;
+            $scope.commentText = '@' + userName + ', ';
+        }
+
         $scope.addLike = function () {
             ImageService.addLike($scope.image.FileName).then(function (http) {
                 $scope.image.IsLiked = true;
@@ -51,11 +56,17 @@
 
         $scope.addComment = function () {
             var text = $scope.commentText.trim();
+            if (text.indexOf('@' + $scope.answerUserName + ', ') === 0) {
+                text = text.substring(('@' + $scope.answerUserName + ', ').length);
+            } else {
+                $scope.answerUserName = null;
+            }
             var time = new Date(Date.now());
-            ImageService.addComment(text, $scope.image.FileName, time).then(function (http) {
+            ImageService.addComment(text, $scope.image.FileName, time, $scope.answerUserName).then(function (http) {
                 var comment = {};
                 comment.Text = text;
                 comment.Time = time;
+                comment.RecipientUserName = $scope.answerUserName;
                 comment.OwnerUserName = $scope.currentUserName;
                 $scope.image.Comments[$scope.image.Comments.length] = comment;
                 $scope.commentText = "";

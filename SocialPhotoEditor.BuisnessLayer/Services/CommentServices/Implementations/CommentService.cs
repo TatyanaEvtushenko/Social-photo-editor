@@ -29,14 +29,15 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
             });
         }
 
-        public void AddComment(string commentatorUserName, string imageId, string text, DateTime time)
+        public void AddComment(string commentatorUserName, string imageId, string text, DateTime time, string recipientUserName)
         {
             var comment = new Comment
             {
                 CommentatorId = commentatorUserName,
                 ImageId = imageId,
                 Text = text,
-                Time = time
+                Time = time,
+                RecipientId = recipientUserName
             };
             CommentRepository.Add(comment);
         }
