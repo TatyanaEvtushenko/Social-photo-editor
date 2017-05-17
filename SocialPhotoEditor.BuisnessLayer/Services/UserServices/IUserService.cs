@@ -7,13 +7,11 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
     {
         void AddUserInfo(string userName);
 
-        IEnumerable<UserListViewModel> GetUserLists(string currentUserName, int count);
+        IEnumerable<UserListViewModel> GetUserLists(string currentUserName);
 
         UserMinInfoViewModel GetUserMinInfo(string userName);
 
         UserPageViewModel GetUserPage(string userName, string currentUserName);
-
-        string GetUserAvatar(string userName);
 
         void ChangeAvatar(string userName, string imageFileName);
 

@@ -19,6 +19,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Likes.FirstOrDefault(x => x.ImageId == data.ImageId && x.OwnerId == data.OwnerId) != null)
+                    return;
                 db.Likes.Add(data);
                 db.SaveChanges();
             }
@@ -29,6 +31,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
             using (var db = new ApplicationDbContext())
             {
                 data = db.Likes.FirstOrDefault(x => x.ImageId == data.ImageId && x.OwnerId == data.OwnerId);
+                if (data == null)
+                    return;
                 db.Likes.Remove(data);
                 db.SaveChanges();
             }

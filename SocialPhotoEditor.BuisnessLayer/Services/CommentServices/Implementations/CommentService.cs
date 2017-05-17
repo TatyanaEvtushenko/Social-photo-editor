@@ -19,37 +19,33 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
 
         public IEnumerable<CommentViewModel> GetComments(string imageId)
         {
-            return
-                CommentRepository.GetAll()
-                    .Where(x => x.ImageId == imageId)
-                    .Select(
-                        x =>
-                            new CommentViewModel
-                            {
-                                OwnerUserName = x.CommentatorId,
-                                RecipientUserName = x.RecipientId,
-                                Text = x.Text,
-                                Time = x.Time,
-                            });
+            var imagesComments = CommentRepository.GetAll().Where(x => x.ImageId == imageId);
+            return imagesComments.Select(x => new CommentViewModel
+            {
+                OwnerUserName = x.CommentatorId,
+                RecipientUserName = x.RecipientId,
+                Text = x.Text,
+                Time = x.Time,
+            });
         }
 
-        public IEnumerable<CommentViewModel> AddComment(string commentatorUserName, string imageId, string text)
+        public void AddComment(string commentatorUserName, string imageId, string text, DateTime time, string recipientUserName)
         {
-            CommentRepository.Add(new Comment
+            var comment = new Comment
             {
                 CommentatorId = commentatorUserName,
                 ImageId = imageId,
                 Text = text,
-                Time = DateTime.Now
-            });
-            return GetComments(imageId);
+                Time = time,
+                RecipientId = recipientUserName
+            };
+            CommentRepository.Add(comment);
         }
 
-        public IEnumerable<CommentViewModel> DeleteComment(string commentatorUserName, string imageId, DateTime time)
+        public void DeleteComment(string commentatorUserName, string imageId, DateTime time)
         {
             var comment = new Comment {CommentatorId = commentatorUserName, Time = time, ImageId = imageId};
             CommentRepository.Delete(comment);
-            return GetComments(imageId);
         }
     }
 }

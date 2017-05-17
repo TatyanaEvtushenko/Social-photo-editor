@@ -5,12 +5,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
 {
     public interface IImageService
     {
-        int GetPopularity(string userName);
+        ImageViewModel GetImage(string currentUserName, string imageId);
 
-        IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count);
-
-        int GetImageCount(string folderId);
-
-        ImageViewModel GetImage(string imageId);
+        IEnumerable<ImageViewModel> GetNews(string currentUserName);
     }
 }
