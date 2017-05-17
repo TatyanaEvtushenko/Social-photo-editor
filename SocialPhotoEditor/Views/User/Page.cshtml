@@ -9,7 +9,9 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
-                <img class="big_avatar" src="{{userPage.AvatarFileName}}"/>
+                <a href="#imageModal" class="tumbnail" data-toggle="modal">
+                    <img class="big_avatar" src="{{userPage.AvatarFileName}}" ng-click="getImage(userPage.AvatarImage)" />
+                </a>
             </div>
             <div class="col-md-9">
                 <div class="col-md-10">
@@ -18,9 +20,9 @@
                         <button ng-if="userPage.IsSubscriber" ng-click="unsubscribe()" type="button" class="btn btn-default">Отписаться</button>
                         <button ng-if="!userPage.IsSubscriber" ng-click="subscribe()" type="button" class="btn btn-success">Подписаться</button>
                     </div>
-                    <p>{{userPage.Name}}</p>
+                    <p>{{userPage.Name}} {{userPage.Surname}}</p>
                     <p>{{userPage.Birthday}}</p>
-                    <p>{{userPage.Location}}</p>
+                    <p ng-if="userPage.Location != null">{{userPage.Location.Country}}, {{userPage.Location.City}}</p>
                     <p>{{userPage.Subscribe}}</p>
                     <div class="row">
                         <a class="col-md-3" href="#userListModal" data-toggle="modal" ng-click="getSubscribers()">{{userPage.SubscribersCount}} подписчиков</a>

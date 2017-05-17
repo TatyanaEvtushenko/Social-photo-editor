@@ -18,11 +18,11 @@
         }
 
         this.getSubscribers = function (userName) {
-            return $http({ method: "POST", url: "/api/RelationshipWebApi/subscribers", params: { 'userName': userName } });
+            return $http({ method: "POST", url: "/api/RelationshipWebApi/Subscribers/", params: { 'userName': userName } });
         }
 
         this.getSubscriptions = function (userName) {
-            return $http({ method: "POST", url: "api/RelationshipWebApi/subscriptions", params: { 'userName': userName } });
+            return $http({ method: "POST", url: "api/RelationshipWebApi/Subscriptions/", params: { 'userName': userName } });
         }
     }
 ]);
