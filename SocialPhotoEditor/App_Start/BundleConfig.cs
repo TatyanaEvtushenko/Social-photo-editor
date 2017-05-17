@@ -52,6 +52,10 @@ namespace SocialPhotoEditor
             bundles.Add(new ScriptBundle("~/bundles/user-min-list").Include(
                 "~/Scripts/Angular/user-min-list/user-min-list.controller.js",
                 "~/Scripts/Angular/user-min-list/user-min-list.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/news").Include(
+                "~/Scripts/Angular/news/news.controller.js",
+                "~/Scripts/Angular/news/news.service.js"));
         }
     }
 }

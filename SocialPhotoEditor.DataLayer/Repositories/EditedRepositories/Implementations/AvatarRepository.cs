@@ -19,6 +19,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Avatars.FirstOrDefault(x => x.AvatarFileName == data.AvatarFileName) != null)
+                    return;
                 db.Avatars.Add(data);
                 db.SaveChanges();
             }

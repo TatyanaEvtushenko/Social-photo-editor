@@ -19,6 +19,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                if (db.Folders.FirstOrDefault(x => x.Id == data.Id) != null)
+                    return;
                 db.Folders.Add(data);
                 db.SaveChanges();
             }
@@ -28,6 +30,9 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
+                data = db.Folders.FirstOrDefault(x => x.Id == data.Id);
+                if (data == null)
+                    return;
                 db.Folders.Remove(data);
                 db.SaveChanges();
             }
@@ -45,7 +50,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                var folder = db.Folders.FirstOrDefault(x => x.OwnerId == data.OwnerId && x.Name == data.Name);
+                var folder = db.Folders.FirstOrDefault(x => x.Id == data.Id);
                 if (folder == null)
                     return;
                 folder.Name = data.Name;

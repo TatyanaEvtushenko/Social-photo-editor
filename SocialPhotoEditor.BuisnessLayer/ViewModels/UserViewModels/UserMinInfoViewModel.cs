@@ -2,7 +2,7 @@
 {
     public class UserMinInfoViewModel
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         public string AvatarFileName { get; set; }
     }
