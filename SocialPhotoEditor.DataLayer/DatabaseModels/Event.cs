@@ -14,10 +14,12 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 
         [Key]
         public string OwnerId { get; set; }
-
+        
         [Key]
-        public DateTime Time { get; set; }
+        public DateTime? Time { get; set; }
 
         public string Image { get; set; }
+
+        public bool IsSeen { get; set; }
     }
 }

@@ -9,8 +9,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices
     {
         IEnumerable<EventViewModel> GetEvents(string currentUserName);
 
-        void AddEvent(EventEnum type, string ownerUserName, string recipientUserName, string image);
+        void AddEvent(EventEnum type, string ownerUserName, string recipientUserName, string image, DateTime? time);
 
-        void DeleteEvent(string ownerUserName, string recipientUserName, DateTime time);
+        void AddEvent(EventEnum type, string ownerUserName, string image, DateTime? time);
+
+        void DeleteEvent(string ownerUserName, string recipientUserName, DateTime? time);
+
+        void DeleteEvent(string ownerUserName, DateTime? time, string image);
     }
 }

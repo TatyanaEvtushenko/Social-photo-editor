@@ -7,6 +7,8 @@ using SocialPhotoEditor.BuisnessLayer.ViewModels.EventViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
 using SociaPhotoEditor.Settings;
 
@@ -15,6 +17,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
     public class EventService : IEventService
     {
         private static readonly IEditedRepository<Event> EventRepository = new EventRepository();
+        private static readonly IChangedRepository<Image> ImageRepository = new ImageRepository();
 
         private static readonly IUserService UserService = new UserService();
 
@@ -34,7 +37,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                         });
         }
 
-        public void AddEvent(EventEnum type, string ownerUserName, string recipientUserName, string image)
+        public void AddEvent(EventEnum type, string ownerUserName, string recipientUserName, string image, DateTime? time)
         {
             var userEvent = new Event
             {
@@ -42,12 +45,18 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                 Image = image,
                 OwnerId = ownerUserName,
                 RecipientId = recipientUserName,
-                Time = DateTime.Now
+                Time = time
             };
             EventRepository.Add(userEvent);
         }
 
-        public void DeleteEvent(string ownerUserName, string recipientUserName, DateTime time)
+        public void AddEvent(EventEnum type, string ownerUserName, string image, DateTime? time)
+        {
+            var recipientUserName = ImageRepository.GetAll().FirstOrDefault(x => x.FileName == image)?.OwnerId;
+            AddEvent(type, ownerUserName, recipientUserName, image, time);
+        }
+
+        public void DeleteEvent(string ownerUserName, string recipientUserName, DateTime? time)
         {
             var userEvent = new Event
             {
@@ -56,6 +65,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                 Time = time
             };
             EventRepository.Delete(userEvent);
+        }
+
+        public void DeleteEvent(string ownerUserName, DateTime? time, string image)
+        {
+            var recipientUserName = ImageRepository.GetAll().FirstOrDefault(x => x.FileName == image)?.OwnerId;
+            DeleteEvent(ownerUserName, recipientUserName, time);
         }
     }
 }

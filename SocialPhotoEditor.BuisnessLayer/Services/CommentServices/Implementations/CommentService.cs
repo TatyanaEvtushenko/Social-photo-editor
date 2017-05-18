@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
+using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 
@@ -11,6 +14,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
     public class CommentService : ICommentService
     {
         private static readonly IChangedRepository<Comment> CommentRepository = new CommentRepository();
+
+        private static readonly IEventService EventService = new EventService();
 
         public int GetCommentsCount(string imageId)
         {
@@ -40,12 +45,14 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 RecipientId = recipientUserName
             };
             CommentRepository.Add(comment);
+            EventService.AddEvent(EventEnum.Comment, commentatorUserName, recipientUserName, imageId, time);
         }
 
         public void DeleteComment(string commentatorUserName, string imageId, DateTime time)
         {
             var comment = new Comment {CommentatorId = commentatorUserName, Time = time, ImageId = imageId};
             CommentRepository.Delete(comment);
+            EventService.DeleteEvent(commentatorUserName, time, imageId);
         }
     }
 }
