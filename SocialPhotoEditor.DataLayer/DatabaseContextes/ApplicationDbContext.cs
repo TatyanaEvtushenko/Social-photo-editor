@@ -30,6 +30,7 @@ namespace SocialPhotoEditor.DataLayer.DatabaseContextes
             modelBuilder.Entity<Like>().HasKey(x => new {x.ImageId, x.OwnerId});
             modelBuilder.Entity<Comment>().HasKey(x => new { x.ImageId, x.CommentatorId, x.Time });
             modelBuilder.Entity<City>().HasKey(x => new { x.CountryName, x.Name });
+            modelBuilder.Entity<Event>().HasKey(x => new { x.Time, x.RecipientId, x.OwnerId });
             base.OnModelCreating(modelBuilder);
         }
     }
