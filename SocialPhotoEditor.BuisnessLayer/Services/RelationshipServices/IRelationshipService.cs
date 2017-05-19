@@ -5,9 +5,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices
 {
     public interface IRelationshipService
     {
-        void Subscribe(string followerName, string userName);
+        string AddSubscription(string followerName, string userName);
 
-        void Unsubscribe(string followerName, string userName);
+        bool DeleteSubscription(string id);
 
         IEnumerable<UserRelationshipListViewModel> GetSubscribers(string currentUserName, string userName);
 

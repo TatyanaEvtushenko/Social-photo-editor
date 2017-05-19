@@ -6,7 +6,5 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CountryServices
     public interface ICountryService
     {
         IEnumerable<CountryViewModel> GetCountries();
-
-        LocationViewModel GetLocation(int cityId);
     }
 }

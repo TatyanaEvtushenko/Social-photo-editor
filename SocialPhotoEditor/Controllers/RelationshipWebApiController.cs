@@ -24,12 +24,12 @@ namespace SocialPhotoEditor.Controllers
 
         public void Put(string userName)
         {
-            Service.Subscribe(User.Identity.Name, userName);
+            Service.AddSubscription(User.Identity.Name, userName);
         }
 
-        public void Delete(string userName)
+        public void Delete(string id)
         {
-            Service.Unsubscribe(User.Identity.Name, userName);
+            Service.DeleteSubscription(id);
         }
     }
 }

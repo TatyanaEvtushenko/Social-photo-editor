@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
+using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 
@@ -11,6 +13,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
     public class CommentService : ICommentService
     {
         private static readonly IChangedRepository<Comment> CommentRepository = new CommentRepository();
+
+        private static readonly IEventService EventService = new EventService();
 
         public int GetCommentsCount(string imageId)
         {
@@ -29,23 +33,31 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
             });
         }
 
-        public void AddComment(string commentatorUserName, string imageId, string text, DateTime time, string recipientUserName)
+        public string AddComment(string commentatorUserName, string imageId, string text, string recipientUserName)
         {
             var comment = new Comment
             {
                 CommentatorId = commentatorUserName,
                 ImageId = imageId,
                 Text = text,
-                Time = time,
                 RecipientId = recipientUserName
             };
-            CommentRepository.Add(comment);
+            var commentId = CommentRepository.Add(comment);
+            if (commentId != null)
+            {
+                EventService.AddEvent(EventEnum.Comment, recipientUserName, commentId);
+            }
+            return commentId;
         }
 
-        public void DeleteComment(string commentatorUserName, string imageId, DateTime time)
+        public bool DeleteComment(string id)
         {
-            var comment = new Comment {CommentatorId = commentatorUserName, Time = time, ImageId = imageId};
-            CommentRepository.Delete(comment);
+            var result = CommentRepository.Delete(id);
+            if (result)
+            {
+                EventService.DeleteEvent(EventEnum.Comment, id);
+            }
+            return result;
         }
     }
 }
