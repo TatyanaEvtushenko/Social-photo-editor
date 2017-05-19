@@ -25,7 +25,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
 
         public ImageViewModel GetImage(string currentUserName, string imageId)
         {
-            var image = ImageRepository.GetAll().FirstOrDefault(x => x.FileName == imageId);
+            var image = ImageRepository.GetFirst(imageId);
             if (image == null)
                 return null;
             var likes = LikeRepository.GetAll().Where(x => x.ImageId == imageId);

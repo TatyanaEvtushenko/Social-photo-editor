@@ -14,6 +14,14 @@ namespace SocialPhotoEditor.DataLayer.Repositories.Implementations
                 return db.Cities.ToList();
             }
         }
+
+        public City GetFirst(string id)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                return db.Cities.FirstOrDefault(x => x.Id == id);
+            }
+        }
     }
 }
 

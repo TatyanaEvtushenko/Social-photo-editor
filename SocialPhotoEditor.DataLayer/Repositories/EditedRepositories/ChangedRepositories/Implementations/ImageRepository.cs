@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -15,46 +16,71 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
             }
         }
 
-        public List<Image> Take(int count)
+        public Image GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Images.Take(count).ToList();
+                return db.Images.FirstOrDefault(x => x.FileName == id);
             }
         }
 
-        public void Add(Image data)
+        public string Add(Image data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                if (db.Images.FirstOrDefault(x => x.OwnerId == data.OwnerId) != null)
-                    return;
-                db.Images.Add(data);
-                db.SaveChanges();
+                data.Time = DateTime.Now;
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.Images.FirstOrDefault(x => x.FileName == data.FileName) != null)
+                        return null;
+                    db.Images.Add(data);
+                    db.SaveChanges();
+                }
+                return data.FileName;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
-        public void Update(Image data)
+        public bool Delete(string id)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                var image = db.Images.FirstOrDefault(x => x.FileName == data.FileName);
-                if (image == null)
-                    return;
-                image.FolderId = data.FolderId;
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.Images.FirstOrDefault(x => x.FileName == id);
+                    if (data == null)
+                        return false;
+                    db.Images.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        public void Delete(Image data)
+        public bool Update(string id, Image data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                data = db.Images.FirstOrDefault(x => x.FileName == data.FileName);
-                if (data == null)
-                    return;
-                db.Images.Remove(data);
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var image = db.Images.FirstOrDefault(x => x.FileName == id);
+                    if (image == null)
+                        return false;
+                    image.FolderId = data.FolderId;
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

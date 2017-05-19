@@ -19,18 +19,25 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
         private static readonly IUserService UserService = new UserService();
         private static readonly IEventService EventService = new EventService();
 
-        public void Subscribe(string followerName, string userName)
+        public string AddSubscription(string followerName, string userName)
         {
-            var relationship = new Subscriber {SubscriberName = followerName, UserName = userName};
-            SubscriberRepository.Add(relationship);
-            EventService.AddEvent(EventEnum.Subscription, followerName, userName, null, null);
+            var relationship = new Subscriber { SubscriberName = followerName, UserName = userName };
+            var id = SubscriberRepository.Add(relationship);
+            if (id != null)
+            {
+                EventService.AddEvent(EventEnum.Comment, id, userName);
+            }
+            return id;
         }
 
-        public void Unsubscribe(string followerName, string userName)
+        public bool DeleteSubscription(string id)
         {
-            var relationship = new Subscriber {SubscriberName = followerName, UserName = userName};
-            SubscriberRepository.Delete(relationship);
-            EventService.DeleteEvent(followerName, userName, null);
+            var result = SubscriberRepository.Delete(id);
+            if (result)
+            {
+                EventService.DeleteEvent(EventEnum.Subscription, id);
+            }
+            return result;
         }
 
         public IEnumerable<UserRelationshipListViewModel> GetSubscribers(string currentUserName, string userName)

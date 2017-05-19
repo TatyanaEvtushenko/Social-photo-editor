@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocialPhotoEditor.BuisnessLayer.ViewModels.CountryViewModels;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Enums;
 
 namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
@@ -15,7 +15,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string Surname { get; set; }
 
-        public LocationViewModel Location { get; set; }
+        public City Location { get; set; }
 
         public DateTime? Birthday { get; set; }
 

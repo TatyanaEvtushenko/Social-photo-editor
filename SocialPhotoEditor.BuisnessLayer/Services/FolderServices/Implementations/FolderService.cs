@@ -24,21 +24,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
         private static readonly ICommentService CommentService = new CommentService();
         private static readonly ILikeService LikeService = new LikeService();
 
-        private IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count)
-        {
-            var images = ImageRepository.GetAll();
-            var imagesInFolder = images.Where(x => x.FolderId == folderId);
-            if (!imagesInFolder.Any())
-                imagesInFolder = images.Where(x => x.OwnerId == folderId);
-            return imagesInFolder.Take(count).Select(x => new ImageListViewModel
-            {
-                FileName = x.FileName,
-                CommentsCount = CommentService.GetCommentsCount(x.FileName),
-                LikesCount = LikeService.GetLikesCount(x.FileName),
-                CreatingTime = x.Time
-            });
-        }
-
         public IEnumerable<FolderListViewModel> GetFolderLists(string userName)
         {
             return FolderRepository.GetAll().Where(x => x.OwnerId == userName).Select(x =>
@@ -52,12 +37,19 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
 
         public FolderViewModel GetFolder(string folderId)
         {
-            var count = IntSettings.CountImageLists;
-            return new FolderViewModel
+            var folder = new FolderViewModel {Subscribe = FolderRepository.GetFirst(folderId).Subscribe};
+            var images = ImageRepository.GetAll();
+            var imagesInFolder = images.Where(x => x.FolderId == folderId);
+            if (!imagesInFolder.Any())
+                imagesInFolder = images.Where(x => x.OwnerId == folderId);
+            folder.Images = imagesInFolder.Take(IntSettings.CountImageLists).Select(x => new ImageListViewModel
             {
-                Subscribe = FolderRepository.GetAll().FirstOrDefault(x => x.Id == folderId)?.Subscribe,
-                Images = GetImageLists(folderId, count)
-            };
+                FileName = x.FileName,
+                CommentsCount = CommentService.GetCommentsCount(x.FileName),
+                LikesCount = LikeService.GetLikesCount(x.FileName),
+                CreatingTime = x.Time
+            });
+            return folder;
         }
     }
 }

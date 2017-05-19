@@ -6,20 +6,22 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 {
     public class Event
     {
+        [Key]
+        public string Id { get; set; }
+
         [Required]
-        public EventEnum EventType { get; set; }
+        public EventEnum Type { get; set; }
 
-        [Key]
+        [Required]
+        public string TypeElementId { get; set; }
+
+        [Required]
         public string RecipientId { get; set; }
-
-        [Key]
-        public string OwnerId { get; set; }
         
-        [Key]
-        public DateTime? Time { get; set; }
+        [Required]
+        public DateTime Time { get; set; }
 
-        public string Image { get; set; }
-
+        [Required]
         public bool IsSeen { get; set; }
     }
 }

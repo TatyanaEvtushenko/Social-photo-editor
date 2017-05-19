@@ -85,7 +85,6 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\CommentViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModels\CountryViewModel.cs" />
-    <Compile Include="ViewModels\CountryViewModels\LocationViewModel.cs" />
     <Compile Include="ViewModels\EventViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\FolderViewModels\FolderViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModels\ImageListViewModel.cs" />

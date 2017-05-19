@@ -4,8 +4,8 @@
     {
         int GetLikesCount(string imageId);
 
-        void AddLike(string currentUserName, string imageId);
+        string AddLike(string currentUserName, string imageId);
 
-        void DeleteLike(string currentUserName, string imageId);
+        bool DeleteLike(string id);
     }
 }

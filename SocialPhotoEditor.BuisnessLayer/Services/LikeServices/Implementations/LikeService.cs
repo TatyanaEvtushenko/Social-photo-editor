@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.EventServices;
 using SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -15,18 +14,25 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations
 
         private static readonly IEventService EventService = new EventService();
 
-        public void AddLike(string currentUserName, string imageId)
+        public string AddLike(string currentUserName, string imageId)
         {
             var like = new Like { ImageId = imageId, OwnerId = currentUserName };
-            LikeRepository.Add(like);
-            EventService.AddEvent(EventEnum.Like, currentUserName, imageId, null);
+            var likeId = LikeRepository.Add(like);
+            if (likeId != null)
+            {
+                EventService.AddEvent(imageId, EventEnum.Like, likeId);
+            }
+            return likeId;
         }
 
-        public void DeleteLike(string currentUserName, string imageId)
+        public bool DeleteLike(string id)
         {
-            var like = new Like { ImageId = imageId, OwnerId = currentUserName };
-            LikeRepository.Delete(like);
-            EventService.DeleteEvent(currentUserName, null, imageId);
+            var result = LikeRepository.Delete(id);
+            if (result)
+            {
+                EventService.DeleteEvent(EventEnum.Like, id);
+            }
+            return result;
         }
 
         public int GetLikesCount(string imageId)

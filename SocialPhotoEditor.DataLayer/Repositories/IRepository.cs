@@ -5,5 +5,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories
     public interface IRepository<T>
     {
         List<T> GetAll();
+
+        T GetFirst(string id);
     }
 }

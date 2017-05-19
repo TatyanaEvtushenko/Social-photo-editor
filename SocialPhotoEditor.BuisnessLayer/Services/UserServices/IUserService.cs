@@ -13,7 +13,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 
         UserPageViewModel GetUserPage(string userName, string currentUserName);
 
-        void ChangeAvatar(string userName, string imageFileName);
+        bool ChangeAvatar(string userName, string imageFileName);
 
         IEnumerable<UserRelationshipListViewModel> GetRelationshipList(string currentUserName, IEnumerable<string> userNames);
     }
