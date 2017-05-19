@@ -18,7 +18,7 @@
             return null;
         }
 
-        $scope.getAge = function (birthday) {
+        $scope.getAge = function(birthday) {
             if (birthday == null)
                 return null;
             var date = new Date(birthday);
@@ -27,7 +27,15 @@
             if ((dateNow.getMonth() < date.getMonth()) || (dateNow.getMonth() === date.getMonth() && dateNow.getDate() < date.getDate()))
                 return yearSubtract - 1;
             return yearSubtract;
-        }
+        };
+
+        $scope.getSquareImage = function(id) {
+            var width = $("#" + id).attr("width");
+            var height = $("#" + id).attr("height");
+            width = min(width, height);
+            $("#" + id).width(width);
+            $("#" + id).height(width);
+        };
 
         $scope.getAvatar = function (fileName) {
             return fileName == null ? "/Content/avatar.jpg" : fileName;
