@@ -1,7 +1,16 @@
-﻿namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices
+﻿using System.Collections.Generic;
+using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
+
+namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices
 {
     public interface IRelationshipService
     {
-        bool CheckSubscription(string userName, string subscriberUserName);
+        string AddSubscription(string followerName, string userName);
+
+        bool DeleteSubscription(string id);
+
+        IEnumerable<UserRelationshipListViewModel> GetSubscribers(string currentUserName, string userName);
+
+        IEnumerable<UserRelationshipListViewModel> GetSubscriptions(string currentUserName, string userName);
     }
 }

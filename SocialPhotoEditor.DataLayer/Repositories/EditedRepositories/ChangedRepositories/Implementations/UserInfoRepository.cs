@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -11,51 +12,81 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.UserInfos.Select(x => x).ToList();
+                return db.UserInfos.ToList();
             }
         }
 
-        public List<UserInfo> Take(int count)
+        public UserInfo GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.UserInfos.Take(count).ToList();
+                return db.UserInfos.FirstOrDefault(x => x.UserName == id);
             }
         }
 
-        public void Add(UserInfo data)
+        public string Add(UserInfo data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                db.UserInfos.Add(data);
-                db.SaveChanges();
+                data.RegisterDate = DateTime.Now;
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.UserInfos.FirstOrDefault(x => x.UserName == data.UserName) != null)
+                        return null;
+                    db.UserInfos.Add(data);
+                    db.SaveChanges();
+                }
+                return data.UserName;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
-        public void Update(UserInfo data)
+        public bool Delete(string id)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                var info = db.UserInfos.FirstOrDefault(x => x.UserName == data.UserName);
-                if (info == null)
-                    return;
-                info.AvatarFileName = data.AvatarFileName;
-                info.Birthday = data.Birthday;
-                info.CityId = data.CityId;
-                info.Name = data.Name;
-                info.Surname = data.Surname;
-                info.Subscribe = data.Subscribe;
-                info.Sex = data.Sex;
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.UserInfos.FirstOrDefault(x => x.UserName == id);
+                    if (data == null)
+                        return false;
+                    db.UserInfos.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        public void Delete(UserInfo data)
+        public bool Update(string id, UserInfo data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                db.UserInfos.Remove(data);
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var info = db.UserInfos.FirstOrDefault(x => x.UserName == id);
+                    if (info == null)
+                        return false;
+                    info.AvatarFileName = data.AvatarFileName;
+                    info.Birthday = data.Birthday;
+                    info.CityId = data.CityId;
+                    info.Name = data.Name;
+                    info.Surname = data.Surname;
+                    info.Subscribe = data.Subscribe;
+                    info.Sex = data.Sex;
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

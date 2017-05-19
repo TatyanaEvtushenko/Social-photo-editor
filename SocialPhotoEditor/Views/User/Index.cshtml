@@ -2,33 +2,42 @@
     ViewBag.Title = "Users";
 }
 
+@Scripts.Render("~/bundles/user-list")
+
 <h2>Users</h2>
-<div ng-controller="UsersController">
+<div ng-controller="UserListController">
+    @Html.Partial("ImageModal")
     <div class="row">
         <div class="col-md-9">
-            <div ng-repeat="user in filteredUserLists track by $index">
-                <a href="~/User/Page?userName={{user.UserName}}">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар" />
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="username">{{user.UserName}}</p>
-                                    <p class="name">{{user.Name}}</p>
-                                    <p ng-if="user.Age !== 0" ng-click="changeFilterAge(user.Age)">{{user.Age}}</p>
-                                    <p ng-click="">{{user.Country}}</p>
-                                    <p ng-click="">{{user.City}}</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
-                                    <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
-                                </div>
+            <div class="panel panel-default" ng-repeat="user in filteredUserLists track by $index">
+                <div class="panel-body row">
+                    <a href="~/User/Page?userName={{user.UserName}}">
+                        <div class="col-md-2">
+                            <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
+                        </div>
+                        <div class="col-md-8">
+                            <h5><strong>{{user.UserName}}</strong></h5>
+                            <div class="name">{{user.Name}} {{user.Surname}}</div>   
+                            <span ng-if="user.Birthday != null" ng-click="changeFilterAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span>
+                            <div ng-if="user.Location != null">
+                                <span ng-click="">{{user.Location.Country}}</span><span ng-click="">, {{user.Location.City}}</span>
                             </div>
                         </div>
+                    </a>
+                    <div class="col-md-2" ng-if="user.UserName != currentUserName">
+                        <button ng-if="user.IsSubscriber" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="!user.IsSubscriber" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
                     </div>
-                </a>
+                </div>
+                <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-3" ng-repeat="fileName in user.PopularImages track by $index">
+                            <a href="#imageModal" class="thumbnail" data-toggle="modal">
+                                <img src="{{fileName}}" ng-click="getImage(fileName)" >
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -49,17 +58,6 @@
                         </select>
                     </div>
                 </li>
-                @*<li class="list-group-item">
-                    <div class="input-group">
-                        <label for="categorie">Искать среди</label>
-                        <select id="categorie" class="form-control">
-                            <option value="sort_data">Всех пользователей</option>
-                            <option value="sort_popular">Подписчиков</option>
-                            <option value="sort_data">Подписок</option>
-                            <option value="sort_popular">Друзей</option>
-                        </select>
-                    </div>
-                </li>*@
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="min_age">Возраст</label>
@@ -96,5 +94,4 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/Angular/users.service.js"></script>
-<script src="~/Scripts/Angular/users.controller.js"></script>
+

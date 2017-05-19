@@ -8,33 +8,11 @@ namespace SocialPhotoEditor.Controllers
 {
     public class CountryWebApiController : ApiController
     {
-        private static ICountryService service = new CountryService();
-
-        // GET: api/LandsWebAPI
+        private static readonly ICountryService Service = new CountryService();
+        
         public IEnumerable<CountryViewModel> Get()
         {
-            return service.GetCountries();
-        }
-
-        // GET: api/LandsWebAPI/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/LandsWebAPI
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/LandsWebAPI/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/LandsWebAPI/5
-        public void Delete(int id)
-        {
+            return Service.GetCountries();
         }
     }
 }

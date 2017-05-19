@@ -2,8 +2,8 @@
 {
     public interface IEditedRepository<T> : IRepository<T>
     {
-        void Add(T data);
+        string Add(T data);
 
-        void Delete(T data);
+        bool Delete(string id);
     }
 }

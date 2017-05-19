@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -11,25 +12,55 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.Subscribers.Select(x => x).ToList();
+                return db.Subscribers.ToList();
             }
         }
 
-        public void Add(Subscriber data)
+        public Subscriber GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                db.Subscribers.Add(data);
-                db.SaveChanges();
+                return db.Subscribers.FirstOrDefault(x => x.Id == id);
             }
         }
 
-        public void Delete(Subscriber data)
+        public string Add(Subscriber data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                db.Subscribers.Remove(data);
-                db.SaveChanges();
+                data.Id = data.UserName + data.SubscriberName + DateTime.Now;
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.Subscribers.FirstOrDefault(x => x.Id == data.Id) != null)
+                        return null;
+                    db.Subscribers.Add(data);
+                    db.SaveChanges();
+                }
+                return data.Id;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool Delete(string id)
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.Subscribers.FirstOrDefault(x => x.Id == id);
+                    if (data == null)
+                        return false;
+                    db.Subscribers.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }
