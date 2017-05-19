@@ -9,7 +9,7 @@ namespace SocialPhotoEditor.Controllers
     public class UserWebApiController : ApiController
     {
         private static readonly IUserService Service = new UserService();
-        
+
         public IEnumerable<UserListViewModel> Get()
         {
             return Service.GetUserLists(User.Identity.Name); ;

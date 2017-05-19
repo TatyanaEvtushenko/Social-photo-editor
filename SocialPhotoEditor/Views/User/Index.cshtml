@@ -13,20 +13,20 @@
                 <div class="panel-body row">
                     <a href="~/User/Page?userName={{user.UserName}}">
                         <div class="col-md-2">
-                            <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
+                            <img class="medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар"/>
                         </div>
                         <div class="col-md-8">
                             <h5><strong>{{user.UserName}}</strong></h5>
                             <div class="name">{{user.Name}} {{user.Surname}}</div>   
                             <span ng-if="user.Birthday != null" ng-click="changeFilterAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span>
                             <div ng-if="user.Location != null">
-                                <span ng-click="">{{user.Location.Country}}</span><span ng-click="">, {{user.Location.City}}</span>
+                                <span ng-click="">{{user.Location.CountryName}}</span><span ng-click="">, {{user.Location.CityName}}</span>
                             </div>
                         </div>
                     </a>
-                    <div class="col-md-2" ng-if="user.UserName != currentUserName">
-                        <button ng-if="user.IsSubscriber" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="!user.IsSubscriber" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
+                    <div class="col-md-2" ng-if="user.UserName != currentUser.User.UserName">
+                        <button ng-if="user.SubscriptionId != null" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="user.SubscriptionId == null" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
                     </div>
                 </div>
                 <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
@@ -65,28 +65,29 @@
                         <input id="min_age" type="number" min="0" max="99" placeholder="От" ng-model="minAge" ng-change="filterUsers()"/> -
                         <input id="max_age" type="number" min="0" max="99" placeholder="До" ng-model="maxAge" ng-change="filterUsers()"/>
                         <br/><br/>
+
                         <label for="sex">Пол</label>
                         <select id="sex" class="form-control">
-                            <option value="defaulte">Не выбран</option>
+                            <option value="default">Не выбран</option>
                             <option value="male">Мужской</option>
                             <option value="female">Женский</option>
                         </select>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
-                        <label for="land">Страна</label>
-                        <select id="land" class="form-control">
-                            <option value="defaulte">Не выбрана</option>
-                            @*@foreach (var land in ViewBag.Lands)
-                            {
-                                <option value="@land.Id">@land.Name</option>
-                            }*@
+                        <label for="country">Страна</label>
+                        <select ng-change="selectCountry(null)" id="country" class="form-control">
+                            <option value="default">Не выбрана</option>
+                            <option ng-repeat="country in countries track by $index">{{country.Name}}</option>
                         </select>
                         <br/><br/><br/><br/>
-                        <label for="city">Город</label>
-                        <select id="city" class="form-control" disabled="disabled">
-                            <option value="defaulte">Не выбран</option>
+
+                        <label for="citiesSelect">Город</label>
+                        <select id="citiesSelect" name="citiesSelect" class="form-control" disabled="disabled">
+                            <option value="default">Не выбран</option>
+                            <option ng-repeat="city in cities track by $index">{{city}}</option>
                         </select>
                     </div>
                 </li>

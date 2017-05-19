@@ -22,14 +22,14 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetSubscriptions(User.Identity.Name, userName);
         }
 
-        public void Put(string userName)
+        public string Put(string userName)
         {
-            Service.AddSubscription(User.Identity.Name, userName);
+            return Service.AddSubscription(User.Identity.Name, userName);
         }
 
-        public void Delete(string id)
+        public bool Delete(string id)
         {
-            Service.DeleteSubscription(id);
+            return Service.DeleteSubscription(id);
         }
     }
 }

@@ -1,46 +1,78 @@
 ﻿app.controller("UserListController", [
     "$scope", "UserListService", function ($scope, UserListService) {
 
+        $scope.searchString = $scope.getParamFromUrl("searchString");
+        var cityName = null;
+        var countryName = null;
+
+        UserListService.getCountries().then(function (http) {
+            $scope.countries = http.data;
+        }, function (error) {
+            console.log("Error from server! (countries)");
+        });
+
+        $scope.selectCountry = function (country) {
+            alert(country);
+            cityName = null;
+            $("#citiesSelect [value='default']").attr("selected", "selected");
+
+            if (country === null) {
+                countryName = null;
+                $scope.cities = null;
+                $("#citiesSelect").attr("disabled", "disabled");
+            } else {
+                country = country.Name;
+                $scope.cities = country.Cities;
+                $("#citiesSelect").attr("disabled", "");
+            }
+        }
+
+        $scope.selectCity = function (country) {
+            if (country === null) {
+                $scope.country = null;
+                $scope.cities = null;
+            } else {
+                $scope.country = country.Name;
+                $scope.cities = country.Cities;
+            }
+        }
+
+
+
+
+
         UserListService.getUserList().then(function (http) {
             $scope.filteredUserLists = $scope.userLists = http.data;
         }, function (error) {
             console.log("Error from server! (user lists)");
         });
 
-        $scope.minAge = 0;
-        $scope.maxAge = 99;
-        $scope.searchString = "";
-
-        $scope.getAge = function (birthday) {
-            if (birthday == null)
-                return null;
-            var date = new Date(birthday);
-            var dateNow = new Date(Date.now());
-            var yearSubtract = dateNow.getFullYear() - date.getFullYear();
-            if ((dateNow.getMonth() < date.getMonth()) || (dateNow.getMonth() === date.getMonth() && dateNow.getDate() < date.getDate()))
-                return yearSubtract - 1;
-            return yearSubtract;
-        }
-
         $scope.getImage = function (fileName) {
             $scope.imageId = fileName;
         }
 
+
+
         $scope.subscribe = function (index) {
             UserListService.subscribe($scope.filteredUserLists[index].UserName).then(function (http) {
-                $scope.filteredUserLists[index].IsSubscriber = true;
+                $scope.filteredUserLists[index].SubscriptionId = http.data;
             }, function (error) {
                 console.log("Error from server! (subscribe)");
             });
         }
 
         $scope.unsubscribe = function (index) {
-            UserListService.unsubscribe($scope.filteredUserLists[index].UserName).then(function (http) {
-                $scope.filteredUserLists[index].IsSubscriber = false;
+            UserListService.unsubscribe($scope.filteredUserLists[index].SubscriptionId).then(function (http) {
+                if (http.data) {
+                    $scope.filteredUserLists[index].SubscriptionId = null;
+                }
             }, function (error) {
                 console.log("Error from server! (unsubscribe)");
             });
         }
+
+
+
 
         $scope.filterUserLists = function () {
             $scope.filteredUserLists = $scope.userLists.filter(function (user) {

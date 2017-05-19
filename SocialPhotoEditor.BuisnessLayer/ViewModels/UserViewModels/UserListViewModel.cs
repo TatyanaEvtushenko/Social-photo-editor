@@ -21,7 +21,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public SexEnum Sex { get; set; } = SexEnum.Unknown;
 
-        public bool IsSubscriber { get; set; }
+        public string SubscriptionId { get; set; }
 
         public DateTime RegisterDate { get; set; }
 

@@ -46,9 +46,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             return images.OrderByDescending(x => LikeService.GetLikesCount(x.FileName)).Take(count).Select(x => x.FileName);
         }
 
-        private static bool CheckSubscription(string userName, string subscriberUserName)
+        private static string GetSubscriptionId(string userName, string subscriberUserName)
         {
-            return SubscriberRepository.GetAll().FirstOrDefault(x => x.UserName == userName && x.SubscriberName == subscriberUserName) != null;
+            return SubscriberRepository.GetAll().FirstOrDefault(x => x.UserName == userName && x.SubscriberName == subscriberUserName)?.Id;
         }
 
         private static int GetSubscribersCount(string userName)
@@ -84,7 +84,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                     RegisterDate = info.RegisterDate,
                     Popularity = GetPopularity(userImages),
                     PopularImages = GetPopularImages(userImages),
-                    IsSubscriber = CheckSubscription(info.UserName, currentUserName)
+                    SubscriptionId = GetSubscriptionId(info.UserName, currentUserName)
                 };
         }
 
@@ -123,7 +123,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 Folders = FolderService.GetFolderLists(userName),
                 SubscribersCount = GetSubscribersCount(userName),
                 SubscriptionsCount = GetSubscriptionsCount(userName),
-                IsSubscriber = CheckSubscription(userName, currentUserName),
+                SubscriptionId = GetSubscriptionId(userName, currentUserName),
             };
         }
 
@@ -138,7 +138,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                     Name = info?.Name,
                     Surname = info?.Surname,
                     UserName = userName,
-                    IsSubscriber = CheckSubscription(userName, currentUserName)
+                    SubscriptionId = GetSubscriptionId(userName, currentUserName)
                 };
         }
 
