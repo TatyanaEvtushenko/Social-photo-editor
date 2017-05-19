@@ -4,9 +4,9 @@ using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 
-namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations
+namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations
 {
-    public class EventRepository : IEditedRepository<Event>
+    public class EventRepository : IChangedRepository<Event>
     {
         public List<Event> GetAll()
         {
@@ -56,6 +56,26 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
                     if (data == null)
                         return false;
                     db.Events.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool Update(string id, Event data)
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var userEvent = db.Events.FirstOrDefault(x => x.Id == id);
+                    if (userEvent == null)
+                        return false;
+                    userEvent.IsSeen = data.IsSeen;
                     db.SaveChanges();
                 }
                 return true;

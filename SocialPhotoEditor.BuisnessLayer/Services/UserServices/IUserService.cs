@@ -5,6 +5,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 {
     public interface IUserService
     {
+        CurrentUserViewModel GetCurrentUser(string userName);
+
         void AddUserInfo(string userName);
 
         IEnumerable<UserListViewModel> GetUserLists(string currentUserName);

@@ -9,9 +9,9 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IUserService Service = new UserService();
         
-        public UserMinInfoViewModel Get()
+        public CurrentUserViewModel Get()
         {
-            return Service.GetUserMinInfo(User.Identity.Name);
+            return Service.GetCurrentUser(User.Identity.Name);
         }
     }
 }

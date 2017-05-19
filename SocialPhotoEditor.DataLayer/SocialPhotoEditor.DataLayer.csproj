@@ -154,6 +154,14 @@
     <Compile Include="Migrations\201705190843340_reorganizeDB_version24.Designer.cs">
       <DependentUpon>201705190843340_reorganizeDB_version24.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705190934268_reorganizeDB_version25.cs" />
+    <Compile Include="Migrations\201705190934268_reorganizeDB_version25.Designer.cs">
+      <DependentUpon>201705190934268_reorganizeDB_version25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705190935181_reorganizeDB_version26.cs" />
+    <Compile Include="Migrations\201705190935181_reorganizeDB_version26.Designer.cs">
+      <DependentUpon>201705190935181_reorganizeDB_version26.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\IChangedRepository.cs" />
@@ -162,7 +170,7 @@
     <Compile Include="Repositories\EditedRepositories\IEditedRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\ImageRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\AvatarRepository.cs" />
-    <Compile Include="Repositories\EditedRepositories\Implementations\EventRepository.cs" />
+    <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\EventRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\LikeRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\UserInfoRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\SubscriberRepository.cs" />
@@ -236,6 +244,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705190843340_reorganizeDB_version24.resx">
       <DependentUpon>201705190843340_reorganizeDB_version24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705190934268_reorganizeDB_version25.resx">
+      <DependentUpon>201705190934268_reorganizeDB_version25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705190935181_reorganizeDB_version26.resx">
+      <DependentUpon>201705190935181_reorganizeDB_version26.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

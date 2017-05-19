@@ -6,7 +6,7 @@ using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
-using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
+using SocialPhotoEditor.DataLayer.Repositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
@@ -17,8 +17,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
     public class ImageService : IImageService
     {
         private static readonly IChangedRepository<Image> ImageRepository = new ImageRepository();
-        private static readonly IEditedRepository<Like> LikeRepository = new LikeRepository();
-        private static readonly IEditedRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
+        private static readonly IRepository<Like> LikeRepository = new LikeRepository();
+        private static readonly IRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
 
         private static readonly ICommentService CommentService = new CommentService();
         private static readonly IUserService UserService = new UserService();

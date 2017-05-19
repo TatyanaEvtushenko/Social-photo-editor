@@ -6,7 +6,7 @@ using SocialPhotoEditor.BuisnessLayer.ViewModels.EventViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories;
-using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
 using SociaPhotoEditor.Settings;
@@ -15,7 +15,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
 {
     public class EventService : IEventService
     {
-        private static readonly IEditedRepository<Event> EventRepository = new EventRepository();
+        private static readonly IChangedRepository<Event> EventRepository = new EventRepository();
         private static readonly IRepository<Image> ImageRepository = new ImageRepository();
         private static readonly IRepository<Comment> CommentRepository = new CommentRepository();
         private static readonly IRepository<Like> LikeRepository = new LikeRepository();
@@ -53,6 +53,13 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                 result.Add(eventViewModel);
             }
             return result;
+        }
+
+        public int SeeNewEvents(string userName)
+        {
+            var events = EventRepository.GetAll().Where(x => x.RecipientId == userName && x.IsSeen == false);
+            var seenEvent = new Event {IsSeen = true};
+            return events.Count(x => EventRepository.Update(x.Id, seenEvent));
         }
 
         public void AddEvent(EventEnum type, string recipientUserName, string elementId)
