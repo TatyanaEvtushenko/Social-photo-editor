@@ -35,8 +35,8 @@
                 <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
                     <div class="row">
                         <div class="col-xs-4 col-md-2" ng-repeat="fileName in user.PopularImages track by $index">
-                            <a href="#imageModal" class="image_list tumbnail" data-toggle="modal">
-                                <img src="{{fileName}}" ng-click="getImage(fileName)">
+                            <a href="#imageModal" class="tumbnail" data-toggle="modal">
+                                <img class="image_list" src="{{fileName}}" ng-click="getImage(fileName)">
                             </a>
                         </div>
                     </div>

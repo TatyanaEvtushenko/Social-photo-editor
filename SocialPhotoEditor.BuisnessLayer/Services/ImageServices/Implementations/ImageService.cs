@@ -34,7 +34,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
                 FileName = image.FileName,
                 Comments = CommentService.GetComments(imageId),
                 LikesCount = likes.Count(),
-                IsLiked = likes.FirstOrDefault(x => x.OwnerId == currentUserName) != null,
+                LikeId = likes.FirstOrDefault(x => x.OwnerId == currentUserName)?.Id,
                 Time = image.Time,
                 Owner = UserService.GetUserMinInfo(image.OwnerId)
             };
@@ -50,7 +50,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
                 {
                     FileName = image.FileName,
                     Time = image.Time,
-                    IsLiked = likes.FirstOrDefault(x => x.OwnerId == currentUserName && x.ImageId == image.FileName) != null,
+                    LikeId = likes.FirstOrDefault(x => x.OwnerId == currentUserName && x.ImageId == image.FileName)?.Id,
                     LikesCount = likes.Count(x => x.ImageId == image.FileName),
                     Comments = CommentService.GetComments(image.FileName),
                     Owner = UserService.GetUserMinInfo(image.OwnerId)

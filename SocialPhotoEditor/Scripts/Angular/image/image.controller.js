@@ -1,57 +1,60 @@
 ﻿app.controller("ImageController", [
     "$scope", "ImageService", function ($scope, ImageService) {
 
-        $('#imageModal').on('show.bs.modal', function(e) {
+        $("#imageModal").on("show.bs.modal", function(e) {
             ImageService.getImage($scope.imageId).then(function(http) {
                 $scope.image = http.data;
+                if ($scope.image != null && $scope.image.length !== 0) {
+                    $scope.image.Comments.sort(function (a, b) {
+                        if (a.Time < b.Time) {
+                            return 1;
+                        }
+                        if (a.Time > b.Time) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }
             }, function(error) {
                 console.log("Error from server! (image)");
             });
         });
-
-        $scope.getDate = function(time) {
-            var date = new Date(time);
-            var dateNow = new Date(Date.now());
-            var count = dateNow.getFullYear() - date.getFullYear();
-            if (count >= 1)
-                return count.toString() + " г.";
-            count = dateNow.getMonth() - date.getMonth();
-            if (count >= 1)
-                return count.toString() + " мес.";
-            count = dateNow.getDate() - date.getDate();
-            if (count >= 1)
-                return count.toString() + " дн.";
-            count = dateNow.getHours() - date.getHours();
-            if (count >= 1)
-                return count.toString() + " ч.";
-            count = dateNow.getMinutes() - date.getMinutes();
-            if (count >= 1)
-                return count.toString() + " мин.";
-            count = dateNow.getSeconds() - date.getSeconds();
-            return count.toString() + " сек.";
-        }
-
-        $scope.answer = function (userName) {
-            $scope.answerUserName = userName;
-            $scope.commentText = '@' + userName + ', ';
+        
+        $scope.changeAvatar = function () {
+            $.cloudinary.image('sample.jpg', { width: 100, height: 150, crop: 'fill' });
+            alert("fghj");
+            //ImageService.changeAvatar($scope.image.FileName).then(function (http) {
+            //}, function (error) {
+            //    console.log("Error from server! (avatar)");
+            //});
+            //window.location.reload();
         }
 
         $scope.addLike = function () {
             ImageService.addLike($scope.image.FileName).then(function (http) {
-                $scope.image.IsLiked = true;
-                $scope.image.LikesCount++;
+                if (http.data != null) {
+                    $scope.image.LikeId = http.data;
+                    $scope.image.LikesCount++;
+                }
             }, function (error) {
                 console.log("Error from server! (add like)");
             });
         }
 
         $scope.deleteLike = function () {
-            ImageService.deleteLike($scope.image.FileName).then(function (http) {
-                $scope.image.IsLiked = false;
-                $scope.image.LikesCount--;
+            ImageService.deleteLike($scope.image.LikeId).then(function (http) {
+                if (http.data) {
+                    $scope.image.LikeId = null;
+                    $scope.image.LikesCount--;
+                }
             }, function (error) {
                 console.log("Error from server! (delete like)");
             });
+        }
+
+        $scope.answer = function (userName) {
+            $scope.answerUserName = userName;
+            $scope.commentText = '@' + userName + ', ';
         }
 
         $scope.addComment = function () {
@@ -61,36 +64,32 @@
             } else {
                 $scope.answerUserName = null;
             }
-            var time = new Date(Date.now());
-            ImageService.addComment(text, $scope.image.FileName, time, $scope.answerUserName).then(function (http) {
-                var comment = {};
-                comment.Text = text;
-                comment.Time = time;
-                comment.RecipientUserName = $scope.answerUserName;
-                comment.OwnerUserName = $scope.currentUserName;
-                $scope.image.Comments[$scope.image.Comments.length] = comment;
-                $scope.commentText = "";
+            ImageService.addComment(text, $scope.image.FileName, $scope.answerUserName).then(function (http) {
+                if (http.data != null) {
+                    var comment = {
+                        Text: text,
+                        Time: new Date(Date.now()),
+                        RecipientUserName: $scope.answerUserName,
+                        OwnerUserName: $scope.currentUser.User.UserName,
+                        Id: http.data
+                    };
+                    $scope.image.Comments[$scope.image.Comments.length] = comment;
+                    $scope.commentText = "";
+                }
             }, function (error) {
                 console.log("Error from server! (add comment)");
             });
         }
 
         $scope.deleteComment = function (index) {
-            var commentatorUserName = $scope.image.Comments[index].OwnerUserName;
-            var time = $scope.image.Comments[index].Time;
-            ImageService.deleteComment(commentatorUserName, $scope.image.FileName, time).then(function (http) {
-                $scope.image.Comments.splice(index, 1);
+            var id = $scope.image.Comments[index].Id;
+            ImageService.deleteComment(id).then(function (http) {
+                if (http.data) {
+                    $scope.image.Comments.splice(index, 1);
+                }
             }, function (error) {
                 console.log("Error from server! (delete comment)");
             });
-        }
-        
-        $scope.changeAvatar = function () {
-            ImageService.changeAvatar($scope.image.FileName).then(function (http) {
-            }, function (error) {
-                console.log("Error from server! (avatar)");
-            });
-            window.location.reload();
         }
     }
 ]);

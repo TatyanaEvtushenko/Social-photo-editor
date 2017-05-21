@@ -9,7 +9,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/cloudinary")
     @Scripts.Render("~/bundles/current-user")
 </head>
 <body data-ng-app="APIModule" ng-controller="CurrentUserController">
@@ -72,21 +74,21 @@
             }
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <div id="footer">
-                <div class="container">
-                    <ul class="list-inline" >
-                        <li><a href="~/Home/About">О программе</a></li>
-                        <li><a href="~/Home/Contact">Связь</a></li>
-                    </ul>
-                    <p class="text-muted">&copy; @DateTime.Now.Year – ФКСиС, ПОИТ, 4 семестр, курсовая работа по дисциплине КСиС, выполнила Евтушенко Татьяна (группа 551004)</p>
-                </div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <div id="footer">
+            <div class="container">
+                <ul class="list-inline">
+                    <li><a href="~/Home/About">О программе</a></li>
+                    <li><a href="~/Home/Contact">Связь</a></li>
+                </ul>
+                <p class="text-muted">&copy; @DateTime.Now.Year – ФКСиС, ПОИТ, 4 семестр, курсовая работа по дисциплине КСиС, выполнила Евтушенко Татьяна (группа 551004)</p>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+</div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

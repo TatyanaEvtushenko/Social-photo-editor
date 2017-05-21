@@ -8,7 +8,8 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IUserService Service = new UserService();
 
-        public void Put(string imageFileName)
+        [HttpPut]
+        public void ChangeAvatar(string imageFileName)
         {
             Service.ChangeAvatar(User.Identity.Name, imageFileName);
         }

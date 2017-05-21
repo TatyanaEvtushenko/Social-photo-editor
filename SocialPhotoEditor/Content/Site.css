@@ -48,6 +48,11 @@ textarea {
     height: 130px;
 }
 
+.comment_list {
+    height: 300px;
+    overflow-y: scroll;
+}
+
 
 
 

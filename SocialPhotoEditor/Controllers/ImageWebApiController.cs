@@ -10,12 +10,14 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IImageService Service = new ImageService();
         
-        public ImageViewModel Post(string imageFileName)
+        [HttpPost]
+        public ImageViewModel GetImage(string imageFileName)
         {
             return Service.GetImage(User.Identity.Name, imageFileName);
         }
         
-        public IEnumerable<ImageViewModel> Get()
+        [HttpGet]
+        public IEnumerable<ImageViewModel> GetNews()
         {
             return Service.GetNews(User.Identity.Name);
         }

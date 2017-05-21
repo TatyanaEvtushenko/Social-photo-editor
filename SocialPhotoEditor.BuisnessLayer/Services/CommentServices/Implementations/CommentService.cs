@@ -30,6 +30,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 RecipientUserName = x.RecipientId,
                 Text = x.Text,
                 Time = x.Time,
+                Id = x.Id
             });
         }
 
