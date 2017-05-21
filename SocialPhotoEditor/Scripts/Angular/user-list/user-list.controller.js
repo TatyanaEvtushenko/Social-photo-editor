@@ -89,17 +89,17 @@
         }
         
         $scope.subscribe = function (index) {
-            UserListService.subscribe($scope.filteredUserLists[index].UserName).then(function (http) {
-                $scope.filteredUserLists[index].SubscriptionId = http.data;
+            UserListService.subscribe($scope.userLists[index].UserName).then(function (http) {
+                $scope.userLists[index].SubscriptionId = http.data;
             }, function (error) {
                 console.log("Error from server! (subscribe)");
             });
         }
 
         $scope.unsubscribe = function (index) {
-            UserListService.unsubscribe($scope.filteredUserLists[index].SubscriptionId).then(function (http) {
+            UserListService.unsubscribe($scope.userLists[index].SubscriptionId).then(function (http) {
                 if (http.data) {
-                    $scope.filteredUserLists[index].SubscriptionId = null;
+                    $scope.userLists[index].SubscriptionId = null;
                 }
             }, function (error) {
                 console.log("Error from server! (unsubscribe)");
