@@ -12,8 +12,9 @@
                 return null;
             for (var i in params) {
                 var param = params[i].split("=");
-                if (param[0] === paramName)
+                if (param[0] === paramName) {
                     return param[1];
+                }
             }
             return null;
         }
@@ -36,6 +37,10 @@
             $("#" + id).width(width);
             $("#" + id).height(width);
         };
+        
+        $scope.getImage = function (fileName) {
+            $scope.imageId = fileName;
+        }
 
         $scope.getAvatar = function (fileName) {
             return fileName == null ? "/Content/avatar.jpg" : fileName;

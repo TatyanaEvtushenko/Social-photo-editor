@@ -1,12 +1,17 @@
-﻿@Scripts.Render("~/bundles/user-list")
+﻿@{
+    ViewBag.Title = "Поиск пользователей";
+}
+    
+@Scripts.Render("~/bundles/user-list")
 
 <div ng-controller="UserListController">
     <br/>
     @Html.Partial("ImageModal")
     <div class="row">
         <div class="col-md-9 user_list">
-            <h3><strong>Найдено {{filteredUserLists.length}} пользователей</strong></h3>
-            <div class="panel panel-default" ng-repeat="user in filteredUserLists track by $index">
+            <h3 ng-if="usersCount > 0"><strong>Найдено {{usersCount}} пользователей</strong></h3>
+            <h3 ng-if="usersCount <= 0"><strong>Пользователи не найдены</strong></h3>
+            <div class="panel panel-default" ng-repeat="user in userLists track by $index">
                 <div class="panel-body row">
                     <a href="~/User/Page?userName={{user.UserName}}">
                         <div class="col-md-2">
@@ -36,6 +41,7 @@
                     </div>
                 </div>
             </div>
+            <button ng-if="usersCount > userLists.length" ng-click="getMoreUserList()" type="button" class="btn btn-default">Загрузить еще пользователей</button>
         </div>
 
         <div class="col-md-3">
@@ -43,48 +49,50 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="input-group-lg">
-                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="filterUsers()">
+                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-enter="getUserList(0)">
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="sort">Сортировать</label>
-                        <select id="sort" class="form-control">
-                            <option value="sort_data">По дате регистрации</option>
-                            <option value="sort_popular">По популярности</option>
+                        <select ng-model="sortSelect" ng-change="sortUserList()" id="sort" class="form-control">
+                            <option value="0">По дате регистрации</option>
+                            <option value="1">По популярности</option>
                         </select>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="min_age">Возраст</label>
                         <br/>
-                        <input id="min_age" type="number" min="0" max="99" placeholder="От" ng-model="minAge" ng-change="filterUsers()"/> -
-                        <input id="max_age" type="number" min="0" max="99" placeholder="До" ng-model="maxAge" ng-change="filterUsers()"/>
+                        <input id="min_age" type="number" min="1" max="99" placeholder="От" ng-model="minAge" ng-change="getUserList(0)"/> -
+                        <input id="max_age" type="number" min="1" max="99" placeholder="До" ng-model="maxAge" ng-change="getUserList(0)"/>
                         <br/><br/>
 
                         <label for="sex">Пол</label>
-                        <select id="sex" class="form-control">
-                            <option value="default">Не выбран</option>
-                            <option value="male">Мужской</option>
-                            <option value="female">Женский</option>
+                        <select ng-model="sexSelect" ng-change="getUserList(0)" id="sex" class="form-control">
+                            <option value="0">Не выбран</option>
+                            <option value="1">Мужской</option>
+                            <option value="2">Женский</option>
                         </select>
                     </div>
                 </li>
 
                 <li class="list-group-item">
                     <div class="input-group">
-                        <label for="country">Страна</label>
-                        <select ng-change="selectCountry(null)" id="country" class="form-control">
-                            <option value="default">Не выбрана</option>
-                            <option ng-repeat="country in countries track by $index">{{country.Name}}</option>
+                        <label for="countrySelect">Страна</label>
+                        <select ng-model="countrySelect" ng-change="selectCountry()" id="countrySelect" name="countrySelect" class="form-control">
+                            <option value="">Не выбрана</option>
+                            <option ng-repeat="country in countries track by $index" value="{{country.Name}}">{{country.Name}}</option>
                         </select>
                         <br/><br/><br/><br/>
 
-                        <label for="citiesSelect">Город</label>
-                        <select id="citiesSelect" name="citiesSelect" class="form-control" disabled="disabled">
-                            <option value="default">Не выбран</option>
-                            <option ng-repeat="city in cities track by $index">{{city}}</option>
+                        <label for="citySelect">Город</label>
+                        <select ng-model="citySelect" ng-change="getUserList(0)" id="citySelect" name="citySelect" class="form-control" disabled="disabled">
+                            <option value="">Не выбран</option>
+                            <option ng-repeat="city in cities track by $index" value="{{city}}">{{city}}</option>
                         </select>
                     </div>
                 </li>

@@ -1,9 +1,21 @@
 ﻿app.controller("UserListController", [
     "$scope", "UserListService", function ($scope, UserListService) {
-
+        
         $scope.searchString = $scope.getParamFromUrl("searchString");
-        var cityName = null;
-        var countryName = null;
+
+        $scope.getUserList = function (pageCount) {
+            if (pageCount === 0) {
+                $scope.userLists = [];
+            }
+            var minAge = $scope.minAge === "" ? -1 : parseInt($scope.minAge);
+            var maxAge = $scope.maxAge === "" ? -1 : parseInt($scope.maxAge);
+            UserListService.getUserList(pageCount, $scope.searchString, $scope.countrySelect, $scope.citySelect, minAge, maxAge, parseInt($scope.sexSelect), parseInt($scope.sortSelect)).then(function (http) {
+                $scope.userLists = $scope.userLists.concat(http.data.Users);
+                $scope.usersCount = http.data.UsersCount;
+            }, function (error) {
+                console.log("Error from server! (user lists)");
+            });
+        }
 
         UserListService.getCountries().then(function (http) {
             $scope.countries = http.data;
@@ -11,48 +23,71 @@
             console.log("Error from server! (countries)");
         });
 
-        $scope.selectCountry = function (country) {
-            alert(country);
-            cityName = null;
-            $("#citiesSelect [value='default']").attr("selected", "selected");
+        $scope.minAge = "";
+        $scope.maxAge = "";
+        $scope.sexSelect = "0";
+        $scope.sortSelect = "0";
+        $scope.usersCount = 0;
+        var pageCount = 0;
+        $scope.getUserList(pageCount);
 
-            if (country === null) {
-                countryName = null;
+
+        $scope.getMoreUserList = function() {
+            pageCount++;
+            $scope.getUserList(pageCount);
+        }
+
+        $scope.selectCountry = function () {
+            $scope.citySelect = "";
+            if ($scope.countrySelect === "") {
                 $scope.cities = null;
-                $("#citiesSelect").attr("disabled", "disabled");
+                $("#citySelect").prop("disabled", true);
             } else {
-                country = country.Name;
-                $scope.cities = country.Cities;
-                $("#citiesSelect").attr("disabled", "");
+                for (var i in $scope.countries)
+                {
+                    if ($scope.countries[i].Name === $scope.countrySelect) {
+                        $scope.cities = $scope.countries[i].Cities;
+                        $("#citySelect").prop("disabled", false);
+                        break;
+                    }
+                }
+            }
+            $scope.getUserList(0);
+        }
+
+        $scope.sortUserList = function() {
+            if ($scope.usersCount === $scope.userLists.length) {
+                switch ($scope.sortSelect) {
+                    case 0:
+                        $scope.userLists.sort(function(a, b) {
+                            if (a.RegisterDate > b.RegisterDate) {
+                                return 1;
+                            }
+                            if (a.RegisterDate < b.RegisterDate) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+                        break;
+                    case 1:
+                        $scope.userLists.sort(function (a, b) {
+                            if (a.Popularity > b.Popularity) {
+                                return 1;
+                            }
+                            if (a.Popularity < b.Popularity) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+                        break;
+                    default:
+                        $scope.getUserList(0);
+                }
+            } else {
+                $scope.getUserList(0);
             }
         }
-
-        $scope.selectCity = function (country) {
-            if (country === null) {
-                $scope.country = null;
-                $scope.cities = null;
-            } else {
-                $scope.country = country.Name;
-                $scope.cities = country.Cities;
-            }
-        }
-
-
-
-
-
-        UserListService.getUserList().then(function (http) {
-            $scope.filteredUserLists = $scope.userLists = http.data;
-        }, function (error) {
-            console.log("Error from server! (user lists)");
-        });
-
-        $scope.getImage = function (fileName) {
-            $scope.imageId = fileName;
-        }
-
-
-
+        
         $scope.subscribe = function (index) {
             UserListService.subscribe($scope.filteredUserLists[index].UserName).then(function (http) {
                 $scope.filteredUserLists[index].SubscriptionId = http.data;
@@ -71,26 +106,17 @@
             });
         }
 
-
-
-
-        $scope.filterUserLists = function () {
-            $scope.filteredUserLists = $scope.userLists.filter(function (user) {
-                return (user.UserName.indexOf($scope.searchString) > -1 || user.Name.indexOf($scope.searchString) > -1) && user.Age >= $scope.minAge && user.Age <= $scope.maxAge;
-            });
+        $scope.changeCountry = function (country) {
+            $scope.countrySelect = country;
         }
 
-        $scope.changeFilterAge = function(value) {
+        $scope.changeCity = function (country, city) {
+            $scope.countrySelect = country;
+            $scope.citySelect = city;
+        }
+
+        $scope.changeAge = function(value) {
             $scope.minAge = $scope.maxAge = value;
-            $scope.filterUsers();
-        }
-
-        $scope.changeFilterCountry = function(value) {
-            
-        }
-
-        $scope.changeFilterCity = function(value) {
-            
         }
     }
 ]);

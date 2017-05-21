@@ -10,24 +10,28 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IRelationshipService Service =  new RelationshipService();
 
+        [HttpPost]
         [Route("api/RelationshipWebApi/Subscribers")]
-        public IEnumerable<UserRelationshipListViewModel> PostSubscibers(string userName)
+        public IEnumerable<UserRelationshipListViewModel> GetSubscibers(string userName)
         {
             return Service.GetSubscribers(User.Identity.Name, userName);
         }
 
+        [HttpPost]
         [Route("api/RelationshipWebApi/Subscriptions")]
-        public IEnumerable<UserRelationshipListViewModel> PostSubscriptions(string userName)
+        public IEnumerable<UserRelationshipListViewModel> GetSubscriptions(string userName)
         {
             return Service.GetSubscriptions(User.Identity.Name, userName);
         }
 
-        public string Put(string userName)
+        [HttpPut]
+        public string Subscribe(string userName)
         {
             return Service.AddSubscription(User.Identity.Name, userName);
         }
 
-        public bool Delete(string id)
+        [HttpDelete]
+        public bool Unsubscribe(string id)
         {
             return Service.DeleteSubscription(id);
         }
