@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 
 namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices
@@ -10,8 +9,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices
 
         IEnumerable<CommentViewModel> GetComments(string imageId);
 
-        IEnumerable<CommentViewModel> AddComment(string commentatorUserName, string imageId, string text);
+        string AddComment(string commentatorUserName, string imageId, string text, string recipientUserName);
 
-        IEnumerable<CommentViewModel> DeleteComment(string commentatorUserName, string imageId, DateTime time);
+        bool DeleteComment(string id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -15,42 +16,72 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
             }
         }
 
-        public void Add(Folder data)
+        public Folder GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                db.Folders.Add(data);
-                db.SaveChanges();
+                return db.Folders.FirstOrDefault(x => x.Id == id);
             }
         }
 
-        public void Delete(Folder data)
+        public string Add(Folder data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                db.Folders.Remove(data);
-                db.SaveChanges();
+                data.Id = data.Name + data.OwnerId + DateTime.Now;
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.Folders.FirstOrDefault(x => x.Id == data.Id) != null)
+                        return null;
+                    db.Folders.Add(data);
+                    db.SaveChanges();
+                }
+                return data.Id;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
-        public List<Folder> Take(int count)
+        public bool Delete(string id)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                return db.Folders.Take(count).ToList();
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.Folders.FirstOrDefault(x => x.Id == id);
+                    if (data == null)
+                        return false;
+                    db.Folders.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        public void Update(Folder data)
+        public bool Update(string id, Folder data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                var folder = db.Folders.FirstOrDefault(x => x.OwnerId == data.OwnerId && x.Name == data.Name);
-                if (folder == null)
-                    return;
-                folder.Name = data.Name;
-                folder.Subscribe = data.Subscribe;
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var folder = db.Folders.FirstOrDefault(x => x.Id == id);
+                    if (folder == null)
+                        return false;
+                    folder.Name = data.Name;
+                    folder.Subscribe = data.Subscribe;
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

@@ -24,23 +24,43 @@ textarea {
 }
 
 
+.search {
+    opacity: 1.0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.search input {
+    background-color: #222;
+    color: #9d9d9d;
+    border: none;
+}
+
+.user_list {
+    height: 560px;
+    overflow-y: scroll;
+}
+
+.image_list {
+    overflow: hidden;
+    display: inline-block;
+    width: 130px;
+    height: 130px;
+}
+
+
+
+
+
+
+
 .image {
     max-height: 650px;
     max-width: 580px;
 }
 
-.image_list {
-    margin: 10px;
-    width: 200px;
-    height: 200px;
-}
-
 .name {
     font-size: 20px;
-}
-
-.username {
-    font-size: 15px;
 }
 
 .small_avatar {

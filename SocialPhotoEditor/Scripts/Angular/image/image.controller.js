@@ -1,77 +1,95 @@
 ﻿app.controller("ImageController", [
     "$scope", "ImageService", function ($scope, ImageService) {
 
-        function getComments(imageId) {
-            ImageService.getComments(imageId).then(function (http) {
-                $scope.comments = http.data;
+        $('#imageModal').on('show.bs.modal', function(e) {
+            ImageService.getImage($scope.imageId).then(function(http) {
+                $scope.image = http.data;
+            }, function(error) {
+                console.log("Error from server! (image)");
+            });
+        });
+
+        $scope.getDate = function(time) {
+            var date = new Date(time);
+            var dateNow = new Date(Date.now());
+            var count = dateNow.getFullYear() - date.getFullYear();
+            if (count >= 1)
+                return count.toString() + " г.";
+            count = dateNow.getMonth() - date.getMonth();
+            if (count >= 1)
+                return count.toString() + " мес.";
+            count = dateNow.getDate() - date.getDate();
+            if (count >= 1)
+                return count.toString() + " дн.";
+            count = dateNow.getHours() - date.getHours();
+            if (count >= 1)
+                return count.toString() + " ч.";
+            count = dateNow.getMinutes() - date.getMinutes();
+            if (count >= 1)
+                return count.toString() + " мин.";
+            count = dateNow.getSeconds() - date.getSeconds();
+            return count.toString() + " сек.";
+        }
+
+        $scope.answer = function (userName) {
+            $scope.answerUserName = userName;
+            $scope.commentText = '@' + userName + ', ';
+        }
+
+        $scope.addLike = function () {
+            ImageService.addLike($scope.image.FileName).then(function (http) {
+                $scope.image.IsLiked = true;
+                $scope.image.LikesCount++;
             }, function (error) {
-                console.log("Error from server! (comments)");
+                console.log("Error from server! (add like)");
             });
         }
 
-        function getLike(imageId) {
-            ImageService.getLike(imageId).then(function (http) {
-                $scope.like = http.data;
+        $scope.deleteLike = function () {
+            ImageService.deleteLike($scope.image.FileName).then(function (http) {
+                $scope.image.IsLiked = false;
+                $scope.image.LikesCount--;
             }, function (error) {
-                console.log("Error from server! (likes)");
+                console.log("Error from server! (delete like)");
             });
         }
 
-        function addComment(text, imageId) {
-            ImageService.addComment(text, imageId).then(function (http) {
-                $scope.comments = http.data;
+        $scope.addComment = function () {
+            var text = $scope.commentText.trim();
+            if (text.indexOf('@' + $scope.answerUserName + ', ') === 0) {
+                text = text.substring(('@' + $scope.answerUserName + ', ').length);
+            } else {
+                $scope.answerUserName = null;
+            }
+            var time = new Date(Date.now());
+            ImageService.addComment(text, $scope.image.FileName, time, $scope.answerUserName).then(function (http) {
+                var comment = {};
+                comment.Text = text;
+                comment.Time = time;
+                comment.RecipientUserName = $scope.answerUserName;
+                comment.OwnerUserName = $scope.currentUserName;
+                $scope.image.Comments[$scope.image.Comments.length] = comment;
+                $scope.commentText = "";
             }, function (error) {
                 console.log("Error from server! (add comment)");
             });
         }
 
-        function deleteComment(commentatorUserName, imageId, time) {
-            ImageService.deleteComment(commentatorUserName, imageId, time).then(function (http) {
-                $scope.comments = http.data;
+        $scope.deleteComment = function (index) {
+            var commentatorUserName = $scope.image.Comments[index].OwnerUserName;
+            var time = $scope.image.Comments[index].Time;
+            ImageService.deleteComment(commentatorUserName, $scope.image.FileName, time).then(function (http) {
+                $scope.image.Comments.splice(index, 1);
             }, function (error) {
                 console.log("Error from server! (delete comment)");
             });
         }
-
-        function changeLike(imageId) {
-            ImageService.changeLike(imageId).then(function (http) {
-            }, function (error) {
-                console.log("Error from server! (change like)");
-            });
-        }
-
-        function changeAvatar(imageId) {
-            ImageService.changeAvatar(imageId).then(function (http) {
+        
+        $scope.changeAvatar = function () {
+            ImageService.changeAvatar($scope.image.FileName).then(function (http) {
             }, function (error) {
                 console.log("Error from server! (avatar)");
             });
-        }
-
-        $('#imageModal').on('show.bs.modal', function (e) {
-            getLike($scope.image.FileName);
-            getComments($scope.image.FileName);
-        });
-
-        $scope.changeLike = function (imageId) {
-            changeLike(imageId);
-            $scope.like.IsLiked = !$scope.like.IsLiked;
-            if ($scope.like.IsLiked)
-                $scope.like.Count++;
-            else
-                $scope.like.Count--;
-        }
-
-        $scope.addComment = function () {
-            addComment($scope.commentText.trim(), $scope.image.FileName);
-            $scope.commentText = "";
-        }
-
-        $scope.deleteComment = function(commentatorUserName, time) {
-            deleteComment(commentatorUserName, $scope.image.FileName, time);
-        }
-        
-        $scope.changeAvatar = function(imageId) {
-            changeAvatar(imageId);
             window.location.reload();
         }
     }

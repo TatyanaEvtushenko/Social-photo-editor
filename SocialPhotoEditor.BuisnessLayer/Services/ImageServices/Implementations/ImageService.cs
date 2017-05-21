@@ -2,70 +2,59 @@
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
-using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
-using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
+using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
+using SocialPhotoEditor.DataLayer.Repositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
+using SociaPhotoEditor.Settings;
 
 namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
 {
     public class ImageService : IImageService
     {
         private static readonly IChangedRepository<Image> ImageRepository = new ImageRepository();
+        private static readonly IRepository<Like> LikeRepository = new LikeRepository();
+        private static readonly IRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
 
-        private static readonly ILikeService LikeService = new LikeService();
         private static readonly ICommentService CommentService = new CommentService();
+        private static readonly IUserService UserService = new UserService();
 
-        public int GetPopularity(string userName)
+        public ImageViewModel GetImage(string currentUserName, string imageId)
         {
-            var images = ImageRepository.GetAll().Where(x => x.OwnerId == userName).ToList();
-            if (!images.Any())
-            {
-                return 0;
-            }
-            var likesCount = images.Sum(image => LikeService.GetLikesCount(image.FileName));
-            return likesCount / images.Count();
-        }
-
-        public IEnumerable<ImageListViewModel> GetImageLists(string folderId, int count)
-        {
-            var images = ImageRepository.GetAll();
-            var imagesInFolder = images.Where(x => x.FolderId == folderId);
-            if (!imagesInFolder.Any())
-                imagesInFolder = images.Where(x => x.OwnerId == folderId);
-            return imagesInFolder.Take(count).Select(x => new ImageListViewModel
-            {
-                FileName = x.FileName,
-                CommentsCount = CommentService.GetCommentsCount(x.FileName),
-                LikesCount = LikeService.GetLikesCount(x.FileName),
-                CreatingTime = x.Time
-            });
-        }
-
-        public int GetImageCount(string folderId)
-        {
-            return ImageRepository.GetAll().Count(x => x.FolderId == folderId);
-        }
-
-
-
-
-
-
-
-        public ImageViewModel GetImage(string imageId)
-        {
-            var image = ImageRepository.GetAll().FirstOrDefault(x => x.FileName == imageId);
-            if (image == null) return null;
+            var image = ImageRepository.GetFirst(imageId);
+            if (image == null)
+                return null;
+            var likes = LikeRepository.GetAll().Where(x => x.ImageId == imageId);
             return new ImageViewModel
             {
                 FileName = image.FileName,
                 Comments = CommentService.GetComments(imageId),
-                LikesCount = LikeService.GetLikesCount(imageId),
-                Time = image.Time
+                LikesCount = likes.Count(),
+                IsLiked = likes.FirstOrDefault(x => x.OwnerId == currentUserName) != null,
+                Time = image.Time,
+                Owner = UserService.GetUserMinInfo(image.OwnerId)
             };
+        }
+
+        public IEnumerable<ImageViewModel> GetNews(string currentUserName)
+        {
+            var subscriptions = SubscriberRepository.GetAll().Where(x => x.SubscriberName == currentUserName).Select(x => x.UserName);
+            var images = ImageRepository.GetAll().Where(x => subscriptions.Contains(x.OwnerId)).OrderByDescending(x => x.Time).Take(IntSettings.CountNews);
+            var likes = LikeRepository.GetAll();
+            return images.Select(image =>
+                new ImageViewModel
+                {
+                    FileName = image.FileName,
+                    Time = image.Time,
+                    IsLiked = likes.FirstOrDefault(x => x.OwnerId == currentUserName && x.ImageId == image.FileName) != null,
+                    LikesCount = likes.Count(x => x.ImageId == image.FileName),
+                    Comments = CommentService.GetComments(image.FileName),
+                    Owner = UserService.GetUserMinInfo(image.OwnerId)
+                });
         }
     }
 }

@@ -232,6 +232,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\SearchResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
   </ItemGroup>
@@ -280,6 +281,10 @@
     <Content Include="Scripts\Angular\image\image.controller.js" />
     <Content Include="Scripts\Angular\image\image.service.js" />
     <Content Include="Scripts\Angular\module.js" />
+    <Content Include="Scripts\Angular\news\news.controller.js" />
+    <Content Include="Scripts\Angular\news\news.service.js" />
+    <Content Include="Scripts\Angular\user-min-list\user-min-list.controller.js" />
+    <Content Include="Scripts\Angular\user-min-list\user-min-list.service.js" />
     <Content Include="Scripts\Angular\user-page\user-page.controller.js" />
     <Content Include="Scripts\Angular\user-page\user-page.service.js" />
     <Content Include="Scripts\Angular\user-list\user-list.controller.js" />
@@ -1093,6 +1098,8 @@
     <Content Include="Views\User\Page.cshtml" />
     <Content Include="Views\Image\Index.cshtml" />
     <Content Include="Views\Shared\ImageModal.cshtml" />
+    <Content Include="Views\Shared\UsersModal.cshtml" />
+    <Content Include="Views\Image\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

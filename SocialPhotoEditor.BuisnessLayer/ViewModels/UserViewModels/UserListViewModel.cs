@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Enums;
 
 namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
@@ -11,18 +13,20 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string Name { get; set; }
 
-        public string Country { get; set; }
+        public string Surname { get; set; }
 
-        public string City { get; set; }
+        public City Location { get; set; }
 
-        public int Age { get; set; }
+        public DateTime? Birthday { get; set; }
 
         public SexEnum Sex { get; set; } = SexEnum.Unknown;
 
-        public bool IsSubscriber { get; set; }
+        public string SubscriptionId { get; set; }
 
         public DateTime RegisterDate { get; set; }
 
         public int Popularity { get; set; }
+
+        public IEnumerable<string> PopularImages { get; set; }
     }
 }

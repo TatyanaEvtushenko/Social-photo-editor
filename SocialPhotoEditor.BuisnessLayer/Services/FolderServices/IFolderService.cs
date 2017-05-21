@@ -7,6 +7,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices
     {
         IEnumerable<FolderListViewModel> GetFolderLists(string userName);
 
-        FolderViewModel GetFolder(string folderId, int imagesCount);
+        FolderViewModel GetFolder(string folderId);
     }
 }

@@ -63,7 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\SortEnum.cs" />
     <Compile Include="Services\CommentServices\ICommentService.cs" />
+    <Compile Include="Services\EventServices\IEventService.cs" />
+    <Compile Include="Services\EventServices\Implementations\EventService.cs" />
     <Compile Include="Services\FileServices\IFileService.cs" />
     <Compile Include="Services\FileServices\Implementations\CloudinaryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,16 +86,18 @@
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\CommentViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\CountryViewModels\CountryViewModel.cs" />
-    <Compile Include="ViewModels\CountryViewModels\LocationViewModel.cs" />
+    <Compile Include="ViewModels\EventViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\FolderViewModels\FolderViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModels\ImageListViewModel.cs" />
-    <Compile Include="ViewModels\LikeViewModels\LikeViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="ViewModels\FolderViewModels\FolderListViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModels\ImageViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\CurrentUserViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserMinInfoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserPageViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserRelationshipListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

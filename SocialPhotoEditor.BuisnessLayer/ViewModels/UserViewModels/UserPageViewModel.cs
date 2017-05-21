@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.FolderViewModels;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 
 namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 {
@@ -10,9 +11,13 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string Name { get; set; }
 
+        public string Surname { get; set; }
+
         public string AvatarFileName { get; set; }
 
-        public string Location { get; set; }
+        public string AvatarImage { get; set; }
+
+        public City Location { get; set; }
 
         public DateTime? Birthday { get; set; }
 
@@ -22,7 +27,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public int SubscriptionsCount { get; set; }
 
-        public bool IsSubscriber { get; set; }
+        public string SubscriptionId { get; set; }
 
         public IEnumerable<FolderListViewModel> Folders { get; set; }
     }

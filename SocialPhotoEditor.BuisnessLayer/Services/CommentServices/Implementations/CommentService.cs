@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices;
+using SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
+using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 
@@ -12,6 +14,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
     {
         private static readonly IChangedRepository<Comment> CommentRepository = new CommentRepository();
 
+        private static readonly IEventService EventService = new EventService();
+
         public int GetCommentsCount(string imageId)
         {
             return CommentRepository.GetAll().Count(x => x.ImageId == imageId);
@@ -19,37 +23,41 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
 
         public IEnumerable<CommentViewModel> GetComments(string imageId)
         {
-            return
-                CommentRepository.GetAll()
-                    .Where(x => x.ImageId == imageId)
-                    .Select(
-                        x =>
-                            new CommentViewModel
-                            {
-                                OwnerUserName = x.CommentatorId,
-                                RecipientUserName = x.RecipientId,
-                                Text = x.Text,
-                                Time = x.Time,
-                            });
+            var imagesComments = CommentRepository.GetAll().Where(x => x.ImageId == imageId);
+            return imagesComments.Select(x => new CommentViewModel
+            {
+                OwnerUserName = x.CommentatorId,
+                RecipientUserName = x.RecipientId,
+                Text = x.Text,
+                Time = x.Time,
+            });
         }
 
-        public IEnumerable<CommentViewModel> AddComment(string commentatorUserName, string imageId, string text)
+        public string AddComment(string commentatorUserName, string imageId, string text, string recipientUserName)
         {
-            CommentRepository.Add(new Comment
+            var comment = new Comment
             {
                 CommentatorId = commentatorUserName,
                 ImageId = imageId,
                 Text = text,
-                Time = DateTime.Now
-            });
-            return GetComments(imageId);
+                RecipientId = recipientUserName
+            };
+            var commentId = CommentRepository.Add(comment);
+            if (commentId != null)
+            {
+                EventService.AddEvent(EventEnum.Comment, recipientUserName, commentId);
+            }
+            return commentId;
         }
 
-        public IEnumerable<CommentViewModel> DeleteComment(string commentatorUserName, string imageId, DateTime time)
+        public bool DeleteComment(string id)
         {
-            var comment = new Comment {CommentatorId = commentatorUserName, Time = time, ImageId = imageId};
-            CommentRepository.Delete(comment);
-            return GetComments(imageId);
+            var result = CommentRepository.Delete(id);
+            if (result)
+            {
+                EventService.DeleteEvent(EventEnum.Comment, id);
+            }
+            return result;
         }
     }
 }

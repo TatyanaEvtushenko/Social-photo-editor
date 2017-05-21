@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -15,22 +16,51 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
             }
         }
 
-        public void Add(Like data)
+        public Like GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                db.Likes.Add(data);
-                db.SaveChanges();
+                return db.Likes.FirstOrDefault(x => x.Id == id);
             }
         }
 
-        public void Delete(Like data)
+        public string Add(Like data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                data = db.Likes.FirstOrDefault(x => x.ImageId == data.ImageId && x.OwnerId == data.OwnerId);
-                db.Likes.Remove(data);
-                db.SaveChanges();
+                data.Id = data.ImageId + data.OwnerId + DateTime.Now;
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.Likes.FirstOrDefault(x => x.Id == data.Id) != null)
+                        return null;
+                    db.Likes.Add(data);
+                    db.SaveChanges();
+                }
+                return data.Id;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public bool Delete(string id)
+        {
+            try
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.Likes.FirstOrDefault(x => x.Id == id);
+                    if (data == null)
+                        return false;
+                    db.Likes.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
-using SocialPhotoEditor.BuisnessLayer.ViewModels.LikeViewModels;
 
 namespace SocialPhotoEditor.Controllers
 {
@@ -9,14 +8,14 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly ILikeService Service = new LikeService();
 
-        public LikeViewModel Post(string imageFileName)
+        public string Put(string imageFileName)
         {
-            return Service.GetLike(imageFileName, User.Identity.Name);
+            return Service.AddLike(User.Identity.Name, imageFileName);
         }
 
-        public void Put(string imageFileName)
+        public bool Delete(string id)
         {
-            Service.ChangeLike(imageFileName, User.Identity.Name);
+            return Service.DeleteLike(id);
         }
     }
 }

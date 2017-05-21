@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.DataLayer.DatabaseContextes;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
@@ -15,45 +16,73 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
             }
         }
 
-        public void Add(Comment data)
+        public Comment GetFirst(string id)
         {
             using (var db = new ApplicationDbContext())
             {
-                db.Comments.Add(data);
-                db.SaveChanges();
+                return db.Comments.FirstOrDefault(x => x.Id == id);
             }
         }
 
-        public void Delete(Comment data)
+        public string Add(Comment data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                data = db.Comments.FirstOrDefault(x => x.CommentatorId == data.CommentatorId && x.ImageId == data.ImageId && x.Time == data.Time);
-                if (data == null)
-                    return;
-                db.Comments.Remove(data);
-                db.SaveChanges();
+                data.Time = DateTime.Now;
+                data.Id = data.CommentatorId + data.Time + data.ImageId.GetHashCode();
+                using (var db = new ApplicationDbContext())
+                {
+                    if (db.Comments.FirstOrDefault(x => x.Id == data.Id) != null)
+                        return null;
+                    db.Comments.Add(data);
+                    db.SaveChanges();
+                }
+                return data.Id;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
-        public List<Comment> Take(int count)
+        public bool Delete(string id)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                return db.Comments.Take(count).ToList();
+                using (var db = new ApplicationDbContext())
+                {
+                    var data = db.Comments.FirstOrDefault(x => x.Id == id);
+                    if (data == null)
+                        return false;
+                    db.Comments.Remove(data);
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
-        public void Update(Comment data)
+        public bool Update(string id, Comment data)
         {
-            using (var db = new ApplicationDbContext())
+            try
             {
-                var comment = db.Comments.FirstOrDefault(x => x.Time == data.Time && x.ImageId == data.ImageId && x.CommentatorId == data.CommentatorId);
-                if (comment == null)
-                    return;
-                comment.Text = data.Text;
-                comment.RecipientId = data.RecipientId;
-                db.SaveChanges();
+                using (var db = new ApplicationDbContext())
+                {
+                    var comment = db.Comments.FirstOrDefault(x => x.Id == id);
+                    if (comment == null)
+                        return false;
+                    comment.Text = data.Text;
+                    comment.RecipientId = data.RecipientId;
+                    db.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

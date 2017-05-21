@@ -1,13 +1,11 @@
-﻿using SocialPhotoEditor.BuisnessLayer.ViewModels.LikeViewModels;
-
-namespace SocialPhotoEditor.BuisnessLayer.Services.LikeServices
+﻿namespace SocialPhotoEditor.BuisnessLayer.Services.LikeServices
 {
     public interface ILikeService
     {
         int GetLikesCount(string imageId);
 
-        void ChangeLike(string imageId, string userName);
+        string AddLike(string currentUserName, string imageId);
 
-        LikeViewModel GetLike(string imageId, string userName);
+        bool DeleteLike(string id);
     }
 }

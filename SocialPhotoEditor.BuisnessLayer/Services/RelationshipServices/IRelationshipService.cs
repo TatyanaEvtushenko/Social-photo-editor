@@ -5,18 +5,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices
 {
     public interface IRelationshipService
     {
-        bool CheckSubscription(string userName, string subscriberUserName);
+        string AddSubscription(string followerName, string userName);
 
-        int GetSubscribersCount(string userName);
+        bool DeleteSubscription(string id);
 
-        int GetSubscriptionsCount(string userName);
+        IEnumerable<UserRelationshipListViewModel> GetSubscribers(string currentUserName, string userName);
 
-        void Subscribe(string followerName, string userName);
-
-        void Unsubscribe(string followerName, string userName);
-
-        IEnumerable<UserMinInfoViewModel> GetSubscribers(string userName);
-
-        IEnumerable<UserMinInfoViewModel> GetSubscriptions(string userName);
+        IEnumerable<UserRelationshipListViewModel> GetSubscriptions(string currentUserName, string userName);
     }
 }

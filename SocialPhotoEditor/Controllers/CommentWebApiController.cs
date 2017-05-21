@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
@@ -16,14 +15,14 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetComments(imageFileName);
         }
 
-        public IEnumerable<CommentViewModel> Put(string text, string imageId)
+        public string Put(string text, string imageId, string recipientUserName)
         {
-            return Service.AddComment(User.Identity.Name, imageId, text);
+            return Service.AddComment(User.Identity.Name, imageId, text, recipientUserName);
         }
 
-        public IEnumerable<CommentViewModel> Delete(string commentatorUserName, string imageId, DateTime time)
+        public bool Delete(string commentId)
         {
-            return Service.DeleteComment(commentatorUserName, imageId, time);
+            return Service.DeleteComment(commentId);
         }
     }
 }
