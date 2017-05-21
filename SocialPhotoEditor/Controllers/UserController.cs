@@ -4,7 +4,7 @@ namespace SocialPhotoEditor.Controllers
 {
     public class UserController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
             return View();
         }

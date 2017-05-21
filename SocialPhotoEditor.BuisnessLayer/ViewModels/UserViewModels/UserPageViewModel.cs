@@ -27,7 +27,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public int SubscriptionsCount { get; set; }
 
-        public bool IsSubscriber { get; set; }
+        public string SubscriptionId { get; set; }
 
         public IEnumerable<FolderListViewModel> Folders { get; set; }
     }
