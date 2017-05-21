@@ -43,7 +43,7 @@
 
                         <div class="container-fluid">
                             <div class="row" ng-repeat="comment in image.Comments track by $index">
-                                <div class="col-md-10">
+                                <div class="col-md-10" ng-click="answer(comment.OwnerUserName)">
                                     <strong><a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a></strong>
                                     <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}}</a>
                                     {{comment.Text}}
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-10">
                                 <h2>
-                                    <input type="text" class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-enter="addComment()"/>
+                                    <input id="commentInput" type="text" class="form-control" placeholder="Добавьте комментарий" ng-model="commentText" ng-enter="addComment()"/>
                                 </h2>
                             </div>
                         </div>

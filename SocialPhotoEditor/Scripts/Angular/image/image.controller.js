@@ -7,10 +7,10 @@
                 if ($scope.image != null && $scope.image.length !== 0) {
                     $scope.image.Comments.sort(function (a, b) {
                         if (a.Time < b.Time) {
-                            return 1;
+                            return -1;
                         }
                         if (a.Time > b.Time) {
-                            return -1;
+                            return 1;
                         }
                         return 0;
                     });
@@ -55,6 +55,7 @@
         $scope.answer = function (userName) {
             $scope.answerUserName = userName;
             $scope.commentText = '@' + userName + ', ';
+            $("#commentInput").focus();
         }
 
         $scope.addComment = function () {

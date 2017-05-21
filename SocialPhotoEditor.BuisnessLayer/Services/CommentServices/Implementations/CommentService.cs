@@ -46,7 +46,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
             var commentId = CommentRepository.Add(comment);
             if (commentId != null)
             {
-                EventService.AddEvent(EventEnum.Comment, recipientUserName, commentId);
+                EventService.AddEvent(commentatorUserName, EventEnum.Comment, recipientUserName, commentId);
             }
             return commentId;
         }

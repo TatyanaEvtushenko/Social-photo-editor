@@ -28,7 +28,6 @@
 
 
 
-
         this.changeAvatar = function (imageFileName) {
             return $http({ method: "PUT", url: "/api/UserWebApi/", params: { 'imageFileName': imageFileName } });
         }
