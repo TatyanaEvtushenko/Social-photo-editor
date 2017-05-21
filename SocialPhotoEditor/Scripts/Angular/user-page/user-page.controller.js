@@ -1,19 +1,6 @@
 ﻿app.controller("UserPageController", [
     "$scope", "UserPageService", function ($scope, UserPageService) {
 
-        function getParamFromUrl(paramName) {
-            var url = window.location.search;
-            var params = url.substring(url.indexOf("?") + 1).split("&");
-            if (params === "")
-                return null;
-            for (var i in params) {
-                var param = params[i].split("=");
-                if (param[0] === paramName)
-                    return param[1];
-            }
-            return null;
-        }
-
         var userName = getParamFromUrl("userName");
 
         UserPageService.getUserPage(userName).then(function (http) {

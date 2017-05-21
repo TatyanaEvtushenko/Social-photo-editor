@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using SocialPhotoEditor.BuisnessLayer.Enums;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
+using SocialPhotoEditor.DataLayer.Enums;
 
 namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 {
@@ -9,7 +11,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 
         void AddUserInfo(string userName);
 
-        IEnumerable<UserListViewModel> GetUserLists(string currentUserName);
+        ListViewModel GetUserLists(string currentUserName, int pageNumber, string searchString, string country, string city, 
+            int minAge, int maxAge, SexEnum sex, SortEnum sortType);
 
         UserMinInfoViewModel GetUserMinInfo(string userName);
 
