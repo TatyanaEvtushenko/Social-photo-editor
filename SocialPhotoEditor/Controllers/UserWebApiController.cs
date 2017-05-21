@@ -9,10 +9,7 @@ namespace SocialPhotoEditor.Controllers
     public class UserWebApiController : ApiController
     {
         private static readonly IUserService Service = new UserService();
-
-  //      [Route("localhost:57382/api/UserWebApi")]
-        //public ListViewModel GetUserList(int pageNumber, string searchString, string country, string city,
-        //    int minAge, int maxAge, SexEnum sex, SortEnum sortType)
+        
         [HttpPost]
         public ListViewModel GetUserList(SearchResponse searchResponse)
         {

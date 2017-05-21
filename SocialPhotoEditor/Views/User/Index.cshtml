@@ -13,22 +13,23 @@
             <h3 ng-if="usersCount <= 0"><strong>Пользователи не найдены</strong></h3>
             <div class="panel panel-default" ng-repeat="user in userLists track by $index">
                 <div class="panel-body row">
-                    <a href="~/User/Page?userName={{user.UserName}}">
-                        <div class="col-md-2">
-                            <img class="medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар"/>
-                        </div>
-                        <div class="col-md-8">
+                    <a href="~/User/Page?userName={{user.UserName}}" class="col-md-2">
+                        <img class="medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар" />
+                    </a>
+                    <div class="col-md-8">
+                        <a href="~/User/Page?userName={{user.UserName}}">
                             <h5><strong>{{user.UserName}}</strong></h5>
                             <div class="name">{{user.Name}} {{user.Surname}}</div>
-                            <span ng-if="user.Birthday != null" ng-click="changeFilterAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span>
-                            <div ng-if="user.Location != null">
-                                <span ng-click="">{{user.Location.CountryName}}</span><span ng-click="">, {{user.Location.CityName}}</span>
-                            </div>
+                        </a>
+                        <a><span ng-if="user.Birthday != null" ng-click="changeAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span></a>
+                        <div ng-if="user.Location != null">
+                            <a><span ng-click="changeCountry(user.Location.CountryName)">{{user.Location.CountryName}},</span></a> 
+                            <a><span ng-click="changeCity(user.Location.CountryName, user.Location.CityName)">{{user.Location.CityName}}</span></a>
                         </div>
-                    </a>
+                    </div>
                     <div class="col-md-2" ng-if="user.UserName != currentUser.User.UserName">
-                        <button ng-if="user.SubscriptionId != null" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="user.SubscriptionId == null" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
+                        <button ng-if="user.SubscriptionId != null" ng-click="unsubscribe($index)" type="button" class="btn btn-default pull-right">Отписаться</button>
+                        <button ng-if="user.SubscriptionId == null" ng-click="subscribe($index)" type="button" class="btn btn-success pull-right">Подписаться</button>
                     </div>
                 </div>
                 <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
@@ -49,7 +50,7 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="input-group-lg">
-                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-enter="getUserList(0)">
+                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="getUserList(0)">
                     </div>
                 </li>
 

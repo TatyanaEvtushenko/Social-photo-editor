@@ -7,8 +7,8 @@
             if (pageCount === 0) {
                 $scope.userLists = [];
             }
-            var minAge = $scope.minAge === "" ? -1 : parseInt($scope.minAge);
-            var maxAge = $scope.maxAge === "" ? -1 : parseInt($scope.maxAge);
+            var minAge = $scope.minAge === null ? -1 : parseInt($scope.minAge);
+            var maxAge = $scope.maxAge === null ? -1 : parseInt($scope.maxAge);
             UserListService.getUserList(pageCount, $scope.searchString, $scope.countrySelect, $scope.citySelect, minAge, maxAge, parseInt($scope.sexSelect), parseInt($scope.sortSelect)).then(function (http) {
                 $scope.userLists = $scope.userLists.concat(http.data.Users);
                 $scope.usersCount = http.data.UsersCount;
@@ -23,8 +23,8 @@
             console.log("Error from server! (countries)");
         });
 
-        $scope.minAge = "";
-        $scope.maxAge = "";
+        $scope.minAge = null;
+        $scope.maxAge = null;
         $scope.sexSelect = "0";
         $scope.sortSelect = "0";
         $scope.usersCount = 0;
@@ -108,15 +108,25 @@
 
         $scope.changeCountry = function (country) {
             $scope.countrySelect = country;
+            $scope.selectCountry();
         }
 
         $scope.changeCity = function (country, city) {
             $scope.countrySelect = country;
+            for (var i in $scope.countries) {
+                if ($scope.countries[i].Name === $scope.countrySelect) {
+                    $scope.cities = $scope.countries[i].Cities;
+                    $("#citySelect").prop("disabled", false);
+                    break;
+                }
+            }
             $scope.citySelect = city;
+            $scope.getUserList(0);
         }
 
         $scope.changeAge = function(value) {
             $scope.minAge = $scope.maxAge = value;
+            $scope.getUserList(0);
         }
     }
 ]);

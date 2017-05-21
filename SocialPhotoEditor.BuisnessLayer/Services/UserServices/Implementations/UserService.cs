@@ -103,8 +103,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 infos = infos.Where(x => x.Birthday != null && x.Birthday.Value <= maxDate).ToList();
             }
             if (maxAge < 0) return;
-            var minDate = DateTime.Parse($"{today.Day}.{today.Month}.{today.Year - maxAge}");
-            infos = infos.Where(x => x.Birthday != null && x.Birthday.Value >= minDate).ToList();
+            var minDate = DateTime.Parse($"{today.Day}.{today.Month}.{today.Year - maxAge - 1}");
+            infos = infos.Where(x => x.Birthday != null && x.Birthday.Value > minDate).ToList();
         }
 
         private static void GetSexInfos(ref List<UserInfo> infos, SexEnum sex)
