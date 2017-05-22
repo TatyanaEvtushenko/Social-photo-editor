@@ -22,5 +22,11 @@ namespace SocialPhotoEditor.Controllers
         {
             return Service.GetUserPage(userName, User.Identity.Name);
         }
+
+        [HttpPut]
+        public bool ChangeAvatar(string imageFileName)
+        {
+            return Service.ChangeAvatar(User.Identity.Name, imageFileName);
+        }
     }
 }

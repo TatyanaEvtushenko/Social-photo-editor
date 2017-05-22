@@ -11,5 +11,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels
         public string RecipientUserName { get; set; }
 
         public DateTime Time { get; set; }
+
+        public string Id { get; set; }
     }
 }

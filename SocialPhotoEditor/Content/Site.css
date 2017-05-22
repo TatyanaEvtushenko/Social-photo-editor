@@ -48,7 +48,15 @@ textarea {
     height: 130px;
 }
 
+.comment_list {
+    height: 350px;
+    overflow-y: scroll;
+}
 
+.comment {
+    margin: 0 0 5px 0;
+    word-wrap: break-word; 
+}
 
 
 

@@ -29,6 +29,28 @@
                 return yearSubtract - 1;
             return yearSubtract;
         };
+        
+        $scope.getDate = function (time) {
+            var date = new Date(time);
+            var dateNow = new Date(Date.now());
+            var count = dateNow.getFullYear() - date.getFullYear();
+            if (count >= 1)
+                return count.toString() + " г.";
+            count = dateNow.getMonth() - date.getMonth();
+            if (count >= 1)
+                return count.toString() + " мес.";
+            count = dateNow.getDate() - date.getDate();
+            if (count >= 1)
+                return count.toString() + " дн.";
+            count = dateNow.getHours() - date.getHours();
+            if (count >= 1)
+                return count.toString() + " ч.";
+            count = dateNow.getMinutes() - date.getMinutes();
+            if (count >= 1)
+                return count.toString() + " мин.";
+            count = dateNow.getSeconds() - date.getSeconds();
+            return count.toString() + " сек.";
+        }
 
         $scope.getSquareImage = function(id) {
             var width = $("#" + id).attr("width");
@@ -47,7 +69,7 @@
         }
 
         $scope.redirectToSearch = function() {
-            window.location.replace("User/Index?searchString=" + $scope.searchString);
+            window.location.replace("/User/Index?searchString=" + $scope.searchString);
         }
     }
 ]);

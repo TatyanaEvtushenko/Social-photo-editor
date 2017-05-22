@@ -10,9 +10,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices
 
         int SeeNewEvents(string userName);
 
-        void AddEvent(EventEnum type, string elementId, string recipientUserName);
+        void AddEvent(string currentUserName, EventEnum type, string elementId, string recipientUserName);
 
-        void AddEvent(string image, EventEnum type, string elementId);
+        void AddEvent(string currentUserName, string image, EventEnum type, string elementId);
 
         void DeleteEvent(EventEnum typeElement, string elementId);
     }

@@ -8,5 +8,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
         ImageViewModel GetImage(string currentUserName, string imageId);
 
         IEnumerable<ImageViewModel> GetNews(string currentUserName);
+
+        bool DeleteImage(string currentUserName, string imageFileName);
+
+        string AddImage(string imageFileName);
     }
 }
