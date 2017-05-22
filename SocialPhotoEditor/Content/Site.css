@@ -49,11 +49,14 @@ textarea {
 }
 
 .comment_list {
-    height: 300px;
+    height: 350px;
     overflow-y: scroll;
 }
 
-
+.comment {
+    margin: 0 0 5px 0;
+    word-wrap: break-word; 
+}
 
 
 

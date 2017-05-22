@@ -21,5 +21,11 @@ namespace SocialPhotoEditor.Controllers
         {
             return Service.GetNews(User.Identity.Name);
         }
+
+        [HttpDelete]
+        public bool DeleteImage(string imageFileName)
+        {
+            return Service.DeleteImage(User.Identity.Name, imageFileName);
+        }
     }
 }

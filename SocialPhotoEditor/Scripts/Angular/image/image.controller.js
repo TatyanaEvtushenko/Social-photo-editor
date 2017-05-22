@@ -2,9 +2,10 @@
     "$scope", "ImageService", function ($scope, ImageService) {
         
         var answerUserName = "";
-
-        function addComment(text) {
-            text.trim();
+        
+        function addComment() {
+            var input = $("#commentInput").data("emojioneArea");
+            var text = input.getText().trim();
             var recipientText = "@" + answerUserName + ", ";
             if (text.indexOf(recipientText) === 0) {
                 text = text.substring(recipientText.length);
@@ -21,7 +22,9 @@
                         Id: http.data
                     };
                     $scope.image.Comments[$scope.image.Comments.length] = comment;
-                    $("#commentInput").data("emojioneArea").setText("");
+                    input.setText("");
+                    var div = $("#commentDiv");
+                    div.scrollTop(div.prop("scrollHeight"));
                 }
             }, function (error) {
                 console.log("Error from server! (add comment)");
@@ -34,10 +37,14 @@
                     events: {
                         keypress: function (editor, event) {
                             if (event.which === 13 || event.keyCode === 13) {
-                                var text = $("#commentInput").data("emojioneArea").getText();
-                                addComment(text);
+                                addComment();
                             }
                         },
+                        focus: function (editor, event) {
+                            var pos = editor.text().length;
+                            console.log(editor);
+                            editor.select(pos);
+                        }
                     }
                 });
                 $("#commentInput").data("emojioneArea").setFocus(true);
@@ -58,16 +65,20 @@
             }, function(error) {
                 console.log("Error from server! (image)");
             });
+            $(".alert").alert();
+            $("#deleteImageAlert").hide();
         });
 
         $scope.changeAvatar = function () {
-            $.cloudinary.image('sample.jpg', { width: 100, height: 150, crop: 'fill' });
-            alert("fghj");
-            //ImageService.changeAvatar($scope.image.FileName).then(function (http) {
-            //}, function (error) {
-            //    console.log("Error from server! (avatar)");
-            //});
-            //window.location.reload();
+            var image = $scope.image.FileName;
+            if (image === $scope.currentUser.User.AvatarFileName) return;
+            ImageService.changeAvatar(image).then(function (http) {
+                if (http.data) {
+                    window.location.reload();
+                }
+            }, function (error) {
+                console.log("Error from server! (avatar)");
+            });
         }
 
         $scope.addLike = function () {
@@ -92,41 +103,41 @@
             });
         }
 
-        function setSelectionRange(input, selectionStart, selectionEnd) {
-            if (input.setSelectionRange) {
-                input.setFocus();
-                input.setSelectionRange(selectionStart, selectionEnd);
-            }
-            else if (input.createTextRange) {
-                var range = input.createTextRange();
-                range.collapse(true);
-                range.moveEnd('character', selectionEnd);
-                range.moveStart('character', selectionStart);
-                range.select();
-            }
-        }
-
-        function setCaretToPos(input, pos) {
-            setSelectionRange(input, pos, pos);
-        }
-
         $scope.answer = function (userName) {
             answerUserName = userName;
             var input = $("#commentInput").data("emojioneArea");
             var recipientText = "@" + answerUserName + ", ";
             input.setText(recipientText);
             input.setFocus();
-            setCaretToPos(input, recipientText.length);
         }
 
-        $scope.deleteComment = function (index) {
+        $scope.deleteComment = function(index) {
             var id = $scope.image.Comments[index].Id;
-            ImageService.deleteComment(id).then(function (http) {
+            ImageService.deleteComment(id).then(function(http) {
                 if (http.data) {
                     $scope.image.Comments.splice(index, 1);
                 }
-            }, function (error) {
+            }, function(error) {
                 console.log("Error from server! (delete comment)");
+            });
+        };
+
+        $scope.hideDeleteAlert = function () {
+            $("#deleteImageAlert").hide();
+        }
+
+        $scope.tryDeleteImage = function() {
+            if ($scope.image.Owner.UserName !== $scope.currentUser.User.UserName) return;
+            $("#deleteImageAlert").show();
+        }
+
+        $scope.deleteImage = function () {
+            ImageService.deleteImage($scope.image.FileName).then(function (http) {
+                if (http.data) {
+                    window.location.reload();
+                }
+            }, function (error) {
+                console.log("Error from server! (delete image)");
             });
         }
     }

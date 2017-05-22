@@ -215,7 +215,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AvatarWebApiController.cs" />
     <Compile Include="Controllers\CommentWebApiController.cs" />
     <Compile Include="Controllers\CountryWebApiController.cs" />
     <Compile Include="Controllers\CurrentUserWebApiController.cs" />

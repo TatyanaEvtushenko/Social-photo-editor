@@ -24,9 +24,9 @@ namespace SocialPhotoEditor.Controllers
         }
 
         [HttpPut]
-        public void ChangeAvatar(string imageFileName)
+        public bool ChangeAvatar(string imageFileName)
         {
-            Service.ChangeAvatar(User.Identity.Name, imageFileName);
+            return Service.ChangeAvatar(User.Identity.Name, imageFileName);
         }
     }
 }

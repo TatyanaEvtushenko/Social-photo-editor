@@ -26,11 +26,12 @@
             return $http({ method: "DELETE", url: "/api/CommentWebApi/", params: { 'commentId': commentId } });
         }
 
-
-
         this.changeAvatar = function (imageFileName) {
             return $http({ method: "PUT", url: "/api/UserWebApi/", params: { 'imageFileName': imageFileName } });
         }
 
+        this.deleteImage = function (imageFileName) {
+            return $http({ method: "DELETE", url: "/api/ImageWebApi/", params: { 'imageFileName': imageFileName } });
+        }
     }
 ]);

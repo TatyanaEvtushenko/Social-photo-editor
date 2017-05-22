@@ -32,7 +32,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
 
         private static readonly ILikeService LikeService = new LikeService();
         private static readonly IFolderService FolderService = new FolderService();
-        private static readonly IFileService FileService = new CloudinaryService();
 
         private static int GetPopularity(IEnumerable<Image> images)
         {
@@ -214,15 +213,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
         public bool ChangeAvatar(string userName, string imageFileName)
         {
             var info = InfoRepository.GetFirst(userName);
-            AvatarRepository.Delete(info?.AvatarFileName);
-            var avatar = new Avatar
-            {
-                ImageFileName = imageFileName, AvatarFileName = FileService.GetAvatarUrl(imageFileName)
-            };
-            var avatarId = AvatarRepository.Add(avatar);
-            if (avatarId == null)
-                return false;
-            info.AvatarFileName = avatarId;
+            info.AvatarFileName = imageFileName;
             return InfoRepository.Update(info.UserName, info);
         }
     }
