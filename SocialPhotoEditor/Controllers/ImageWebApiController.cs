@@ -16,10 +16,10 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetImage(User.Identity.Name, imageFileName);
         }
         
-        [HttpGet]
-        public IEnumerable<ImageViewModel> GetNews()
+        [HttpPost]
+        public IEnumerable<ImageViewModel> GetNews(int pageNumber)
         {
-            return Service.GetNews(User.Identity.Name);
+            return Service.GetNews(pageNumber, User.Identity.Name);
         }
 
         [HttpDelete]

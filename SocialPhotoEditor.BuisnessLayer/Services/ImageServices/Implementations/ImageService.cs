@@ -45,10 +45,11 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
             };
         }
 
-        public IEnumerable<ImageViewModel> GetNews(string currentUserName)
+        public IEnumerable<ImageViewModel> GetNews(int pageNumber, string currentUserName)
         {
             var subscriptions = SubscriberRepository.GetAll().Where(x => x.SubscriberName == currentUserName).Select(x => x.UserName);
-            var images = ImageRepository.GetAll().Where(x => subscriptions.Contains(x.OwnerId)).OrderByDescending(x => x.Time).Take(IntSettings.CountNews);
+            var countOnPage = IntSettings.CountNews;
+            var images = ImageRepository.GetAll().Where(x => subscriptions.Contains(x.OwnerId)).OrderByDescending(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage);
             var likes = LikeRepository.GetAll();
             return images.Select(image =>
                 new ImageViewModel
