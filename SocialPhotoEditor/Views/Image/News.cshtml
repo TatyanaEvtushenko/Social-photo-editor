@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "News";
+}
+@Scripts.Render("~/bundles/news")
+@Scripts.Render("~/bundles/image")
+
+<div ng-controller="NewsController" class="container-fluid">
+    <br />
+    <div ng-controller="ImageController" class="col-md-8 col-md-offset-2 panel panel-default" ng-repeat="image in news track by $index">
+        <div class="row panel-heading">
+            <a href="~/User/Page?userName={{image.Owner.UserName}}">
+                <div class="col-md-1">
+                    <img class="small_avatar" src="{{getAvatar(image.Owner.AvatarFileName)}}"/>
+                </div>
+                <h5 class="col-md-9">
+                    <strong>{{image.Owner.UserName}}</strong>
+                </h5>
+            </a>
+            <div class="col-md-2 text-muted pull-right">
+                <h5><strong class="text-muted">{{getDate(image.Time)}}</strong></h5>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <img src="{{image.FileName}}" class="img-responsive"/>
+                <h5><strong>{{image.LikesCount}} отметок "Нравится"</strong></h5>
+            </div>
+
+            <div class="comment_min_list">
+                <div class="row comment" ng-repeat="comment in image.Comments track by $index">
+                    <div class="col-md-11" ng-click="answer(comment.OwnerUserName)">
+                        <strong><a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a></strong>
+                        <a href="~/User/Page?userName={{comment.RecipientUserName}}">{{comment.RecipientUserName}}</a>
+                        {{comment.Text}}
+                    </div>
+                    <div class="col-md-1 pull-right">
+                        <a ng-click="deleteComment($index)"><span class="glyphicon glyphicon-trash" ng-if="image.Owner.UserName == currentUser.User.UserName || comment.OwnerUserName == currentUser.User.UserName"></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h2>
+                        <a>
+                            <span ng-if="image.LikeId == null" ng-click="addLike()" class="glyphicon glyphicon-heart-empty"></span>
+                            <span ng-if="image.LikeId != null" ng-click="deleteLike()" class="glyphicon glyphicon-heart"></span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="col-md-10">
+                    <textarea id="commentInput" class="form-control col-md-10" placeholder="Добавьте комментарий"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="moreNewsButton" type="button"class="col-md-offset-2 btn btn-default" ng-click="getMoreNews()">Показать больше постов</button>
+</div>
+

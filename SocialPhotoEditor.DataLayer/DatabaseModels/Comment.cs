@@ -5,6 +5,7 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 {
     public class Comment
     {
+        [Key]
         public string Id { get; set; }
 
         [Required]

@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace SocialPhotoEditor
 {
@@ -25,13 +24,47 @@ namespace SocialPhotoEditor
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/emojionearea.min.css",
+                      "~/Content/Site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                 "~/Scripts/angular.min.js",
                 "~/Scripts/angular-route.min.js",
                 "~/Scripts/angular-resource.min.js",
                 "~/Scripts/Angular/module.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/cloudinary").Include(
+                "~/Scripts/jquery.ui.widget.js",
+                "~/Scripts/jquery.iframe-transport.js",
+                "~/Scripts/jquery.fileupload.js",
+                "~/Scripts/jquery.cloudinary.js",
+                "~/Scripts/Cloudinary/cloudinary-config.js"));
+
+            //MVC ANGULAR __ MY
+            bundles.Add(new ScriptBundle("~/bundles/current-user").Include(
+                "~/Scripts/Angular/current-user/current-user.controller.js",
+                "~/Scripts/Angular/current-user/current-user.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/user-list").Include(
+                "~/Scripts/Angular/user-list/user-list.controller.js",
+                "~/Scripts/Angular/user-list/user-list.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/user-page").Include(
+                "~/Scripts/Angular/user-page/user-page.controller.js",
+                "~/Scripts/Angular/user-page/user-page.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/image").Include(
+                "~/Scripts/emojionearea.min.js",
+                "~/Scripts/Angular/image/image.controller.js",
+                "~/Scripts/Angular/image/image.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/user-min-list").Include(
+                "~/Scripts/Angular/user-min-list/user-min-list.controller.js",
+                "~/Scripts/Angular/user-min-list/user-min-list.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/news").Include(
+                "~/Scripts/Angular/news/news.controller.js",
+                "~/Scripts/Angular/news/news.service.js"));
         }
     }
 }

@@ -1,36 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
+using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers
 {
     public class UserWebApiController : ApiController
     {
         private static readonly IUserService Service = new UserService();
-        private static readonly int MaxCountUsersOnPage = 20;
-
-        //GET
-        public IEnumerable<UserListViewModel> Get()
+        
+        [HttpPost]
+        public ListViewModel GetUserList(SearchResponse searchResponse)
         {
-            return Service.GetUserLists(User.Identity.Name, MaxCountUsersOnPage); ;
+            return Service.GetUserLists(User.Identity.Name, searchResponse.PageNumber, searchResponse.SearchString, searchResponse.Country, 
+                searchResponse.City, searchResponse.MinAge, searchResponse.MaxAge, searchResponse.Sex, searchResponse.SortType);
         }
 
-        // POST
-        public UserPageViewModel Post(string userName)
+        [HttpPost]
+        public UserPageViewModel GetUserPage(string userName)
         {
             return Service.GetUserPage(userName, User.Identity.Name);
         }
 
-        //// PUT: api/Test/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Test/5
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpPut]
+        public bool ChangeAvatar(string imageFileName)
+        {
+            return Service.ChangeAvatar(User.Identity.Name, imageFileName);
+        }
     }
 }

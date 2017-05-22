@@ -1,4 +1,9 @@
 ﻿namespace SocialPhotoEditor.DataLayer.Enums
 {
-    public enum SexEnum { Unknown, Male, Female }
+    public enum SexEnum
+    {
+        Unknown,
+        Male,
+        Female
+    };
 }

@@ -3,29 +3,31 @@
     ViewBag.Title = "Page";
 }
 
-<script src="~/Scripts/Angular/users.service.js"></script>
-<script src="~/Scripts/Angular/users.controller.js"></script>
+@Scripts.Render("~/bundles/user-page")
 
-<div ng-controller="UsersController">
+<div ng-controller="UserPageController">
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
-                <img class="big_avatar" src="{{userPage.AvatarFileName}}"/>
+                <a href="#imageModal" class="tumbnail" data-toggle="modal">
+                    <img class="big_avatar" src="{{userPage.AvatarFileName}}" ng-click="getImage(userPage.AvatarImage)" />
+                </a>
             </div>
             <div class="col-md-9">
                 <div class="col-md-10">
                     <div class="row">
                         {{userPage.UserName}}
-                        <button ng-if="user.IsSubscriber" ng-click="" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="!user.IsSubscriber" ng-click="" type="button" class="btn btn-success">Подписаться</button>
+                        <button ng-if="userPage.IsSubscriber" ng-click="unsubscribe()" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="!userPage.IsSubscriber" ng-click="subscribe()" type="button" class="btn btn-success">Подписаться</button>
                     </div>
-                    <p>{{userPage.Name}}</p>
+                    <p>{{userPage.Name}} {{userPage.Surname}}</p>
                     <p>{{userPage.Birthday}}</p>
-                    <p>{{userPage.Location}}</p>
+                    <p ng-if="userPage.Location != null">{{userPage.Location.Country}}, {{userPage.Location.City}}</p>
                     <p>{{userPage.Subscribe}}</p>
                     <div class="row">
-                        <div>{{userPage.SubscribersCount}} подписчиков</div>
-                        <div>{{userPage.SubscriptionsCount}} подписок</div></div>
+                        <a class="col-md-3" href="#userListModal" data-toggle="modal" ng-click="getSubscribers()">{{userPage.SubscribersCount}} подписчиков</a>
+                        <a class="col-md-3" href="#userListModal" data-toggle="modal" ng-click="getSubscriptions()">{{userPage.SubscriptionsCount}} подписок</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,10 +36,20 @@
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="active"><a ng-click="getFolder(userPage.UserName)">Все фотографии</a></li>
-            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a >{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
         </ul>
     </div>
 
     <p>{{folder.Subscribe}}</p>
-    <img class="image_list" src="{{image.FileName}}" ng-repeat="image in folder.Images track by $index" />
+
+    <div class="row">
+        <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
+            <a href="#imageModal" class="thumbnail" data-toggle="modal">
+                <img alt="..." src="{{image.FileName}}" ng-click="getImage(image)">
+            </a>
+        </div>
+    </div>
+
+    @Html.Partial("ImageModal")
+    @Html.Partial("UsersModal")
 </div>

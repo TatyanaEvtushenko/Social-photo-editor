@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Diagnostics.Instrumentation.Extensions.Intercept
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -6,77 +7,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – Social photo editor</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/Scripts/Angular/current-user.service.js")
-    @Scripts.Render("~/Scripts/Angular/current-user.controller.js")
-</head>
-<body data-ng-app="APIModule">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container" ng-controller="CurrentUserController">
-            <div class="navbar-header">
-                @Html.ActionLink("Social photo editor", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-            </div>
-            <div class="navbar-collapse collapse">
-                @if (Request.IsAuthenticated)
-                {
-                    <ul class="nav navbar-nav">
-                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-heart"></span></a></li>
-                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-bullhorn"></span></a></li>
-                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-globe"></span></a></li>
-                    </ul>
-                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <div class="btn-group">
-                                    <a href="~/User/Page?userName=@User.Identity.Name">
-                                        <button type="button" class="btn btn-link" ng-click=""><img src="{{currentUserAvatar}}" class="small_avatar" />{{currentUserName}}</button>
-                                        <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="~/User/Page?userName=@User.Identity.Name">Профиль</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Редактировать</a></li>
-                                        <li><a href="#">Настроить</a></li>
-                                        <li><a href="~/Manage/Index">Сменить пароль</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    }
-                }
-                else
-                {
-                    @Html.Partial("_LoginPartial")
-                }
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <div id="footer">
-                <div class="container">
-                    @*<ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                        <li>@Html.ActionLink("Связь", "Contact", "Home")</li>
-                    </ul>
-                    <br /><br /><br />*@
-                    <p class="text-muted">&copy; @DateTime.Now.Year – ФКСиС, ПОИТ, 4 семестр, курсовая работа по дисциплине КСиС, выполнила Евтушенко Татьяна (группа 551004)</p>
-                </div>
-            </div>
-        </footer>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/cloudinary")
+    @Scripts.Render("~/bundles/current-user")
+</head>
+<body data-ng-app="APIModule" ng-controller="CurrentUserController">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            @if (Request.IsAuthenticated)
+            {
+                <div class="navbar-header">
+                    @Html.ActionLink("Social photo editor", "News", "Image", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <div class="search">
+                                <a href="~/User/Index?searchString="><span class="glyphicon glyphicon-search"></span></a>
+                                <input type="text" placeholder="Поиск пользователей" ng-model="searchString" ng-enter="redirectToSearch()">
+                            </div>
+                        </li>
+
+
+                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-heart"></span></a></li>
+                        <li><a href="~/Image/News"><span class="glyphicon glyphicon-globe"></span></a></li>
+                        <li><a data-container="body" data-toggle="popover" data-placement="bottom" data-content="Здесь должны быть уведомления">
+                            <span ng-if="currentUser.NewEventsCount > 0" class="label label-danger">{{currentUser.NewEventsCount}}</span>  <span class="glyphicon glyphicon-bullhorn"></span>
+                        </a></li>
+                    </ul>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                    {
+                    @Html.AntiForgeryToken()
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div class="row">
+                                <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown">
+                                    <img src="{{getAvatar(currentUser.User.AvatarFileName)}}" class="small_avatar" />{{currentUser.User.UserName}}  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="~/User/Page?userName={{currentUser.User.UserName}}">Профиль</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Редактировать</a></li>
+                                    <li><a href="#">Настроить</a></li>
+                                    <li><a href="~/Manage/Index">Сменить пароль</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="navbar-header">
+                    @Html.ActionLink("Social photo editor", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            }
+        </div>
+    </div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <div id="footer">
+            <div class="container">
+                <ul class="list-inline">
+                    <li><a href="~/Home/About">О программе</a></li>
+                    <li><a href="~/Home/Contact">Связь</a></li>
+                </ul>
+                <p class="text-muted">&copy; @DateTime.Now.Year – ФКСиС, ПОИТ, 4 семестр, курсовая работа по дисциплине КСиС, выполнила Евтушенко Татьяна (группа 551004)</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

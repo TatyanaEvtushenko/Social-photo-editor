@@ -20,7 +20,7 @@ namespace SocialPhotoEditor.DataLayer.DatabaseModels
 
         public DateTime? Birthday { get; set; }
 
-        public int CityId { get; set; }
+        public string CityId { get; set; }
 
         public string Subscribe { get; set; }
         
