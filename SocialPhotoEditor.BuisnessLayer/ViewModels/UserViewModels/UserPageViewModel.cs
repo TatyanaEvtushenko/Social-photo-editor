@@ -15,8 +15,6 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
 
         public string AvatarFileName { get; set; }
 
-        public string AvatarImage { get; set; }
-
         public City Location { get; set; }
 
         public DateTime? Birthday { get; set; }

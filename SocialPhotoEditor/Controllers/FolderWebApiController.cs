@@ -9,7 +9,8 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IFolderService Service = new FolderService();
 
-        public FolderViewModel Post(string folderId)
+        [HttpPost]
+        public FolderViewModel GetFolder(string folderId)
         {
             return Service.GetFolder(folderId);
         }

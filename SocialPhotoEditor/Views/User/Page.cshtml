@@ -9,9 +9,10 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-3">
-                <a href="#imageModal" class="tumbnail" data-toggle="modal">
-                    <img class="big_avatar" src="{{userPage.AvatarFileName}}" ng-click="getImage(userPage.AvatarImage)" />
+                <a ng-if="userPage.AvatarFileName != null" href="#imageModal" class="tumbnail" data-toggle="modal">
+                    <img class="big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
                 </a>
+                <img ng-if="userPage.AvatarFileName == null" class="big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
             </div>
             <div class="col-md-9">
                 <div class="col-md-10">
