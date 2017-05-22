@@ -17,6 +17,6 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels
 
         public int LikesCount { get; set; }
 
-        public bool IsLiked { get; set; }
+        public string LikeId { get; set; }
     }
 }

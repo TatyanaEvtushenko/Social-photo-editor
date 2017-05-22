@@ -10,7 +10,8 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly ICountryService Service = new CountryService();
         
-        public IEnumerable<CountryViewModel> Get()
+        [HttpGet]
+        public IEnumerable<CountryViewModel> GetCountries()
         {
             return Service.GetCountries();
         }

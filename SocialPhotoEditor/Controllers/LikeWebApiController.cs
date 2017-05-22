@@ -8,14 +8,16 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly ILikeService Service = new LikeService();
 
-        public void Put(string imageFileName)
+        [HttpPut]
+        public string AddLike(string imageFileName)
         {
-            Service.AddLike(User.Identity.Name, imageFileName);
+            return Service.AddLike(User.Identity.Name, imageFileName);
         }
 
-        public void Delete(string imageFileName)
+        [HttpDelete]
+        public bool DeleteLike(string id)
         {
-            Service.DeleteLike(User.Identity.Name, imageFileName);
+            return Service.DeleteLike(id);
         }
     }
 }

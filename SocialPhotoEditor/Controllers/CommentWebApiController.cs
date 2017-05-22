@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
-using SocialPhotoEditor.BuisnessLayer.ViewModels.CommentViewModels;
+using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers
 {
@@ -11,19 +9,16 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly ICommentService Service = new CommentService();
 
-        public IEnumerable<CommentViewModel> Post(string imageFileName)
+        [HttpPut]
+        public string AddComment(NewCommentResponse response)
         {
-            return Service.GetComments(imageFileName);
+            return Service.AddComment(User.Identity.Name, response.ImageId, response.Text, response.RecipientUserName);
         }
 
-        public void Put(string text, string imageId, DateTime time, string recipientUserName)
+        [HttpDelete]
+        public bool DeleteComment(string commentId)
         {
-            Service.AddComment(User.Identity.Name, imageId, text, time, recipientUserName);
-        }
-
-        public void Delete(string commentatorUserName, string imageId, DateTime time)
-        {
-            Service.DeleteComment(commentatorUserName, imageId, time);
+            return Service.DeleteComment(commentId);
         }
     }
 }

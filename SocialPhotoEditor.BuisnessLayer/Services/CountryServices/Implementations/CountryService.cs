@@ -10,28 +10,11 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CountryServices.Implementatio
     public class CountryService : ICountryService
     {
         private static readonly IRepository<City> CityRepository = new CityRepository();
-        private static readonly IRepository<Country> CountryRepository = new CountryRepository();
 
         public IEnumerable<CountryViewModel> GetCountries()
         {
-            var cities = CityRepository.GetAll();
-            return CountryRepository.GetAll().Select(country => new CountryViewModel
-            {
-                Name = country.Name,
-                Cities = cities.Where(x => x.CountryName == country.Name).Select(x => x.Name)
-            });
-        }
-
-        public LocationViewModel GetLocation(int cityId)
-        {
-            var city = CityRepository.GetAll().FirstOrDefault(x => x.Id == cityId);
-            if (city == null)
-                return null;
-            return new LocationViewModel
-            {
-                City = city.Name,
-                Country = city.CountryName
-            };
+            var cities = CityRepository.GetAll().GroupBy(x => x.CountryName, x => x.CityName);
+            return cities.Select(x => new CountryViewModel {Name = x.Key, Cities = x.AsEnumerable()});
         }
     }
 }

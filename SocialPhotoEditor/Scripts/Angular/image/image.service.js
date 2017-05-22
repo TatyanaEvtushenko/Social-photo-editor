@@ -9,20 +9,29 @@
             return $http({ method: "PUT", url: "/api/LikeWebApi/", params: { 'imageFileName': imageFileName } });
         }
 
-        this.deleteLike = function (imageFileName) {
-            return $http({ method: "DELETE", url: "/api/LikeWebApi/", params: { 'imageFileName': imageFileName } });
+        this.deleteLike = function (id) {
+            return $http({ method: "DELETE", url: "/api/LikeWebApi/", params: { 'id': id } });
         }
 
-        this.addComment = function (text, imageId, time, recipientUserName) {
-            return $http({ method: "PUT", url: "/api/CommentWebApi/", params: { 'text': text, 'imageId': imageId, 'time': time, 'recipientUserName': recipientUserName } });
+        this.addComment = function (text, imageId, recipientUserName) {
+            var response = {
+                text: text,
+                image: imageId,
+                recipient: recipientUserName
+            };
+            return $http.put("/api/CommentWebApi/", response);
         }
 
-        this.deleteComment = function (commentatorUserName, imageId, time) {
-            return $http({ method: "DELETE", url: "/api/CommentWebApi/", params: { 'commentatorUserName': commentatorUserName, 'imageId': imageId, 'time': time } });
+        this.deleteComment = function (commentId) {
+            return $http({ method: "DELETE", url: "/api/CommentWebApi/", params: { 'commentId': commentId } });
         }
 
         this.changeAvatar = function (imageFileName) {
-            return $http({ method: "PUT", url: "/api/AvatarWebApi/", params: { 'imageFileName': imageFileName } });
+            return $http({ method: "PUT", url: "/api/UserWebApi/", params: { 'imageFileName': imageFileName } });
+        }
+
+        this.deleteImage = function (imageFileName) {
+            return $http({ method: "DELETE", url: "/api/ImageWebApi/", params: { 'imageFileName': imageFileName } });
         }
     }
 ]);

@@ -1,92 +1,99 @@
 ﻿@{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Поиск пользователей";
 }
-
+    
 @Scripts.Render("~/bundles/user-list")
 
-<h2>Users</h2>
 <div ng-controller="UserListController">
+    <br/>
     @Html.Partial("ImageModal")
     <div class="row">
-        <div class="col-md-9">
-            <div class="panel panel-default" ng-repeat="user in filteredUserLists track by $index">
+        <div class="col-md-9 user_list">
+            <h3 ng-if="usersCount > 0"><strong>Найдено {{usersCount}} пользователей</strong></h3>
+            <h3 ng-if="usersCount <= 0"><strong>Пользователи не найдены</strong></h3>
+            <div class="panel panel-default" ng-repeat="user in userLists track by $index">
                 <div class="panel-body row">
-                    <a href="~/User/Page?userName={{user.UserName}}">
-                        <div class="col-md-2">
-                            <img class="medium_avatar" src="{{user.AvatarFileName}}" alt="Аватар"/>
-                        </div>
-                        <div class="col-md-8">
-                            <h5><strong>{{user.UserName}}</strong></h5>
-                            <div class="name">{{user.Name}} {{user.Surname}}</div>   
-                            <span ng-if="user.Birthday != null" ng-click="changeFilterAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span>
-                            <div ng-if="user.Location != null">
-                                <span ng-click="">{{user.Location.Country}}</span><span ng-click="">, {{user.Location.City}}</span>
-                            </div>
-                        </div>
+                    <a href="~/User/Page?userName={{user.UserName}}" class="col-md-2">
+                        <img class="medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар" />
                     </a>
-                    <div class="col-md-2" ng-if="user.UserName != currentUserName">
-                        <button ng-if="user.IsSubscriber" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="!user.IsSubscriber" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
+                    <div class="col-md-8">
+                        <a href="~/User/Page?userName={{user.UserName}}">
+                            <h5><strong>{{user.UserName}}</strong></h5>
+                            <div class="name">{{user.Name}} {{user.Surname}}</div>
+                        </a>
+                        <a><span ng-if="user.Birthday != null" ng-click="changeAge(getAge(user.Birthday))">{{getAge(user.Birthday)}} лет</span></a>
+                        <div ng-if="user.Location != null">
+                            <a><span ng-click="changeCountry(user.Location.CountryName)">{{user.Location.CountryName}},</span></a> 
+                            <a><span ng-click="changeCity(user.Location.CountryName, user.Location.CityName)">{{user.Location.CityName}}</span></a>
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-if="user.UserName != currentUser.User.UserName">
+                        <button ng-if="user.SubscriptionId != null" ng-click="unsubscribe($index)" type="button" class="btn btn-default pull-right">Отписаться</button>
+                        <button ng-if="user.SubscriptionId == null" ng-click="subscribe($index)" type="button" class="btn btn-success pull-right">Подписаться</button>
                     </div>
                 </div>
                 <div ng-if="user.PopularImages.length !== 0" class="panel-footer">
                     <div class="row">
-                        <div class="col-xs-6 col-md-3" ng-repeat="fileName in user.PopularImages track by $index">
-                            <a href="#imageModal" class="thumbnail" data-toggle="modal">
-                                <img src="{{fileName}}" ng-click="getImage(fileName)" >
+                        <div class="col-xs-4 col-md-2" ng-repeat="fileName in user.PopularImages track by $index">
+                            <a href="#imageModal" class="tumbnail" data-toggle="modal">
+                                <img class="image_list" src="{{fileName}}" ng-click="getImage(fileName)">
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+            <button ng-if="usersCount > userLists.length" ng-click="getMoreUserList()" type="button" class="btn btn-default">Показать больше пользователей</button>
         </div>
 
         <div class="col-md-3">
+            <h4>Настройки поиска</h4>
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="input-group-lg">
-                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="filterUsers()">
-                        @*<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>*@
+                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="getUserList(0)">
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="sort">Сортировать</label>
-                        <select id="sort" class="form-control">
-                            <option value="sort_data">По дате регистрации</option>
-                            <option value="sort_popular">По популярности</option>
+                        <select ng-model="sortSelect" ng-change="sortUserList()" id="sort" class="form-control">
+                            <option value="0">По дате регистрации</option>
+                            <option value="1">По популярности</option>
                         </select>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
                         <label for="min_age">Возраст</label>
                         <br/>
-                        <input id="min_age" type="number" min="0" max="99" placeholder="От" ng-model="minAge" ng-change="filterUsers()"/> -
-                        <input id="max_age" type="number" min="0" max="99" placeholder="До" ng-model="maxAge" ng-change="filterUsers()"/>
+                        <input id="min_age" type="number" min="1" max="99" placeholder="От" ng-model="minAge" ng-change="getUserList(0)"/> -
+                        <input id="max_age" type="number" min="1" max="99" placeholder="До" ng-model="maxAge" ng-change="getUserList(0)"/>
                         <br/><br/>
+
                         <label for="sex">Пол</label>
-                        <select id="sex" class="form-control">
-                            <option value="defaulte">Не выбран</option>
-                            <option value="male">Мужской</option>
-                            <option value="female">Женский</option>
+                        <select ng-model="sexSelect" ng-change="getUserList(0)" id="sex" class="form-control">
+                            <option value="0">Не выбран</option>
+                            <option value="1">Мужской</option>
+                            <option value="2">Женский</option>
                         </select>
                     </div>
                 </li>
+
                 <li class="list-group-item">
                     <div class="input-group">
-                        <label for="land">Страна</label>
-                        <select id="land" class="form-control">
-                            <option value="defaulte">Не выбрана</option>
-                            @*@foreach (var land in ViewBag.Lands)
-                            {
-                                <option value="@land.Id">@land.Name</option>
-                            }*@
+                        <label for="countrySelect">Страна</label>
+                        <select ng-model="countrySelect" ng-change="selectCountry()" id="countrySelect" name="countrySelect" class="form-control">
+                            <option value="">Не выбрана</option>
+                            <option ng-repeat="country in countries track by $index" value="{{country.Name}}">{{country.Name}}</option>
                         </select>
                         <br/><br/><br/><br/>
-                        <label for="city">Город</label>
-                        <select id="city" class="form-control" disabled="disabled">
-                            <option value="defaulte">Не выбран</option>
+
+                        <label for="citySelect">Город</label>
+                        <select ng-model="citySelect" ng-change="getUserList(0)" id="citySelect" name="citySelect" class="form-control" disabled="disabled">
+                            <option value="">Не выбран</option>
+                            <option ng-repeat="city in cities track by $index" value="{{city}}">{{city}}</option>
                         </select>
                     </div>
                 </li>
