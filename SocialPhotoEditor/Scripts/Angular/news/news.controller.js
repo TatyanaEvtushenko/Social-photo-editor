@@ -1,28 +1,27 @@
 ﻿app.controller("NewsController", [
-    "$scope", "NewsService", function ($scope, NewsService) {
-
-        NewsService.getNews().then(function (http) {
-            $scope.news = http.data;
-        }, function (error) {
-            console.log("Error from server! (news)");
-        });
-
-        $(document).ready(function () {
-            $("#commentInput").emojioneArea({
-                events: {
-                    keypress: function (editor, event) {
-                        if (event.which === 13 || event.keyCode === 13) {
-                            addComment();
-                        }
-                    },
-                    focus: function (editor, event) {
-                        var pos = editor.text().length;
-                        console.log(editor);
-                        editor.select(pos);
-                    }
+    "$scope", "NewsService", function($scope, NewsService) {
+        
+        function getNews(pageNumber) {
+            if (pageNumber === 0) {
+                $scope.news = [];
+            }
+            var oldNewsCount = $scope.news.length;
+            NewsService.getNews(pageNumber).then(function (http) {
+                $scope.news = $scope.news.concat(http.data);
+                if (oldNewsCount === $scope.news.length) {
+                    $("#moreNewsButton").hide();
                 }
+            }, function (error) {
+                console.log("Error from server! (news)");
             });
-            $("#commentInput").data("emojioneArea").setFocus(true);
-        });
+        }
+
+        var pageNumber = 0;
+        getNews(pageNumber);
+
+        $scope.getMoreNews = function () {
+            pageNumber++;
+            getNews(pageNumber);
+        };
     }
 ]);

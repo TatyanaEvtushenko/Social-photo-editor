@@ -7,7 +7,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
     {
         ImageViewModel GetImage(string currentUserName, string imageId);
 
-        IEnumerable<ImageViewModel> GetNews(string currentUserName);
+        IEnumerable<ImageViewModel> GetNews(int pageNumber, string currentUserName);
 
         bool DeleteImage(string currentUserName, string imageFileName);
 

@@ -4,7 +4,7 @@
         var answerUserName = "";
         
         function addComment() {
-            var input = $("#commentInput").data("emojioneArea");
+            var input = $("textarea").data("emojioneArea");
             var text = input.getText().trim();
             var recipientText = "@" + answerUserName + ", ";
             if (text.indexOf(recipientText) === 0) {
@@ -23,7 +23,7 @@
                     };
                     $scope.image.Comments[$scope.image.Comments.length] = comment;
                     input.setText("");
-                    var div = $("#commentDiv");
+                    var div = $(".comment_list");
                     div.scrollTop(div.prop("scrollHeight"));
                 }
             }, function (error) {
@@ -33,7 +33,7 @@
 
         $("#imageModal").on("show.bs.modal", function (e) {
             $(document).ready(function () {
-                $("#commentInput").emojioneArea({
+                $("textarea").emojioneArea({
                     events: {
                         keypress: function (editor, event) {
                             if (event.which === 13 || event.keyCode === 13) {
@@ -105,7 +105,7 @@
 
         $scope.answer = function (userName) {
             answerUserName = userName;
-            var input = $("#commentInput").data("emojioneArea");
+            var input = $("textarea").data("emojioneArea");
             var recipientText = "@" + answerUserName + ", ";
             input.setText(recipientText);
             input.setFocus();
