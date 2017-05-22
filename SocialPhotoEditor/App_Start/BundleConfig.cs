@@ -24,6 +24,7 @@ namespace SocialPhotoEditor
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/emojionearea.min.css",
                       "~/Content/Site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
@@ -33,7 +34,6 @@ namespace SocialPhotoEditor
                 "~/Scripts/Angular/module.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/cloudinary").Include(
-                "~/Scripts/jquery-3.1.1.min.js",
                 "~/Scripts/jquery.ui.widget.js",
                 "~/Scripts/jquery.iframe-transport.js",
                 "~/Scripts/jquery.fileupload.js",
@@ -54,6 +54,7 @@ namespace SocialPhotoEditor
                 "~/Scripts/Angular/user-page/user-page.service.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/image").Include(
+                "~/Scripts/emojionearea.min.js",
                 "~/Scripts/Angular/image/image.controller.js",
                 "~/Scripts/Angular/image/image.service.js"));
 
