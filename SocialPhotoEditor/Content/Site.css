@@ -53,6 +53,11 @@ textarea {
     overflow-y: scroll;
 }
 
+.comment_min_list {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+
 .comment {
     margin: 0 0 5px 0;
     word-wrap: break-word; 
