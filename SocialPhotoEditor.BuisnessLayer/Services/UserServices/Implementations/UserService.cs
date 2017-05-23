@@ -202,6 +202,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 SubscribersCount = GetSubscribersCount(userName),
                 SubscriptionsCount = GetSubscriptionsCount(userName),
                 SubscriptionId = GetSubscriptionId(userName, currentUserName),
+                ImagesCount = ImageRepository.GetAll().Count(x => x.OwnerId == userName)
             };
         }
 

@@ -9,6 +9,16 @@
             return $http({ method: "POST", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
 
+        this.getMoreImages = function (pageNumber, folderId) {
+            var response = {
+                "page": pageNumber,
+                "folderId": folderId
+            }
+            return $http.post("/api/FolderWebApi/", response);
+        }
+
+
+
         this.subscribe = function (userName) {
             return $http({ method: "PUT", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });
         }

@@ -18,8 +18,8 @@
                 <div class="col-md-10">
                     <div class="row">
                         {{userPage.UserName}}
-                        <button ng-if="userPage.IsSubscriber" ng-click="unsubscribe()" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="!userPage.IsSubscriber" ng-click="subscribe()" type="button" class="btn btn-success">Подписаться</button>
+                        <button ng-if="userPage.SubscriptionId != null" ng-click="unsubscribe()" type="button" class="btn btn-default">Отписаться</button>
+                        <button ng-if="userPage.SubscriptionId == null" ng-click="subscribe()" type="button" class="btn btn-success">Подписаться</button>
                     </div>
                     <p>{{userPage.Name}} {{userPage.Surname}}</p>
                     <p>{{userPage.Birthday}}</p>
@@ -36,8 +36,8 @@
 
     <div class="row">
         <ul class="nav nav-tabs">
-            <li class="active"><a ng-click="getFolder(userPage.UserName)">Все фотографии</a></li>
-            <li ng-repeat="folder in userPage.Folders track by $index" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+            <li class="active" id="{{userPage.UserName}}"><a ng-click="getFolder(userPage.UserName)">Все фотографии ({{userPage.ImagesCount}})</a></li>
+            <li ng-repeat="folder in userPage.Folders track by $index" id="{{folder.Id}}" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
         </ul>
     </div>
 
@@ -46,10 +46,12 @@
     <div class="row">
         <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
             <a href="#imageModal" class="thumbnail" data-toggle="modal">
-                <img alt="..." src="{{image.FileName}}" ng-click="getImage(image)">
+                <img alt="..." src="{{image.FileName}}" ng-click="getImage(image.FileName)">
             </a>
         </div>
     </div>
+
+    <button id="moreImagesButton" type="button" class="btn btn-default" ng-click="getMoreImages()">Показать больше изображений</button>
 
     @Html.Partial("ImageModal")
     @Html.Partial("UsersModal")

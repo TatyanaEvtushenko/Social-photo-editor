@@ -35,19 +35,30 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
 
         public FolderViewModel GetFolder(string folderId)
         {
-            var folder = new FolderViewModel {Subscribe = FolderRepository.GetFirst(folderId)?.Subscribe};
+            var folderModel = FolderRepository.GetFirst(folderId);
+            return new FolderViewModel
+            {
+                Subscribe = folderModel?.Subscribe,
+                Name = folderModel?.Name,
+                Id = folderId,
+                Images = GetMoreImages(0, folderId)
+            };
+        }
+
+        public IEnumerable<ImageListViewModel> GetMoreImages(int pageNumber, string folderId)
+        {
             var images = ImageRepository.GetAll();
             var imagesInFolder = images.Where(x => x.FolderId == folderId);
             if (!imagesInFolder.Any())
                 imagesInFolder = images.Where(x => x.OwnerId == folderId);
-            folder.Images = imagesInFolder.Take(IntSettings.CountImageLists).Select(x => new ImageListViewModel
+            var countOnPage = IntSettings.CountImageLists;
+            return imagesInFolder.OrderBy(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage).Select(x => new ImageListViewModel
             {
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),
                 LikesCount = LikeService.GetLikesCount(x.FileName),
                 CreatingTime = x.Time
             });
-            return folder;
         }
     }
 }

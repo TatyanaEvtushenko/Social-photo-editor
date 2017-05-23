@@ -231,6 +231,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\FolderResponse.cs" />
     <Compile Include="Responses\NewCommentResponse.cs" />
     <Compile Include="Responses\SearchResponse.cs" />
     <Compile Include="Startup.cs" />
