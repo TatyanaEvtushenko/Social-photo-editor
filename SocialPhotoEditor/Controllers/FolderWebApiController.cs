@@ -23,5 +23,17 @@ namespace SocialPhotoEditor.Controllers
         {
             return Service.GetMoreImages(response.PageNumber, response.FolderId);
         }
+
+        [HttpPut]
+        public string AddFolder(NewFolderResponse response)
+        {
+            return Service.AddFolder(response.Name, response.Subscribe, User.Identity.Name);
+        }
+
+        [HttpDelete]
+        public bool DeleteFolder(string folderId)
+        {
+            return Service.DeleteFolder(folderId);
+        }
     }
 }

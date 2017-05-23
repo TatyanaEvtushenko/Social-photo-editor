@@ -17,7 +17,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
     public class FolderService : IFolderService
     {
         private static readonly IChangedRepository<Folder> FolderRepository = new FolderRepository();
-        private static readonly IRepository<Image> ImageRepository = new ImageRepository();
+        private static readonly IChangedRepository<Image> ImageRepository = new ImageRepository();
 
         private static readonly ICommentService CommentService = new CommentService();
         private static readonly ILikeService LikeService = new LikeService();
@@ -60,6 +60,24 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
                 LikesCount = LikeService.GetLikesCount(x.FileName),
                 CreatingTime = x.Time
             });
+        }
+
+        public string AddFolder(string name, string subscribe, string currentUserName)
+        {
+            var folder = new Folder {Name = name, Subscribe = subscribe, OwnerId = currentUserName};
+            return FolderRepository.Add(folder);
+        }
+
+        public bool DeleteFolder(string folderId)
+        {
+            if (!FolderRepository.Delete(folderId)) return false;
+            var images = ImageRepository.GetAll().Where(x => x.FolderId == folderId);
+            foreach (var image in images)
+            {
+                image.FolderId = null;
+                ImageRepository.Update(image.FileName, image);
+            }
+            return true;
         }
     }
 }
