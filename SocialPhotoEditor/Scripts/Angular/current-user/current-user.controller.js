@@ -19,6 +19,11 @@
             return null;
         }
 
+        $scope.setIdName = function (idName) {
+            var reg = /[^\w]/g;
+            return idName.replace(reg, "");
+        }
+
         $scope.getAge = function(birthday) {
             if (birthday == null)
                 return null;
