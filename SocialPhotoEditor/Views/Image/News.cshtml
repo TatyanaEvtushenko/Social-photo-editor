@@ -10,7 +10,7 @@
         <div class="row panel-heading">
             <a href="~/User/Page?userName={{image.Owner.UserName}}">
                 <div class="col-md-1">
-                    <img class="small_avatar" src="{{getAvatar(image.Owner.AvatarFileName)}}"/>
+                    <img class="avatar small_avatar" src="{{getAvatar(image.Owner.AvatarFileName)}}"/>
                 </div>
                 <h5 class="col-md-9">
                     <strong>{{image.Owner.UserName}}</strong>
@@ -27,7 +27,7 @@
                 <h5><strong>{{image.LikesCount}} отметок "Нравится"</strong></h5>
             </div>
 
-            <div class="comment_min_list">
+            <div class="scroll_list comment_min_list">
                 <div class="row comment" ng-repeat="comment in image.Comments track by $index">
                     <div class="col-md-11" ng-click="answer(comment.OwnerUserName)">
                         <strong><a href="~/User/Page?userName={{comment.OwnerUserName}}">{{comment.OwnerUserName}}</a></strong>

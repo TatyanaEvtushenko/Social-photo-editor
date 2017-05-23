@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Page";
+    ViewBag.Title = User.Identity.Name;
 }
 
 @Scripts.Render("~/bundles/user-page")
@@ -10,9 +10,9 @@
         <div class="row">
             <div class="col-md-3">
                 <a ng-if="userPage.AvatarFileName != null" href="#imageModal" class="tumbnail" data-toggle="modal">
-                    <img class="big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
+                    <img class="avatar big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
                 </a>
-                <img ng-if="userPage.AvatarFileName == null" class="big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
+                <img ng-if="userPage.AvatarFileName == null" class="avatar big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
             </div>
             <div class="col-md-9">
                 <div class="col-md-10">
@@ -35,18 +35,32 @@
     </div>
 
     <div class="row">
-        <ul class="nav nav-tabs">
-            <li class="active" id="{{userPage.UserName}}"><a ng-click="getFolder(userPage.UserName)">Все фотографии ({{userPage.ImagesCount}})</a></li>
-            <li ng-repeat="folder in userPage.Folders track by $index" id="{{folder.Id}}" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
-        </ul>
+        <div class="col-md-10">
+            <ul class="nav nav-tabs">
+                <li class="active" id="{{userPage.UserName}}"><a ng-click="getFolder(userPage.UserName)">Все фотографии ({{userPage.ImagesCount}})</a></li>
+                <li ng-repeat="folder in userPage.Folders track by $index" id="{{folder.Id}}" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Новый альбом</button>
+        </div>
     </div>
 
-    <p>{{folder.Subscribe}}</p>
+    <div class="row">
+        <h4 class="col-md-10"><strong>{{folder.Name}}</strong></h4>
+        <div ng-if="folder.OwnerId == currentUser.User.UserName">
+            <button class="btn btn-default col-md-1">hil</button>
+            <button class="btn btn-default col-md-1">lk</button>
+        </div>
+    </div>
+    <div class="row">
+        <h5 class="col-md-12" ng-if="folder.Subscribe != null">{{folder.Subscribe}}</h5>
+    </div>
 
     <div class="row">
         <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
-            <a href="#imageModal" class="thumbnail" data-toggle="modal">
-                <img alt="..." src="{{image.FileName}}" ng-click="getImage(image.FileName)">
+            <a href="#imageModal" class="tumbnail" data-toggle="modal">
+                <img alt="..." src="{{image.FileName}}" class="image_list" ng-click="getImage(image.FileName)">
             </a>
         </div>
     </div>

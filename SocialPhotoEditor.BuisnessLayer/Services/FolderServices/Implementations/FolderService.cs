@@ -41,7 +41,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
                 Subscribe = folderModel?.Subscribe,
                 Name = folderModel?.Name,
                 Id = folderId,
-                Images = GetMoreImages(0, folderId)
+                Images = GetMoreImages(0, folderId),
+                OwnerId = folderModel?.OwnerId
             };
         }
 

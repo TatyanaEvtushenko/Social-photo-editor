@@ -3,6 +3,7 @@
 
         var userName = $scope.getParamFromUrl("userName");
         var pageCount = 0;
+        $scope.folder = null;
 
         UserPageService.getUserPage(userName).then(function (http) {
             $scope.userPage = http.data;
@@ -31,15 +32,14 @@
         }
 
         $scope.getFolder = function (folderId) {
+            if ($scope.folder != null) {
+                $("#" + $scope.folder.Id).removeClass("active");
+            }
             UserPageService.getFolder(folderId).then(function (http) {
                 if (http.data != null) {
                     $scope.folder = http.data;
                     pageCount = 0;
                     $("#moreImagesButton").show();
-
-                    console.log($scope.folder);
-                    $("li").removeClass("active");
-                    console.log("#" + folderId);
                     $("#" + folderId).addClass("active");
                 }
             }, function (error) {
