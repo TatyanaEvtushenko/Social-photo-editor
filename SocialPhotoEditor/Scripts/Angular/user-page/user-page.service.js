@@ -24,14 +24,14 @@
             };
             return $http.post("/api/FolderWebApi/MoreUserImages/", response);
         }
-
-
-
-
         
         this.deleteFolder = function (folderId) {
             return $http({ method: "DELETE", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
+
+
+
+
 
         this.subscribe = function (userName) {
             return $http({ method: "PUT", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });

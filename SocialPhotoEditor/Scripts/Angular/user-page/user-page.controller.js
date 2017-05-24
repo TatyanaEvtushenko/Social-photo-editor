@@ -7,6 +7,9 @@
         var activeFolderId = "";
         var folderIndex = 0;
 
+        $(".alert").alert();
+        $("#deleteFolderAlert").hide();
+
         UserPageService.getUserPage(userName).then(function (http) {
             $scope.userPage = http.data;
             allImagesPageCount++;
@@ -66,7 +69,30 @@
             }
         }
 
+        $scope.tryDeleteFolder = function () {
+            if (typeof $scope.folder.OwnerId === "undefined" || $scope.folder.OwnerId !== $scope.currentUser.User.UserName) return;
+            if (typeof $scope.folder.Id === "undefined") return;
+            $("#deleteFolderAlert").show();
+        }
+        
+        $scope.hideFolderAlert = function () {
+            $("#deleteFolderAlert").hide();
+        }
 
+        $scope.deleteFolder = function () {
+            $("#deleteFolderAlert").hide();
+            if (typeof $scope.folder.OwnerId === "undefined" || $scope.folder.OwnerId !== $scope.currentUser.User.UserName) return;
+            if (typeof $scope.folder.Id === "undefined") return;
+            UserPageService.deleteFolder($scope.folder.Id).then(function (http) {
+                if (http.data) {
+                    $scope.userPage.Folders.splice(folderIndex, 1);
+                    $scope.folder = { Images: $scope.userPage.UserImages };
+                    changeFolder("userImages", $scope.userPage.ImagesCount);
+                }
+            }, function (error) {
+                console.log("Error from server! (delete folder)");
+            });
+        }
 
 
         $scope.subscribe = function () {

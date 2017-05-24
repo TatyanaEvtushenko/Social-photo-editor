@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = User.Identity.Name;
+    ViewBag.Title = "Страница " + User.Identity.Name;
 }
 
 @Scripts.Render("~/bundles/user-page")
@@ -49,14 +49,36 @@
     </div>
 
     <div class="row">
-        <h4 class="col-md-10"><strong>{{folder.Name}}</strong></h4>
-        <div ng-if="folder.OwnerId == currentUser.User.UserName">
-            <button class="btn btn-default col-md-1">hil</button>
-            <button class="btn btn-default col-md-1">lk</button>
+        <div class="col-md-10">
+            <h3><strong>{{folder.Name}}</strong></h3>
+        </div>
+        <div ng-if="folder.OwnerId == currentUser.User.UserName" class="col-md-2">
+            <div class="btn-group pull-right">
+                <button class="btn btn-default" ng-click="" data-toggle="tooltip" data-placement="bottom" title="Редактировать папку">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <button class="btn btn-default" ng-click="tryDeleteFolder()" data-toggle="tooltip" data-placement="bottom" title="Удалить папку">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="row">
-        <h5 class="col-md-12" ng-if="folder.Subscribe != null">{{folder.Subscribe}}</h5>
+        <div class="col-md-12" ng-if="folder.Subscribe != null">
+            <h5>{{folder.Subscribe}}</h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="alert alert-danger fade in" id="deleteFolderAlert">
+            <button type="button" class="close" ng-click="hideFolderAlert()" aria-hidden="True">x</button>
+            <h4>Вы уверены, что хотите удалить этот альбом?</h4>
+            <p>Изображения из этого альбома будут доступны в альбоме всех изображений.</p>
+            <p>
+                <button type="button" class="btn btn-danger" ng-click="deleteFolder()">Удалить</button>
+                <button type="button" class="btn btn-default" ng-click="hideFolderAlert()">Отменить</button>
+            </p>
+        </div>
     </div>
 
     <div class="row">
@@ -67,7 +89,9 @@
         </div>
     </div>
 
-    <button id="moreImagesButton" type="button" class="btn btn-default" ng-click="getMoreImages()">Показать больше изображений</button>
+    <div class="row">
+        <button id="moreImagesButton" type="button" class="btn btn-default" ng-click="getMoreImages()">Показать больше изображений</button>
+    </div>
 
     @Html.Partial("ImageModal")
     @Html.Partial("UsersModal")
