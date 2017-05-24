@@ -29,14 +29,17 @@
                                 </button>
                                 <button class="btn btn-default" href="#userListModal" data-toggle="modal" ng-click="getSubscriptions()">
                                     <div data-toggle="tooltip" data-placement="bottom" title="Просмотреть подписки пользователя">
-                                         {{userPage.SubscriptionsCount}} подписок
+                                        {{userPage.SubscriptionsCount}} подписок
                                     </div>
                                 </button>
-                                <button ng-if="userPage.SubscriptionId != null" ng-click="unsubscribe()" type="button" class="btn btn-default">
+                                <button ng-if="userPage.UserName !== currentUser.User.UserName && userPage.SubscriptionId != null" ng-click="unsubscribe()" type="button" class="btn btn-default">
                                     Отписаться
                                 </button>
-                                <button ng-if="userPage.SubscriptionId == null" ng-click="subscribe()" type="button" class="btn btn-success">
+                                <button ng-if="userPage.UserName !== currentUser.User.UserName && userPage.SubscriptionId == null" ng-click="subscribe()" type="button" class="btn btn-success">
                                     Подписаться
+                                </button>
+                                <button ng-if="userPage.UserName === currentUser.User.UserName" ng-click="redirectToSettings()" type="button" class="btn btn-default">
+                                    Редактировать <span class="glyphicon glyphicon-cog"></span>
                                 </button>
                             </div>
                         </div>

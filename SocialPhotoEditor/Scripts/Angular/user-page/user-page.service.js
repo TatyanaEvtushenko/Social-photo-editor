@@ -37,10 +37,6 @@
             return $http({ method: "POST", url: "/api/RelationshipWebApi/Subscriptions/", params: { 'userName': userName } });
         }
 
-
-
-
-
         this.subscribe = function (userName) {
             return $http({ method: "PUT", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });
         }

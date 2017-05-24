@@ -122,23 +122,32 @@
             });
         }
 
-
         $scope.subscribe = function () {
+            if (userName === $scope.currentUser.User.UserName) return;
             UserPageService.subscribe(userName).then(function (http) {
-                $scope.userPage.IsSubscriber = true;
-                $scope.userPage.SubscribersCount++;
+                if (http.data != null) {
+                    $scope.userPage.SubscriptionId = http.data;
+                    $scope.userPage.SubscribersCount++;
+                }
             }, function (error) {
                 console.log("Error from server! (subscribe)");
             });
         }
 
         $scope.unsubscribe = function () {
-            UserPageService.unsubscribe(userName).then(function (http) {
-                $scope.userPage.IsSubscriber = false;
-                $scope.userPage.SubscribersCount--;
+            if (userName === $scope.currentUser.User.UserName) return;
+            UserPageService.unsubscribe($scope.userPage.SubscriptionId).then(function (http) {
+                if (http.data) {
+                    $scope.userPage.SubscriptionId = null;
+                    $scope.userPage.SubscribersCount--;
+                }
             }, function (error) {
                 console.log("Error from server! (unsubscribe)");
             });
+        }
+
+        $scope.redirectToSettings = function () {
+            window.location.replace("/User/Setting/");
         }
     }
 ]);
