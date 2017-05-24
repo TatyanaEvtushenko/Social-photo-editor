@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Настройка профиля";
+}
+@Scripts.Render("~/bundles/setting")
+
+<div ng-controller="SettingController" class="container-fluid">
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Настройка профиля</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="jumbotron">
+                <img class="avatar big_avatar" src="{{getAvatar(user.AvatarFileName)}}"/>
+                <br/>
+                <h4>{{user.UserName}}</h4>
+                <h5 class="text-muted">Дата регистрации: {{getStrDate(user.RegisterDate)}}</h5>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <form ng-submit="updateUserInfo">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="name">Имя</label>
+                                <input id="name" type="text" class="form-control" ng-model="nameInput" placeholder="Введите ваше имя"/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="surname">Фамилия</label>
+                                <input id="surname" type="text" class="form-control" ng-model="surnameInput" placeholder="Введите вашу фамилию"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="subscribe">Описание</label>
+                                <textarea id="subscribe" class="form-control" ng-model="subscribeTextarea" placeholder="Введите вашу фамилию"></textarea>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="sex">Пол</label>
+                                <select ng-model="sexSelect" id="sex" class="form-control">
+                                    <option value="0">Не выбран</option>
+                                    <option value="1">Мужской</option>
+                                    <option value="2">Женский</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="date">Дата рождения</label>
+                                <input type="date" id="date" ng-model="birthdayInput" class="form-control" placeholder="yyyy-MM-dd" min="2013-01-01" max="2013-12-31" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="countrySelect">Страна</label>
+                                <select ng-model="countrySelect" id="countrySelect" name="countrySelect" class="form-control" ng-change="selectCountry()">
+                                    <option value="">Не выбрана</option>
+                                    <option ng-repeat="country in countries track by $index" value="{{country.Name}}">{{country.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="citySelect">Город</label>
+                                <select ng-model="citySelect" id="citySelect" name="citySelect" class="form-control">
+                                    <option value="">Не выбран</option>
+                                    <option ng-repeat="city in cities track by $index" value="{{city}}">{{city}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="alert alert-success fade in" id="deleteImageAlert">
+                                    <button type="button" class="close" ng-click="hideDeleteAlert()" aria-hidden="True">x</button>
+                                    <p>Изменения сохранены</p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-default pull-right">Сохранить</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+ 

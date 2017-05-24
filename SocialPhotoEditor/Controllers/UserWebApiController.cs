@@ -2,6 +2,7 @@
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
+using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers
@@ -27,6 +28,19 @@ namespace SocialPhotoEditor.Controllers
         public bool ChangeAvatar(string imageFileName)
         {
             return Service.ChangeAvatar(User.Identity.Name, imageFileName);
+        }
+
+        [HttpGet]
+        public UserInfoViewModel GetUserInfo()
+        {
+            return Service.GetUserInfo(User.Identity.Name);
+        }
+
+        [HttpPut]
+        public bool UpdateUserInfo(UpdateUserInfoResponse response)
+        {
+            return Service.UpdateUserInfo(User.Identity.Name, response.AvatarFileName, response.Name, response.Surname,
+                response.Birthday, response.Subscribe, response.Country, response.City, response.Sex);
         }
     }
 }

@@ -94,12 +94,6 @@
             });
         };
 
-        $scope.getBirthday = function(date) {
-            date = new Date(date);
-            var monthes = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
-            return date.getDate() + " " + monthes[date.getMonth()] + " " + date.getFullYear() + " г.";
-        };
-
         $scope.checkIfBirthday = function(date) {
             return new Date(date).getDate() === new Date().getDate();
         };

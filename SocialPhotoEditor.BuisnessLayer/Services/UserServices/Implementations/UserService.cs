@@ -218,6 +218,41 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 };
         }
 
+        public UserInfoViewModel GetUserInfo(string currentUserName)
+        {
+            var info = InfoRepository.GetFirst(currentUserName);
+            var city = CityRepository.GetFirst(info.CityId);
+            return new UserInfoViewModel
+            {
+                AvatarFileName = info.AvatarFileName,
+                Birthday = info.Birthday,
+                UserName = currentUserName,
+                Name = info.Name,
+                Surname = info.Surname,
+                Subscribe = info.Subscribe,
+                Sex = info.Sex,
+                RegisterDate = info.RegisterDate,
+                CountryName = city.CountryName,
+                CityName = city.CityName
+            };
+        }
+
+        public bool UpdateUserInfo(string currentUserName, string avatarFileName, string name, string surname, DateTime birthday, string subscribe,
+            string country, string city, SexEnum sex)
+        {
+            var info = new UserInfo
+            {
+                AvatarFileName = avatarFileName,
+                Name = name,
+                Surname = surname,
+                Birthday = birthday,
+                CityId = CityRepository.GetAll().FirstOrDefault(x => x.CityName == city && x.CountryName == country)?.Id,
+                Sex = sex,
+                Subscribe = subscribe
+            };
+            return InfoRepository.Update(currentUserName, info);
+        }
+
         public bool ChangeAvatar(string currentUserName, string imageFileName)
         {
             if (ImageRepository.GetFirst(imageFileName).OwnerId != currentUserName) return false;

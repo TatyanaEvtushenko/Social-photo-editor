@@ -13,5 +13,10 @@ namespace SocialPhotoEditor.Controllers
         {
             return View();
         }
+
+        public ActionResult Setting()
+        {
+            return View();
+        }
     }
 }
