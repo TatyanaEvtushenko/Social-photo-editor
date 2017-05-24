@@ -20,9 +20,12 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 480px;
 }
 
+.comment_input {
+    max-height: 50px;
+}
 
 .search {
     opacity: 1.0;
@@ -36,36 +39,41 @@ textarea {
     border: none;
 }
 
-.user_list {
-    height: 560px;
+.scroll_list {
     overflow-y: scroll;
 }
 
-.image_list {
-    overflow: hidden;
-    display: inline-block;
+.scroll_list.user_list {
+    height: 560px;
+}
+
+.scroll_list.comment_list {
+    height: 350px;
+}
+
+.scroll_list.comment_min_list {
+    max-height: 100px;
+}
+
+.scroll_list.user_min_list {
+    max-height: 500px;
+}
+
+.image_min_list {
     width: 130px;
     height: 130px;
 }
 
-.comment_list {
-    height: 350px;
-    overflow-y: scroll;
-}
-
-.comment_min_list {
-    max-height: 100px;
-    overflow-y: scroll;
+.image_list {
+    width: 282px;
+    height: 282px;
+    margin: 0 0 10px 0;
 }
 
 .comment {
     margin: 0 0 5px 0;
     word-wrap: break-word; 
 }
-
-
-
-
 
 .image {
     max-height: 650px;
@@ -76,22 +84,29 @@ textarea {
     font-size: 20px;
 }
 
-.small_avatar {
-    margin: 0 10px 0 0;
+.avatar {
     border-radius: 50%;
+}
+
+.avatar.small_avatar {
+    margin: 0 10px 0 0;
     width: 35px;
     height: 35px;
 }
 
-.medium_avatar {
+.avatar.user-min-list {
     margin: 0 10px 0 0;
-    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.avatar.medium_avatar {
+    margin: 0 10px 0 0;
     width: 100px;
     height: 100px;
 }
 
-.big_avatar {
-    border-radius: 5%;
+.avatar.big_avatar {
     width: 200px;
     height: 200px;
 }

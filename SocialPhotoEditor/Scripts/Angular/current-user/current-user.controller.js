@@ -19,6 +19,11 @@
             return null;
         }
 
+        $scope.setIdName = function (idName) {
+            var reg = /[^\w]/g;
+            return idName.replace(reg, "");
+        }
+
         $scope.getAge = function(birthday) {
             if (birthday == null)
                 return null;
@@ -63,6 +68,10 @@
         $scope.getImage = function (fileName) {
             $scope.imageId = fileName;
         }
+
+        $scope.openAddFolder = function(ownerUserName) {
+            $scope.folderOwnerId = ownerUserName;
+        };
 
         $scope.getAvatar = function (fileName) {
             return fileName == null ? "/Content/avatar.jpg" : fileName;

@@ -5,8 +5,8 @@
             return $http({ method: "PUT", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });
         }
 
-        this.unsubscribe = function (userName) {
-            return $http({ method: "DELETE", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });
+        this.unsubscribe = function (id) {
+            return $http({ method: "DELETE", url: "/api/RelationshipWebApi/", params: { 'id': id } });
         }
     }
 ]);

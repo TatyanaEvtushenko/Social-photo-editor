@@ -1,10 +1,11 @@
 ﻿app.controller("ImageController", [
-    "$scope", "ImageService", function ($scope, ImageService) {
-        
+    "$scope", "ImageService", function($scope, ImageService) {
+
         var answerUserName = "";
-        
+        var index = 0;
+
         function addComment() {
-            var input = $("textarea").data("emojioneArea");
+            var input = $("#" + index).data("emojioneArea");
             var text = input.getText().trim();
             var recipientText = "@" + answerUserName + ", ";
             if (text.indexOf(recipientText) === 0) {
@@ -12,7 +13,8 @@
             } else {
                 answerUserName = null;
             }
-            ImageService.addComment(text, $scope.image.FileName, answerUserName).then(function (http) {
+            var image = typeof $scope.news !== "undefined" ? $scope.news[index] : $scope.image;
+            ImageService.addComment(text, image.FileName, answerUserName).then(function (http) {
                 if (http.data != null) {
                     var comment = {
                         Text: text,
@@ -21,58 +23,65 @@
                         OwnerUserName: $scope.currentUser.User.UserName,
                         Id: http.data
                     };
-                    $scope.image.Comments[$scope.image.Comments.length] = comment;
+                    image.Comments[image.Comments.length] = comment;
                     input.setText("");
-                    var div = $(".comment_list");
+                    var div = $("#commentDiv" + index);
                     div.scrollTop(div.prop("scrollHeight"));
                 }
             }, function (error) {
                 console.log("Error from server! (add comment)");
             });
+        };
+
+        function sortComment() {
+            if ($scope.image != null && $scope.image.length !== 0) {
+                $scope.image.Comments.sort(function (a, b) {
+                    if (a.Time < b.Time) {
+                        return -1;
+                    }
+                    if (a.Time > b.Time) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
         }
 
-        $("#imageModal").on("show.bs.modal", function (e) {
-            $(document).ready(function () {
-                $("textarea").emojioneArea({
-                    events: {
-                        keypress: function (editor, event) {
-                            if (event.which === 13 || event.keyCode === 13) {
-                                addComment();
-                            }
-                        },
-                        focus: function (editor, event) {
-                            var pos = editor.text().length;
-                            console.log(editor);
-                            editor.select(pos);
+        $(document).ready(function () {
+            $("textarea").emojioneArea({
+                events: {
+                    keypress: function (editor, event) {
+                        if (event.which === 13 || event.keyCode === 13) {
+                            index = editor[0].parentElement.parentElement.firstElementChild.id;
+                            addComment();
                         }
+                    },
+                    focus: function (editor, event) {
+                        //var pos = editor.text().length;
+                        //console.log(pos);
                     }
-                });
-                $("#commentInput").data("emojioneArea").setFocus(true);
+                }
             });
+            sortComment();
+        });
+
+        $("#imageModal").on("show.bs.modal", function (e) {
             ImageService.getImage($scope.imageId).then(function (http) {
                 $scope.image = http.data;
-                if ($scope.image != null && $scope.image.length !== 0) {
-                    $scope.image.Comments.sort(function (a, b) {
-                        if (a.Time < b.Time) {
-                            return -1;
-                        }
-                        if (a.Time > b.Time) {
-                            return 1;
-                        }
-                        return 0;
-                    });
-                }
-            }, function(error) {
+                sortComment();
+            }, function (error) {
                 console.log("Error from server! (image)");
             });
             $(".alert").alert();
             $("#deleteImageAlert").hide();
+            $("textarea").data("emojioneArea").setFocus(true);
         });
 
         $scope.changeAvatar = function () {
-            var image = $scope.image.FileName;
-            if (image === $scope.currentUser.User.AvatarFileName) return;
-            ImageService.changeAvatar(image).then(function (http) {
+            var image = $scope.image;
+            var currentUser = $scope.currentUser.User;
+            if (image.FileName === currentUser.AvatarFileName || image.Owner.UserName !== currentUser.UserName) return;
+            ImageService.changeAvatar(image.FileName).then(function (http) {
                 if (http.data) {
                     window.location.reload();
                 }
@@ -103,9 +112,10 @@
             });
         }
 
-        $scope.answer = function (userName) {
+        $scope.answer = function (userName, i) {
             answerUserName = userName;
-            var input = $("textarea").data("emojioneArea");
+            index = i;
+            var input = $("#" + index).data("emojioneArea");
             var recipientText = "@" + answerUserName + ", ";
             input.setText(recipientText);
             input.setFocus();
@@ -132,6 +142,7 @@
         }
 
         $scope.deleteImage = function () {
+            if ($scope.image.Owner.UserName !== $scope.currentUser.User.UserName) return;
             ImageService.deleteImage($scope.image.FileName).then(function (http) {
                 if (http.data) {
                     window.location.reload();

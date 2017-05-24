@@ -231,8 +231,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\FolderResponse.cs" />
     <Compile Include="Responses\NewCommentResponse.cs" />
+    <Compile Include="Responses\NewFolderResponse.cs" />
     <Compile Include="Responses\SearchResponse.cs" />
+    <Compile Include="Responses\UserImagesResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
   </ItemGroup>
@@ -243,6 +246,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\emojionearea.min.css" />
+    <Content Include="Content\fireworks.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -279,6 +283,8 @@
     </Content>
     <Content Include="Scripts\Angular\current-user\current-user.service.js" />
     <Content Include="Scripts\Angular\current-user\current-user.controller.js" />
+    <Content Include="Scripts\Angular\folder\folder.controller.js" />
+    <Content Include="Scripts\Angular\folder\folder.service.js" />
     <Content Include="Scripts\Angular\image\image.controller.js" />
     <Content Include="Scripts\Angular\image\image.service.js" />
     <Content Include="Scripts\Angular\module.js" />
@@ -1112,6 +1118,7 @@
     <Content Include="Views\Shared\ImageModal.cshtml" />
     <Content Include="Views\Shared\UsersModal.cshtml" />
     <Content Include="Views\Image\News.cshtml" />
+    <Content Include="Views\Shared\NewFolderModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

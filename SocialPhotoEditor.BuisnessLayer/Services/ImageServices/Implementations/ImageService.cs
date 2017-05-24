@@ -65,6 +65,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
 
         public bool DeleteImage(string currentUserName, string imageFileName)
         {
+            if (currentUserName != ImageRepository.GetFirst(imageFileName).OwnerId) return false;
             if (!ImageRepository.Delete(imageFileName)) return false;
             var likes = LikeRepository.GetAll().Where(x => x.ImageId == imageFileName);
             foreach (var like in likes)
@@ -83,7 +84,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
             return true;
         }
 
-        public string AddImage(string imageFileName)
+        public string AddImage(string currentUserName, string imageFileName)
         {
             throw new System.NotImplementedException();
         }

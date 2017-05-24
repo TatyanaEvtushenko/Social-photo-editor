@@ -65,6 +65,11 @@ namespace SocialPhotoEditor
             bundles.Add(new ScriptBundle("~/bundles/news").Include(
                 "~/Scripts/Angular/news/news.controller.js",
                 "~/Scripts/Angular/news/news.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/folder").Include(
+                "~/Scripts/emojionearea.min.js",
+                "~/Scripts/Angular/folder/folder.controller.js",
+                "~/Scripts/Angular/folder/folder.service.js"));
         }
     }
 }

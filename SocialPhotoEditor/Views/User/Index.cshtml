@@ -8,13 +8,13 @@
     <br/>
     @Html.Partial("ImageModal")
     <div class="row">
-        <div class="col-md-9 user_list">
+        <div class="col-md-9 scroll_list user_list">
             <h3 ng-if="usersCount > 0"><strong>Найдено {{usersCount}} пользователей</strong></h3>
             <h3 ng-if="usersCount <= 0"><strong>Пользователи не найдены</strong></h3>
             <div class="panel panel-default" ng-repeat="user in userLists track by $index">
                 <div class="panel-body row">
                     <a href="~/User/Page?userName={{user.UserName}}" class="col-md-2">
-                        <img class="medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар" />
+                        <img class="avatar medium_avatar" src="{{getAvatar(user.AvatarFileName)}}" alt="Аватар" />
                     </a>
                     <div class="col-md-8">
                         <a href="~/User/Page?userName={{user.UserName}}">
@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-xs-4 col-md-2" ng-repeat="fileName in user.PopularImages track by $index">
                             <a href="#imageModal" class="tumbnail" data-toggle="modal">
-                                <img class="image_list" src="{{fileName}}" ng-click="getImage(fileName)">
+                                <img class="image_min_list" src="{{fileName}}" ng-click="getImage(fileName)">
                             </a>
                         </div>
                     </div>

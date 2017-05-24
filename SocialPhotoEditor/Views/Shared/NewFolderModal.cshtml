@@ -1,0 +1,43 @@
+﻿@Scripts.Render("~/bundles/folder")
+
+<div ng-controller="FolderController" class="modal fade bs-example-modal" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="folderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header container-fluid">
+                <div class="row">
+                    <h4 class="col-md-11">Новый альбом</h4>
+                    <button type="button" class="col-md-1 close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+            </div>
+
+            <div class="modal-body container-fluid">
+                <form ng-submit="addFolder()">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="folderNameInput">Название</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input id="folderNameInput" type="text" required placeholder="Введите название альбома" class="form-control"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="folderSubscribeTextarea">Описание</label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea id="folderSubscribeTextarea" class="form-control" placeholder="Введите описание альбома"></textarea>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-8">
+                            <button class="btn btn-success pull-right" type="submit">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

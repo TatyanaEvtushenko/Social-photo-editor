@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Enums;
-using SocialPhotoEditor.BuisnessLayer.Services.FileServices;
-using SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.FolderServices;
 using SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
@@ -12,7 +10,6 @@ using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Enums;
 using SocialPhotoEditor.DataLayer.Repositories;
-using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
@@ -24,7 +21,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
     public class UserService : IUserService
     {
         private static readonly IChangedRepository<UserInfo> InfoRepository = new UserInfoRepository();
-        private static readonly IEditedRepository<Avatar> AvatarRepository = new AvatarRepository();
         private static readonly IRepository<Image> ImageRepository = new ImageRepository();
         private static readonly IRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
         private static readonly IRepository<City> CityRepository = new CityRepository();
@@ -195,7 +191,19 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
             var info = InfoRepository.GetFirst(userName);
             return new UserPageViewModel
             {
-                UserName = userName, AvatarFileName = info?.AvatarFileName, AvatarImage = AvatarRepository.GetFirst(info?.AvatarFileName)?.ImageFileName, Name = info?.Name, Surname = info?.Surname, Birthday = info?.Birthday, Subscribe = info?.Subscribe, Location = CityRepository.GetFirst(info?.CityId), Folders = FolderService.GetFolderLists(userName), SubscribersCount = GetSubscribersCount(userName), SubscriptionsCount = GetSubscriptionsCount(userName), SubscriptionId = GetSubscriptionId(userName, currentUserName),
+                UserName = userName,
+                AvatarFileName = info?.AvatarFileName,
+                Name = info?.Name,
+                Surname = info?.Surname,
+                Birthday = info?.Birthday,
+                Subscribe = info?.Subscribe,
+                Location = CityRepository.GetFirst(info?.CityId),
+                Folders = FolderService.GetFolderLists(userName),
+                SubscribersCount = GetSubscribersCount(userName),
+                SubscriptionsCount = GetSubscriptionsCount(userName),
+                SubscriptionId = GetSubscriptionId(userName, currentUserName),
+                ImagesCount = ImageRepository.GetAll().Count(x => x.OwnerId == userName),
+                UserImages = FolderService.GetMoreUserImages(0, userName)
             };
         }
 
@@ -210,9 +218,10 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 };
         }
 
-        public bool ChangeAvatar(string userName, string imageFileName)
+        public bool ChangeAvatar(string currentUserName, string imageFileName)
         {
-            var info = InfoRepository.GetFirst(userName);
+            if (ImageRepository.GetFirst(imageFileName).OwnerId != currentUserName) return false;
+            var info = InfoRepository.GetFirst(currentUserName);
             info.AvatarFileName = imageFileName;
             return InfoRepository.Update(info.UserName, info);
         }

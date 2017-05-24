@@ -89,7 +89,9 @@
         }
         
         $scope.subscribe = function (index) {
-            UserListService.subscribe($scope.userLists[index].UserName).then(function (http) {
+            var userName = $scope.userLists[index].UserName;
+            if (userName === $scope.currentUser.User.UserName) return;
+            UserListService.subscribe(userName).then(function (http) {
                 $scope.userLists[index].SubscriptionId = http.data;
             }, function (error) {
                 console.log("Error from server! (subscribe)");
@@ -97,7 +99,9 @@
         }
 
         $scope.unsubscribe = function (index) {
-            UserListService.unsubscribe($scope.userLists[index].SubscriptionId).then(function (http) {
+            var user = $scope.userLists[index];
+            if (user.UserName === $scope.currentUser.User.UserName) return;
+            UserListService.unsubscribe(user.SubscriptionId).then(function (http) {
                 if (http.data) {
                     $scope.userLists[index].SubscriptionId = null;
                 }
