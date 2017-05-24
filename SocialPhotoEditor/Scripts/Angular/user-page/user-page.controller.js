@@ -3,45 +3,71 @@
 
         var userName = $scope.getParamFromUrl("userName");
         var pageCount = 0;
-        $scope.folder = null;
+        var allImagesPageCount = 0;
+        var activeFolderId = "";
+        var folderIndex = 0;
 
         UserPageService.getUserPage(userName).then(function (http) {
             $scope.userPage = http.data;
-            $scope.getFolder(userName);
+            allImagesPageCount++;
+            $scope.folder = { Images: $scope.userPage.UserImages };
+            $scope.userPage.UserImages.length === $scope.userPage.ImagesCount ? $("#moreImagesButton").hide() : $("#moreImagesButton").show();
+            activeFolderId = "#userImages";
         }, function (error) {
             console.log("Error from server! (user page)");
         });
 
-        $scope.getMoreImages = function () {
-            var oldLength = $scope.folder.Images.length;
-            UserPageService.getMoreImages(pageCount + 1, $scope.folder.Id).then(function (http) {
+        function changeFolder(newFolderId, allImagesInFolderCount) {
+            pageCount = 0;
+            $(activeFolderId).removeClass("active");
+            activeFolderId = "#" + newFolderId;
+            $(activeFolderId).addClass("active");
+            $scope.folder.Images.length ===  allImagesInFolderCount? $("#moreImagesButton").hide() : $("#moreImagesButton").show();
+        }
+
+        $scope.getMoreUserImages = function () {
+            UserPageService.getMoreUserImages(allImagesPageCount, $scope.userPage.UserName).then(function (http) {
                 if (http.data != null) {
-                    $scope.folder.Images = $scope.folder.Images.concat(http.data);
-                    pageCount++;
-                    if ($scope.folder.Images.length === oldLength) {
-                        $("#moreImagesButton").hide();
-                    }
+                    $scope.userPage.UserImages = $scope.userPage.UserImages.concat(http.data);
+                    allImagesPageCount++;
+                }
+            }, function (error) {
+                console.log("Error from server! (more user images)");
+            });
+            $scope.folder = { Images: $scope.userPage.UserImages };
+            changeFolder("userImages", $scope.userPage.ImagesCount);
+        }
+
+        $scope.getFolder = function (index) {
+            UserPageService.getFolder($scope.userPage.Folders[index].Id).then(function (http) {
+                if (http.data != null) {
+                    $scope.folder = http.data;
+                    folderIndex = index;
+                    changeFolder("folder" + index, $scope.userPage.Folders[index].ImagesCount);
                 }
             }, function (error) {
                 console.log("Error from server! (folder)");
             });
         }
 
-        $scope.getFolder = function (folderId) {
-            if ($scope.folder != null) {
-                $("#" + $scope.folder.Id).removeClass("active");
+        $scope.getMoreImages = function () {
+            if (activeFolderId === "#userImages") {
+                $scope.getMoreUserImages();
+            } else {
+                UserPageService.getMoreImagesFromFolder(pageCount + 1, $scope.folder.Id).then(function (http) {
+                    if (http.data != null) {
+                        $scope.folder.Images = $scope.folder.Images.concat(http.data);
+                        pageCount++;
+                        $scope.folder.Images.length === $scope.userPage.Folders[folderIndex] ? $("#moreImagesButton").hide() : $("#moreImagesButton").show();
+                    }
+                }, function (error) {
+                    console.log("Error from server! (more images in folder)");
+                });
             }
-            UserPageService.getFolder(folderId).then(function (http) {
-                if (http.data != null) {
-                    $scope.folder = http.data;
-                    pageCount = 0;
-                    $("#moreImagesButton").show();
-                    $("#" + folderId).addClass("active");
-                }
-            }, function (error) {
-                console.log("Error from server! (folder)");
-            });
         }
+
+
+
 
         $scope.subscribe = function () {
             UserPageService.subscribe(userName).then(function (http) {

@@ -37,8 +37,8 @@
     <div class="row">
         <div class="col-md-10">
             <ul class="nav nav-tabs">
-                <li class="active" id="{{userPage.UserName}}"><a ng-click="getFolder(userPage.UserName)">Все фотографии ({{userPage.ImagesCount}})</a></li>
-                <li ng-repeat="folder in userPage.Folders track by $index" id="{{folder.Id}}" ng-click="getFolder(folder.Id)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
+                <li class="active" id="userImages"><a ng-click="getMoreUserImages()">Все фотографии ({{userPage.ImagesCount}})</a></li>
+                <li ng-repeat="folder in userPage.Folders track by $index" id="folder{{$index}}" ng-click="getFolder($index)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
             </ul>
         </div>
         <div class="col-md-2">

@@ -40,19 +40,27 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
                 Subscribe = folderModel?.Subscribe,
                 Name = folderModel?.Name,
                 Id = folderId,
-                Images = GetMoreImages(0, folderId),
+                Images = GetMoreImagesFromFolder(0, folderId),
                 OwnerId = folderModel?.OwnerId
             };
         }
 
-        public IEnumerable<ImageListViewModel> GetMoreImages(int pageNumber, string folderId)
+        public IEnumerable<ImageListViewModel> GetMoreImagesFromFolder(int pageNumber, string folderId)
         {
-            var images = ImageRepository.GetAll();
-            var imagesInFolder = images.Where(x => x.FolderId == folderId);
-            if (!imagesInFolder.Any())
-                imagesInFolder = images.Where(x => x.OwnerId == folderId);
+            var images = ImageRepository.GetAll().Where(x => x.FolderId == folderId);
+            return GetMoreAnyImages(pageNumber, images);
+        }
+
+        public IEnumerable<ImageListViewModel> GetMoreUserImages(int pageNumber, string userName)
+        {
+            var images = ImageRepository.GetAll().Where(x => x.OwnerId == userName);
+            return GetMoreAnyImages(pageNumber, images);
+        }
+
+        private static IEnumerable<ImageListViewModel> GetMoreAnyImages(int pageNumber, IEnumerable<Image> images)
+        {
             var countOnPage = IntSettings.CountImageLists;
-            return imagesInFolder.OrderBy(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage).Select(x => new ImageListViewModel
+            return images.OrderBy(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage).Select(x => new ImageListViewModel
             {
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),

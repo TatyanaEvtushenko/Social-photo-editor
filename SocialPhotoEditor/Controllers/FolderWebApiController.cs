@@ -19,9 +19,16 @@ namespace SocialPhotoEditor.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<ImageListViewModel> GetMoreImages(FolderResponse response)
+        public IEnumerable<ImageListViewModel> GetMoreImagesFromFolder(FolderResponse response)
         {
-            return Service.GetMoreImages(response.PageNumber, response.FolderId);
+            return Service.GetMoreImagesFromFolder(response.PageNumber, response.FolderId);
+        }
+
+        [HttpPost]
+        [Route("api/FolderWebApi/MoreUserImages")]
+        public IEnumerable<ImageListViewModel> GetMoreUserImages(UserImagesResponse response)
+        {
+            return Service.GetMoreUserImages(response.PageNumber, response.UserName);
         }
 
         [HttpPut]

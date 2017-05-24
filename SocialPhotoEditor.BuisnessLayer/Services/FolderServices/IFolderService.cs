@@ -10,7 +10,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices
 
         FolderViewModel GetFolder(string folderId);
 
-        IEnumerable<ImageListViewModel> GetMoreImages(int pageNumber, string folderId);
+        IEnumerable<ImageListViewModel> GetMoreImagesFromFolder(int pageNumber, string folderId);
+
+        IEnumerable<ImageListViewModel> GetMoreUserImages(int pageNumber, string userName);
 
         string AddFolder(string name, string subscribe, string currentUserName, string ownerUserName);
 

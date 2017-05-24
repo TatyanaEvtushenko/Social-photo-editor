@@ -9,18 +9,29 @@
             return $http({ method: "POST", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
 
-        this.getMoreImages = function (pageNumber, folderId) {
+        this.getMoreImagesFromFolder = function (pageNumber, folderId) {
             var response = {
                 "page": pageNumber,
                 "folderId": folderId
-            }
+            };
             return $http.post("/api/FolderWebApi/", response);
         }
+
+        this.getMoreUserImages = function (pageNumber, userName) {
+            var response = {
+                "page": pageNumber,
+                "user": userName
+            };
+            return $http.post("/api/FolderWebApi/MoreUserImages/", response);
+        }
+
+
+
+
         
         this.deleteFolder = function (folderId) {
             return $http({ method: "DELETE", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
-
 
         this.subscribe = function (userName) {
             return $http({ method: "PUT", url: "/api/RelationshipWebApi/", params: { 'userName': userName } });

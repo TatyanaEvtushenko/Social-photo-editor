@@ -235,6 +235,7 @@
     <Compile Include="Responses\NewCommentResponse.cs" />
     <Compile Include="Responses\NewFolderResponse.cs" />
     <Compile Include="Responses\SearchResponse.cs" />
+    <Compile Include="Responses\UserImagesResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
   </ItemGroup>

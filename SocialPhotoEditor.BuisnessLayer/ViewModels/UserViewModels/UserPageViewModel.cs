@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.FolderViewModels;
+using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 
 namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
@@ -30,5 +31,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels
         public IEnumerable<FolderListViewModel> Folders { get; set; }
 
         public int ImagesCount { get; set; }
+
+        public IEnumerable<ImageListViewModel> UserImages { get; set; }
     }
 }
