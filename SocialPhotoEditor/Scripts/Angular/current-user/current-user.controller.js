@@ -69,6 +69,10 @@
             $scope.imageId = fileName;
         }
 
+        $scope.openAddFolder = function(ownerUserName) {
+            $scope.folderOwnerId = ownerUserName;
+        };
+
         $scope.getAvatar = function (fileName) {
             return fileName == null ? "/Content/avatar.jpg" : fileName;
         }

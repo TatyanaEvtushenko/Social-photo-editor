@@ -27,13 +27,13 @@ namespace SocialPhotoEditor.Controllers
         [HttpPut]
         public string AddFolder(NewFolderResponse response)
         {
-            return Service.AddFolder(response.Name, response.Subscribe, User.Identity.Name);
+            return Service.AddFolder(response.Name, response.Subscribe, User.Identity.Name, response.OwnerUserName);
         }
 
         [HttpDelete]
         public bool DeleteFolder(string folderId)
         {
-            return Service.DeleteFolder(folderId);
+            return Service.DeleteFolder(folderId, User.Identity.Name);
         }
     }
 }

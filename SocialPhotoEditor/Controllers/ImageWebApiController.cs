@@ -3,6 +3,7 @@ using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
+using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers
 {

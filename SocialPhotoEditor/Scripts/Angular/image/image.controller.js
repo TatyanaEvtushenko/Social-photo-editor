@@ -78,9 +78,10 @@
         });
 
         $scope.changeAvatar = function () {
-            var image = $scope.image.FileName;
-            if (image === $scope.currentUser.User.AvatarFileName) return;
-            ImageService.changeAvatar(image).then(function (http) {
+            var image = $scope.image;
+            var currentUser = $scope.currentUser.User;
+            if (image.FileName === currentUser.AvatarFileName || image.Owner.UserName !== currentUser.UserName) return;
+            ImageService.changeAvatar(image.FileName).then(function (http) {
                 if (http.data) {
                     window.location.reload();
                 }
@@ -141,6 +142,7 @@
         }
 
         $scope.deleteImage = function () {
+            if ($scope.image.Owner.UserName !== $scope.currentUser.User.UserName) return;
             ImageService.deleteImage($scope.image.FileName).then(function (http) {
                 if (http.data) {
                     window.location.reload();

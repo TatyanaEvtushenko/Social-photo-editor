@@ -9,5 +9,8 @@ namespace SocialPhotoEditor.Responses
 
         [JsonProperty("subscribe")]
         public string Subscribe { get; set; }
+
+        [JsonProperty("owner")]
+        public string OwnerUserName { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.FolderViewModels;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
-using SocialPhotoEditor.DataLayer.Repositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SociaPhotoEditor.Settings;
@@ -62,14 +61,16 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
             });
         }
 
-        public string AddFolder(string name, string subscribe, string currentUserName)
+        public string AddFolder(string name, string subscribe, string currentUserName, string ownerUserName)
         {
+            if (ownerUserName != currentUserName) return null;
             var folder = new Folder {Name = name, Subscribe = subscribe, OwnerId = currentUserName};
             return FolderRepository.Add(folder);
         }
 
-        public bool DeleteFolder(string folderId)
+        public bool DeleteFolder(string folderId, string currentUserName)
         {
+            if (FolderRepository.GetFirst(folderId).OwnerId != currentUserName) return false;
             if (!FolderRepository.Delete(folderId)) return false;
             var images = ImageRepository.GetAll().Where(x => x.FolderId == folderId);
             foreach (var image in images)

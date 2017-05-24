@@ -12,10 +12,6 @@
             console.log("Error from server! (user page)");
         });
 
-        $scope.getImage = function (fileName) {
-            $scope.imageId = fileName;
-        }
-
         $scope.getMoreImages = function () {
             var oldLength = $scope.folder.Images.length;
             UserPageService.getMoreImages(pageCount + 1, $scope.folder.Id).then(function (http) {

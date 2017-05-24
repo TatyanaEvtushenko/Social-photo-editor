@@ -20,7 +20,7 @@
 input,
 select,
 textarea {
-    max-width: 450px;
+    max-width: 480px;
 }
 
 .comment_input {

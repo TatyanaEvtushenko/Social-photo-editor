@@ -12,8 +12,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices
 
         IEnumerable<ImageListViewModel> GetMoreImages(int pageNumber, string folderId);
 
-        string AddFolder(string name, string subscribe, string currentUserName);
+        string AddFolder(string name, string subscribe, string currentUserName, string ownerUserName);
 
-        bool DeleteFolder(string folderId);
+        bool DeleteFolder(string folderId, string currentUserName);
     }
 }

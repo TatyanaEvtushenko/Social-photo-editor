@@ -217,9 +217,10 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 };
         }
 
-        public bool ChangeAvatar(string userName, string imageFileName)
+        public bool ChangeAvatar(string currentUserName, string imageFileName)
         {
-            var info = InfoRepository.GetFirst(userName);
+            if (ImageRepository.GetFirst(imageFileName).OwnerId != currentUserName) return false;
+            var info = InfoRepository.GetFirst(currentUserName);
             info.AvatarFileName = imageFileName;
             return InfoRepository.Update(info.UserName, info);
         }

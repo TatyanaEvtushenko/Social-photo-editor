@@ -16,7 +16,10 @@
             }
             return $http.post("/api/FolderWebApi/", response);
         }
-
+        
+        this.deleteFolder = function (folderId) {
+            return $http({ method: "DELETE", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
+        }
 
 
         this.subscribe = function (userName) {
