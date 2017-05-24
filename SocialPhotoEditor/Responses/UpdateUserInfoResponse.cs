@@ -28,6 +28,6 @@ namespace SocialPhotoEditor.Responses
         public SexEnum Sex { get; set; }
 
         [JsonProperty("birthday")]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
     }
 }

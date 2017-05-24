@@ -232,12 +232,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
                 Subscribe = info.Subscribe,
                 Sex = info.Sex,
                 RegisterDate = info.RegisterDate,
-                CountryName = city.CountryName,
-                CityName = city.CityName
+                CountryName = city?.CountryName,
+                CityName = city?.CityName
             };
         }
 
-        public bool UpdateUserInfo(string currentUserName, string avatarFileName, string name, string surname, DateTime birthday, string subscribe,
+        public bool UpdateUserInfo(string currentUserName, string avatarFileName, string name, string surname, DateTime? birthday, string subscribe,
             string country, string city, SexEnum sex)
         {
             var info = new UserInfo

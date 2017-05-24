@@ -2,7 +2,6 @@
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.UserViewModels;
-using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers

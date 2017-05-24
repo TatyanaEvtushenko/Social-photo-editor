@@ -25,7 +25,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices
 
         UserInfoViewModel GetUserInfo(string currentUserName);
 
-        bool UpdateUserInfo(string currentUserName, string avatarFileName, string name, string surname, DateTime birthday, string subscribe,
+        bool UpdateUserInfo(string currentUserName, string avatarFileName, string name, string surname, DateTime? birthday, string subscribe,
             string country, string city, SexEnum sex);
     }
 }
