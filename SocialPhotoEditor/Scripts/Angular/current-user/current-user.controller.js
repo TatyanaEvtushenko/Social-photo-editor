@@ -77,6 +77,12 @@
             return fileName == null ? "/Content/avatar.jpg" : fileName;
         }
 
+        $scope.getStrDate = function (date) {
+            date = new Date(date);
+            var monthes = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+            return date.getDate() + " " + monthes[date.getMonth()] + " " + date.getFullYear() + " г.";
+        };
+
         $scope.redirectToSearch = function() {
             window.location.replace("/User/Index?searchString=" + $scope.searchString);
         }

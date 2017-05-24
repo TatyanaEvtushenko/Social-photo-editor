@@ -235,6 +235,7 @@
     <Compile Include="Responses\NewCommentResponse.cs" />
     <Compile Include="Responses\NewFolderResponse.cs" />
     <Compile Include="Responses\SearchResponse.cs" />
+    <Compile Include="Responses\UpdateUserInfoResponse.cs" />
     <Compile Include="Responses\UserImagesResponse.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -290,6 +291,8 @@
     <Content Include="Scripts\Angular\module.js" />
     <Content Include="Scripts\Angular\news\news.controller.js" />
     <Content Include="Scripts\Angular\news\news.service.js" />
+    <Content Include="Scripts\Angular\setting\setting.controller.js" />
+    <Content Include="Scripts\Angular\setting\setting.service.js" />
     <Content Include="Scripts\Angular\user-min-list\user-min-list.controller.js" />
     <Content Include="Scripts\Angular\user-min-list\user-min-list.service.js" />
     <Content Include="Scripts\Angular\user-page\user-page.controller.js" />
@@ -1119,6 +1122,7 @@
     <Content Include="Views\Shared\UsersModal.cshtml" />
     <Content Include="Views\Image\News.cshtml" />
     <Content Include="Views\Shared\NewFolderModal.cshtml" />
+    <Content Include="Views\User\Setting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

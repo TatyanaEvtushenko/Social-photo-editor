@@ -94,6 +94,7 @@
     <Compile Include="ViewModels\ImageViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\ListViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserMinInfoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserListViewModel.cs" />
     <Compile Include="ViewModels\UserViewModels\UserPageViewModel.cs" />
