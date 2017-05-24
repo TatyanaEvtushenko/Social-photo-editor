@@ -55,6 +55,10 @@ textarea {
     max-height: 100px;
 }
 
+.scroll_list.user_min_list {
+    max-height: 500px;
+}
+
 .image_min_list {
     width: 130px;
     height: 130px;
@@ -88,6 +92,12 @@ textarea {
     margin: 0 10px 0 0;
     width: 35px;
     height: 35px;
+}
+
+.avatar.user-min-list {
+    margin: 0 10px 0 0;
+    width: 60px;
+    height: 60px;
 }
 
 .avatar.medium_avatar {

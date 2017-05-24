@@ -12,22 +12,49 @@
                 <a ng-if="userPage.AvatarFileName != null" href="#imageModal" class="tumbnail" data-toggle="modal">
                     <img class="avatar big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
                 </a>
-                <img ng-if="userPage.AvatarFileName == null" class="avatar big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" ng-click="getImage(userPage.AvatarFileName)" />
+                <img ng-if="userPage.AvatarFileName == null" class="avatar big_avatar" src="{{getAvatar(userPage.AvatarFileName)}}" />
             </div>
             <div class="col-md-9">
-                <div class="col-md-10">
-                    <div class="row">
-                        {{userPage.UserName}}
-                        <button ng-if="userPage.SubscriptionId != null" ng-click="unsubscribe()" type="button" class="btn btn-default">Отписаться</button>
-                        <button ng-if="userPage.SubscriptionId == null" ng-click="subscribe()" type="button" class="btn btn-success">Подписаться</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>{{userPage.UserName}}</p>
                     </div>
-                    <p>{{userPage.Name}} {{userPage.Surname}}</p>
-                    <p>{{userPage.Birthday}}</p>
-                    <p ng-if="userPage.Location != null">{{userPage.Location.Country}}, {{userPage.Location.City}}</p>
-                    <p>{{userPage.Subscribe}}</p>
-                    <div class="row">
-                        <a class="col-md-3" href="#userListModal" data-toggle="modal" ng-click="getSubscribers()">{{userPage.SubscribersCount}} подписчиков</a>
-                        <a class="col-md-3" href="#userListModal" data-toggle="modal" ng-click="getSubscriptions()">{{userPage.SubscriptionsCount}} подписок</a>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button class="btn btn-default" href="#userListModal" data-toggle="modal" ng-click="getSubscribers()">
+                                    <div data-toggle="tooltip" data-placement="bottom" title="Просмотреть список подписчиков">
+                                        {{userPage.SubscribersCount}} подписчиков
+                                    </div>
+                                </button>
+                                <button class="btn btn-default" href="#userListModal" data-toggle="modal" ng-click="getSubscriptions()">
+                                    <div data-toggle="tooltip" data-placement="bottom" title="Просмотреть подписки пользователя">
+                                         {{userPage.SubscriptionsCount}} подписок
+                                    </div>
+                                </button>
+                                <button ng-if="userPage.SubscriptionId != null" ng-click="unsubscribe()" type="button" class="btn btn-default">
+                                    Отписаться
+                                </button>
+                                <button ng-if="userPage.SubscriptionId == null" ng-click="subscribe()" type="button" class="btn btn-success">
+                                    Подписаться
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>{{userPage.Name}} {{userPage.Surname}}</h2>
+                        <div class="row">
+                            <div class="col-md-1" ng-if="checkIfBirthday(userPage.Birthday)">
+                                <img class="avatar small_avatar" src="~/Content/fireworks.png" />
+                            </div>
+                            <div class="col-md-4">
+                                <p class="pull-left">{{getBirthday(userPage.Birthday)}}</p>
+                            </div>
+                        </div>
+                        <h4 ng-if="userPage.Location != null">{{userPage.Location.CountryName}}, {{userPage.Location.CityName}}</h4>
+                        <h4>{{userPage.Subscribe}}</h4>
                     </div>
                 </div>
             </div>
@@ -41,7 +68,7 @@
                 <li ng-repeat="folder in userPage.Folders track by $index" id="folder{{$index}}" ng-click="getFolder($index)"><a>{{folder.Name}} ({{folder.ImagesCount}})</a></li>
             </ul>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" ng-if="userPage.UserName === currentUser.User.UserName">
             <a href="#folderModal" class="tumbnail" data-toggle="modal" ng-click="openAddFolder(userPage.UserName)">
                 <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Новый альбом</button>
             </a>
@@ -50,7 +77,9 @@
 
     <div class="row">
         <div class="col-md-10">
-            <h3><strong>{{folder.Name}}</strong></h3>
+            <h3>
+                <strong>{{folder.Name}}</strong>
+            </h3>
         </div>
         <div ng-if="folder.OwnerId == currentUser.User.UserName" class="col-md-2">
             <div class="btn-group pull-right">
@@ -63,6 +92,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12" ng-if="folder.Subscribe != null">
             <h5>{{folder.Subscribe}}</h5>
@@ -82,6 +112,9 @@
     </div>
 
     <div class="row">
+        <div class="col-md-4 col-md-offset-4" ng-if="folder.Images.length == 0" >
+            <h4 class="text-muted">В данном альбоме нет фотографий</h4>
+        </div>
         <div class="col-xs-6 col-md-3" ng-repeat="image in folder.Images track by $index">
             <a href="#imageModal" class="tumbnail" data-toggle="modal">
                 <img alt="..." src="{{image.FileName}}" class="image_list" ng-click="getImage(image.FileName)">

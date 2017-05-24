@@ -1,24 +1,47 @@
 ﻿@Scripts.Render("~/bundles/user-min-list")
 
 <div ng-controller="UserMinListController" class="modal fade" id="userListModal" tabindex="-1" role="dialog" aria-labelledby="userListModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <h4>{{isSubscribers ? "Подписчики" : "Подписки"}} ({{userLists.length}})</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal-body">
-                <div class="container-fluid" ng-repeat="user in users track by $index">
-                    <a class="row" href="~/User/Page?userName={{user.UserName}}">
-                        <div class="col-md-2">
-                            <img src="{{user.AvatarFileName}}" class="small_avatar"/>
+                <div class="scroll_list user_min_list">
+                    <div class="container-fluid" ng-repeat="user in userLists track by $index">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <a href="~/User/Page?userName={{user.UserName}}">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img class="avatar user-min-list" src="{{getAvatar(user.AvatarFileName)}}" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h5>{{user.UserName}}</h5>
+                                            <h4 class="text-muted">{{user.Name}} {{user.Surname}}</h4>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="pull-right" ng-if="user.UserName != currentUser.User.UserName">
+                                    <button ng-if="user.SubscriptionId != null" ng-click="unsubscribe($index)" type="button" class="btn btn-default">Отписаться</button>
+                                    <button ng-if="user.SubscriptionId == null" ng-click="subscribe($index)" type="button" class="btn btn-success">Подписаться</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-7">
-                            <h5>{{user.UserName}}</h5>
-                            <p class="text-muted">{{user.Name}}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <button ng-if="user.IsSubscriber" ng-click="unsubscribe(user.UserName)" type="button" class="btn btn-default">Отписаться</button>
-                            <button ng-if="!user.IsSubscriber" ng-click="subscribe(user.UserName)" type="button" class="btn btn-success">Подписаться</button>
-                        </div>
-                    </a>
-                    <hr/>
+                        <hr />
+                    </div>
                 </div>
             </div>
         </div>

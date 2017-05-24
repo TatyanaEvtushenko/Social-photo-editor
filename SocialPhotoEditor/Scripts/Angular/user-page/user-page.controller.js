@@ -79,18 +79,46 @@
             $("#deleteFolderAlert").hide();
         }
 
-        $scope.deleteFolder = function () {
+        $scope.deleteFolder = function() {
             $("#deleteFolderAlert").hide();
             if (typeof $scope.folder.OwnerId === "undefined" || $scope.folder.OwnerId !== $scope.currentUser.User.UserName) return;
             if (typeof $scope.folder.Id === "undefined") return;
-            UserPageService.deleteFolder($scope.folder.Id).then(function (http) {
+            UserPageService.deleteFolder($scope.folder.Id).then(function(http) {
                 if (http.data) {
                     $scope.userPage.Folders.splice(folderIndex, 1);
                     $scope.folder = { Images: $scope.userPage.UserImages };
                     changeFolder("userImages", $scope.userPage.ImagesCount);
                 }
-            }, function (error) {
+            }, function(error) {
                 console.log("Error from server! (delete folder)");
+            });
+        };
+
+        $scope.getBirthday = function(date) {
+            date = new Date(date);
+            var monthes = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+            return date.getDate() + " " + monthes[date.getMonth()] + " " + date.getFullYear() + " г.";
+        };
+
+        $scope.checkIfBirthday = function(date) {
+            return new Date(date).getDate() === new Date().getDate();
+        };
+
+        $scope.getSubscribers = function () {
+            UserPageService.getSubscribers(userName).then(function (http) {
+                $scope.userLists = http.data;
+                $scope.isSubscribers = true;
+            }, function (error) {
+                console.log("Error from server! (subscribers)");
+            });
+        }
+
+        $scope.getSubscriptions = function () {
+            UserPageService.getSubscriptions(userName).then(function (http) {
+                $scope.userLists = http.data;
+                $scope.isSubscribers = false;
+            }, function (error) {
+                console.log("Error from server! (subscriptions)");
             });
         }
 
@@ -110,22 +138,6 @@
                 $scope.userPage.SubscribersCount--;
             }, function (error) {
                 console.log("Error from server! (unsubscribe)");
-            });
-        }
-
-        $scope.getSubscribers = function () {
-            UserPageService.getSubscribers(userName).then(function (http) {
-                $scope.users = http.data;
-            }, function (error) {
-                console.log("Error from server! (subscribers)");
-            });
-        }
-
-        $scope.getSubscriptions = function () {
-            UserPageService.getSubscriptions(userName).then(function (http) {
-                $scope.users = http.data;
-            }, function (error) {
-                console.log("Error from server! (subscriptions)");
             });
         }
     }

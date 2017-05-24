@@ -29,6 +29,14 @@
             return $http({ method: "DELETE", url: "/api/FolderWebApi/", params: { 'folderId': folderId } });
         }
 
+        this.getSubscribers = function (userName) {
+            return $http({ method: "POST", url: "/api/RelationshipWebApi/Subscribers/", params: { 'userName': userName } });
+        }
+
+        this.getSubscriptions = function (userName) {
+            return $http({ method: "POST", url: "/api/RelationshipWebApi/Subscriptions/", params: { 'userName': userName } });
+        }
+
 
 
 
@@ -39,14 +47,6 @@
 
         this.unsubscribe = function (id) {
             return $http({ method: "DELETE", url: "/api/RelationshipWebApi/", params: { 'id': id } });
-        }
-
-        this.getSubscribers = function (userName) {
-            return $http({ method: "POST", url: "/api/RelationshipWebApi/Subscribers/", params: { 'userName': userName } });
-        }
-
-        this.getSubscriptions = function (userName) {
-            return $http({ method: "POST", url: "api/RelationshipWebApi/Subscriptions/", params: { 'userName': userName } });
         }
     }
 ]);
