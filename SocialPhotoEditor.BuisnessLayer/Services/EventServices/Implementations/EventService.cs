@@ -62,16 +62,17 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
             return events.Count(x => EventRepository.Update(x.Id, seenEvent));
         }
 
-        public void AddEvent(EventEnum type, string recipientUserName, string elementId)
+        public void AddEvent(string currentUserName, EventEnum type, string recipientUserName, string elementId)
         {
+            if (currentUserName == recipientUserName) return;
             var userEvent = new Event {Type = type, TypeElementId = elementId, RecipientId = recipientUserName};
             EventRepository.Add(userEvent);
         }
 
-        public void AddEvent(string image, EventEnum type, string elementId)
+        public void AddEvent(string currentUserName, string image, EventEnum type, string elementId)
         {
             var recipientUserName = ImageRepository.GetFirst(image)?.OwnerId;
-            AddEvent(type, recipientUserName, elementId);
+            AddEvent(currentUserName, type, recipientUserName, elementId);
         }
 
         public void DeleteEvent(EventEnum typeElement, string elementId)

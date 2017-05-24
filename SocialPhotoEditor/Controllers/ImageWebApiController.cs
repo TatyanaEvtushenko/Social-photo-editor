@@ -3,6 +3,7 @@ using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
+using SocialPhotoEditor.Responses;
 
 namespace SocialPhotoEditor.Controllers
 {
@@ -10,14 +11,22 @@ namespace SocialPhotoEditor.Controllers
     {
         private static readonly IImageService Service = new ImageService();
         
-        public ImageViewModel Post(string imageFileName)
+        [HttpPost]
+        public ImageViewModel GetImage(string imageFileName)
         {
             return Service.GetImage(User.Identity.Name, imageFileName);
         }
         
-        public IEnumerable<ImageViewModel> Get()
+        [HttpPost]
+        public IEnumerable<ImageViewModel> GetNews(int pageNumber)
         {
-            return Service.GetNews(User.Identity.Name);
+            return Service.GetNews(pageNumber, User.Identity.Name);
+        }
+
+        [HttpDelete]
+        public bool DeleteImage(string imageFileName)
+        {
+            return Service.DeleteImage(User.Identity.Name, imageFileName);
         }
     }
 }

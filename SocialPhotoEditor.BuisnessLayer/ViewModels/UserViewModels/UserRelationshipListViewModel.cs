@@ -10,6 +10,6 @@
 
         public string AvatarFileName { get; set; }
 
-        public bool IsSubscriber { get; set; }
+        public string SubscriptionId { get; set; }
     }
 }

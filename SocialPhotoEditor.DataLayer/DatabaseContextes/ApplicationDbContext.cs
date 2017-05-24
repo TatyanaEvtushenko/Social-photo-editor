@@ -9,7 +9,6 @@ namespace SocialPhotoEditor.DataLayer.DatabaseContextes
         public DbSet<UserInfo> UserInfos { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Folder> Folders { get; set; }
-        public DbSet<Avatar> Avatars { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }

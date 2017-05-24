@@ -21,11 +21,12 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
 
         public string AddSubscription(string followerName, string userName)
         {
+            if (followerName == userName) return null;
             var relationship = new Subscriber { SubscriberName = followerName, UserName = userName };
             var id = SubscriberRepository.Add(relationship);
             if (id != null)
             {
-                EventService.AddEvent(EventEnum.Comment, id, userName);
+                EventService.AddEvent(followerName, EventEnum.Comment, id, userName);
             }
             return id;
         }

@@ -30,6 +30,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 RecipientUserName = x.RecipientId,
                 Text = x.Text,
                 Time = x.Time,
+                Id = x.Id
             });
         }
 
@@ -45,7 +46,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
             var commentId = CommentRepository.Add(comment);
             if (commentId != null)
             {
-                EventService.AddEvent(EventEnum.Comment, recipientUserName, commentId);
+                EventService.AddEvent(commentatorUserName, EventEnum.Comment, recipientUserName, commentId);
             }
             return commentId;
         }

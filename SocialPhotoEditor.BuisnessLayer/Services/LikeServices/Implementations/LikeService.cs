@@ -20,7 +20,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations
             var likeId = LikeRepository.Add(like);
             if (likeId != null)
             {
-                EventService.AddEvent(imageId, EventEnum.Like, likeId);
+                EventService.AddEvent(currentUserName, imageId, EventEnum.Like, likeId);
             }
             return likeId;
         }

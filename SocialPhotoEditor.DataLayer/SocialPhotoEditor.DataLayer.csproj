@@ -60,7 +60,6 @@
     <Compile Include="Enums\EventEnum.cs" />
     <Compile Include="Enums\SexEnum.cs" />
     <Compile Include="DatabaseModels\ApplicationUser.cs" />
-    <Compile Include="DatabaseModels\Avatar.cs" />
     <Compile Include="DatabaseModels\City.cs" />
     <Compile Include="DatabaseModels\Comment.cs" />
     <Compile Include="DatabaseModels\Event.cs" />
@@ -162,6 +161,10 @@
     <Compile Include="Migrations\201705190935181_reorganizeDB_version26.Designer.cs">
       <DependentUpon>201705190935181_reorganizeDB_version26.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705222148465_deleteavatar.cs" />
+    <Compile Include="Migrations\201705222148465_deleteavatar.Designer.cs">
+      <DependentUpon>201705222148465_deleteavatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\IChangedRepository.cs" />
@@ -169,7 +172,6 @@
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\FolderRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\IEditedRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\ImageRepository.cs" />
-    <Compile Include="Repositories\EditedRepositories\Implementations\AvatarRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\EventRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\Implementations\LikeRepository.cs" />
     <Compile Include="Repositories\EditedRepositories\ChangedRepositories\Implementations\UserInfoRepository.cs" />
@@ -250,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705190935181_reorganizeDB_version26.resx">
       <DependentUpon>201705190935181_reorganizeDB_version26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705222148465_deleteavatar.resx">
+      <DependentUpon>201705222148465_deleteavatar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

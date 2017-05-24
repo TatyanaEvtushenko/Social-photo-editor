@@ -1,96 +1,155 @@
 ﻿app.controller("ImageController", [
-    "$scope", "ImageService", function ($scope, ImageService) {
+    "$scope", "ImageService", function($scope, ImageService) {
 
-        $('#imageModal').on('show.bs.modal', function(e) {
-            ImageService.getImage($scope.imageId).then(function(http) {
-                $scope.image = http.data;
-            }, function(error) {
-                console.log("Error from server! (image)");
+        var answerUserName = "";
+        var index = 0;
+
+        function addComment() {
+            var input = $("#" + index).data("emojioneArea");
+            var text = input.getText().trim();
+            var recipientText = "@" + answerUserName + ", ";
+            if (text.indexOf(recipientText) === 0) {
+                text = text.substring(recipientText.length);
+            } else {
+                answerUserName = null;
+            }
+            var image = typeof $scope.news !== "undefined" ? $scope.news[index] : $scope.image;
+            ImageService.addComment(text, image.FileName, answerUserName).then(function (http) {
+                if (http.data != null) {
+                    var comment = {
+                        Text: text,
+                        Time: new Date(Date.now()),
+                        RecipientUserName: answerUserName,
+                        OwnerUserName: $scope.currentUser.User.UserName,
+                        Id: http.data
+                    };
+                    image.Comments[image.Comments.length] = comment;
+                    input.setText("");
+                    var div = $("#commentDiv" + index);
+                    div.scrollTop(div.prop("scrollHeight"));
+                }
+            }, function (error) {
+                console.log("Error from server! (add comment)");
             });
-        });
+        };
 
-        $scope.getDate = function(time) {
-            var date = new Date(time);
-            var dateNow = new Date(Date.now());
-            var count = dateNow.getFullYear() - date.getFullYear();
-            if (count >= 1)
-                return count.toString() + " г.";
-            count = dateNow.getMonth() - date.getMonth();
-            if (count >= 1)
-                return count.toString() + " мес.";
-            count = dateNow.getDate() - date.getDate();
-            if (count >= 1)
-                return count.toString() + " дн.";
-            count = dateNow.getHours() - date.getHours();
-            if (count >= 1)
-                return count.toString() + " ч.";
-            count = dateNow.getMinutes() - date.getMinutes();
-            if (count >= 1)
-                return count.toString() + " мин.";
-            count = dateNow.getSeconds() - date.getSeconds();
-            return count.toString() + " сек.";
+        function sortComment() {
+            if ($scope.image != null && $scope.image.length !== 0) {
+                $scope.image.Comments.sort(function (a, b) {
+                    if (a.Time < b.Time) {
+                        return -1;
+                    }
+                    if (a.Time > b.Time) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
         }
 
-        $scope.answer = function (userName) {
-            $scope.answerUserName = userName;
-            $scope.commentText = '@' + userName + ', ';
+        $(document).ready(function () {
+            $("textarea").emojioneArea({
+                events: {
+                    keypress: function (editor, event) {
+                        if (event.which === 13 || event.keyCode === 13) {
+                            index = editor[0].parentElement.parentElement.firstElementChild.id;
+                            addComment();
+                        }
+                    },
+                    focus: function (editor, event) {
+                        //var pos = editor.text().length;
+                        //console.log(pos);
+                    }
+                }
+            });
+            sortComment();
+        });
+
+        $("#imageModal").on("show.bs.modal", function (e) {
+            ImageService.getImage($scope.imageId).then(function (http) {
+                $scope.image = http.data;
+                sortComment();
+            }, function (error) {
+                console.log("Error from server! (image)");
+            });
+            $(".alert").alert();
+            $("#deleteImageAlert").hide();
+            $("textarea").data("emojioneArea").setFocus(true);
+        });
+
+        $scope.changeAvatar = function () {
+            var image = $scope.image;
+            var currentUser = $scope.currentUser.User;
+            if (image.FileName === currentUser.AvatarFileName || image.Owner.UserName !== currentUser.UserName) return;
+            ImageService.changeAvatar(image.FileName).then(function (http) {
+                if (http.data) {
+                    window.location.reload();
+                }
+            }, function (error) {
+                console.log("Error from server! (avatar)");
+            });
         }
 
         $scope.addLike = function () {
             ImageService.addLike($scope.image.FileName).then(function (http) {
-                $scope.image.IsLiked = true;
-                $scope.image.LikesCount++;
+                if (http.data != null) {
+                    $scope.image.LikeId = http.data;
+                    $scope.image.LikesCount++;
+                }
             }, function (error) {
                 console.log("Error from server! (add like)");
             });
         }
 
         $scope.deleteLike = function () {
-            ImageService.deleteLike($scope.image.FileName).then(function (http) {
-                $scope.image.IsLiked = false;
-                $scope.image.LikesCount--;
+            ImageService.deleteLike($scope.image.LikeId).then(function (http) {
+                if (http.data) {
+                    $scope.image.LikeId = null;
+                    $scope.image.LikesCount--;
+                }
             }, function (error) {
                 console.log("Error from server! (delete like)");
             });
         }
 
-        $scope.addComment = function () {
-            var text = $scope.commentText.trim();
-            if (text.indexOf('@' + $scope.answerUserName + ', ') === 0) {
-                text = text.substring(('@' + $scope.answerUserName + ', ').length);
-            } else {
-                $scope.answerUserName = null;
-            }
-            var time = new Date(Date.now());
-            ImageService.addComment(text, $scope.image.FileName, time, $scope.answerUserName).then(function (http) {
-                var comment = {};
-                comment.Text = text;
-                comment.Time = time;
-                comment.RecipientUserName = $scope.answerUserName;
-                comment.OwnerUserName = $scope.currentUserName;
-                $scope.image.Comments[$scope.image.Comments.length] = comment;
-                $scope.commentText = "";
-            }, function (error) {
-                console.log("Error from server! (add comment)");
-            });
+        $scope.answer = function (userName, i) {
+            answerUserName = userName;
+            index = i;
+            var input = $("#" + index).data("emojioneArea");
+            var recipientText = "@" + answerUserName + ", ";
+            input.setText(recipientText);
+            input.setFocus();
         }
 
-        $scope.deleteComment = function (index) {
-            var commentatorUserName = $scope.image.Comments[index].OwnerUserName;
-            var time = $scope.image.Comments[index].Time;
-            ImageService.deleteComment(commentatorUserName, $scope.image.FileName, time).then(function (http) {
-                $scope.image.Comments.splice(index, 1);
-            }, function (error) {
+        $scope.deleteComment = function(index) {
+            var id = $scope.image.Comments[index].Id;
+            ImageService.deleteComment(id).then(function(http) {
+                if (http.data) {
+                    $scope.image.Comments.splice(index, 1);
+                }
+            }, function(error) {
                 console.log("Error from server! (delete comment)");
             });
+        };
+
+        $scope.hideDeleteAlert = function () {
+            $("#deleteImageAlert").hide();
         }
-        
-        $scope.changeAvatar = function () {
-            ImageService.changeAvatar($scope.image.FileName).then(function (http) {
+
+        $scope.tryDeleteImage = function() {
+            if ($scope.image.Owner.UserName !== $scope.currentUser.User.UserName) return;
+            $("#deleteImageAlert").show();
+        }
+
+        $scope.deleteImage = function () {
+            if ($scope.image.Owner.UserName !== $scope.currentUser.User.UserName) return;
+            ImageService.deleteImage($scope.image.FileName).then(function (http) {
+                if (http.data) {
+                    window.location.reload();
+                }
             }, function (error) {
-                console.log("Error from server! (avatar)");
+                console.log("Error from server! (delete image)");
             });
-            window.location.reload();
         }
     }
 ]);
