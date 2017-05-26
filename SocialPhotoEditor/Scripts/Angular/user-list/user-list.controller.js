@@ -1,7 +1,7 @@
 ﻿app.controller("UserListController", [
     "$scope", "UserListService", function ($scope, UserListService) {
         
-        $scope.searchString = $scope.getParamFromUrl("searchString");
+      //  $scope.searchString = $scope.getParamFromUrl("searchString");
 
         $scope.getUserList = function (pageCount) {
             if (pageCount === 0) {
@@ -23,13 +23,16 @@
             console.log("Error from server! (countries)");
         });
 
+        var pageCount = 0;
         $scope.minAge = null;
         $scope.maxAge = null;
         $scope.sexSelect = "0";
         $scope.sortSelect = "0";
         $scope.usersCount = 0;
-        var pageCount = 0;
-        $scope.getUserList(pageCount);
+
+        $(document).ready(function () {
+            $scope.getUserList(pageCount);
+        });
 
 
         $scope.getMoreUserList = function() {

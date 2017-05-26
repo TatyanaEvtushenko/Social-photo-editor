@@ -2,6 +2,85 @@
 @{
     ViewBag.Title = "Index";
 }
+@Scripts.Render("~/bundles/new-image")
 
-<h2>Index</h2>
+<br/><br/>
+<div ng-controller="NewImageController" class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <p class="text-muted">@ViewData["ImageName"]</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <img id="img" class="image" src="@ViewData["ImagePath"]"/>
+        </div>
+        <div class="col-md-5">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <label for="folderSelect">Альбом</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <select ng-model="folderSelect" id="folderSelect" name="folder" class="form-control">
+                                <option value="">Не выбран</option>
+                                <option ng-repeat="folder in folders track by $index" value="{{folder.Id}}">{{folder.Name}} ({{folder.ImagesCount}})</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#folderModal" class="tumbnail" data-toggle="modal" ng-click="openAddFolder(userPage.UserName)">
+                                <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Новый альбом</button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option1"> Параметр 1
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option2"> Параметр 2
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option3"> Параметр 3
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 1
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 2
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 3
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 1
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 2
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id=""> Параметр 3
+                        </label>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="subscribe">Описание</label>
+                            <textarea id="subscribe" name="subscribe" class="form-control" placeholder="Добавьте описание изображения"></textarea>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <button type="submit" class="btn btn-success" ng-click="addImage()">Добавить</button>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("NewFolderModal")
 

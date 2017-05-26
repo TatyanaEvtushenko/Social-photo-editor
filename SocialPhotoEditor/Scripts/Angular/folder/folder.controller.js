@@ -16,7 +16,7 @@
                         Name: name,
                         ImagesCount: 0
                     };
-                    var folders = typeof $scope.userPage === "undefined" ? null : $scope.userPage.Folders;
+                    var folders = $scope.userPage === "" || null ? $scope.folders : $scope.userPage.Folders;
                     folders[folders.length] = newFolder;
                     $("#folderModal").modal("hide");
                 }

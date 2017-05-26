@@ -234,6 +234,7 @@
     <Compile Include="Responses\FolderResponse.cs" />
     <Compile Include="Responses\NewCommentResponse.cs" />
     <Compile Include="Responses\NewFolderResponse.cs" />
+    <Compile Include="Responses\NewImageResponse.cs" />
     <Compile Include="Responses\SearchResponse.cs" />
     <Compile Include="Responses\UpdateUserInfoResponse.cs" />
     <Compile Include="Responses\UserImagesResponse.cs" />
@@ -289,6 +290,8 @@
     <Content Include="Scripts\Angular\image\image.controller.js" />
     <Content Include="Scripts\Angular\image\image.service.js" />
     <Content Include="Scripts\Angular\module.js" />
+    <Content Include="Scripts\Angular\new-image\new-image.controller.js" />
+    <Content Include="Scripts\Angular\new-image\new-image.service.js" />
     <Content Include="Scripts\Angular\news\news.controller.js" />
     <Content Include="Scripts\Angular\news\news.service.js" />
     <Content Include="Scripts\Angular\setting\setting.controller.js" />

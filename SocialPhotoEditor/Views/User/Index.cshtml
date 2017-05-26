@@ -50,7 +50,7 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="input-group-lg">
-                        <input type="text" class="form-control" placeholder="Поиск пользователей" ng-model="searchString" ng-change="getUserList(0)">
+                        <input type="text" class="form-control" placeholder="Поиск пользователей" value="@ViewData["SearchString"]" ng-model="searchString" ng-change="getUserList(0)">
                     </div>
                 </li>
 

@@ -75,6 +75,11 @@ namespace SocialPhotoEditor
                 "~/Scripts/emojionearea.min.js",
                 "~/Scripts/Angular/setting/setting.controller.js",
                 "~/Scripts/Angular/setting/setting.service.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/new-image").Include(
+                "~/Scripts/emojionearea.min.js",
+                "~/Scripts/Angular/new-image/new-image.controller.js",
+                "~/Scripts/Angular/new-image/new-image.service.js"));
         }
     }
 }

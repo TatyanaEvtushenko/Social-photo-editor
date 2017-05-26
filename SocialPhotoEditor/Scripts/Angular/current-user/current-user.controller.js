@@ -1,9 +1,17 @@
 ﻿app.controller("CurrentUserController", [
     "$scope", "CurrentUserService", function($scope, CurrentUserService) {
 
+        $(document).ready(function() {
+            //$("#example").popover(options);
+        });
+
         CurrentUserService.getCurrentUserMinInfo().then(function(http) {
             $scope.currentUser = http.data;
         });
+
+        $scope.redirectToSearch = function() {
+            $("#formSearch").submit();
+        }
 
         $scope.getParamFromUrl = function (paramName) {
             var url = window.location.search;
@@ -17,11 +25,6 @@
                 }
             }
             return null;
-        }
-
-        $scope.setIdName = function (idName) {
-            var reg = /[^\w]/g;
-            return idName.replace(reg, "");
         }
 
         $scope.getAge = function(birthday) {
@@ -56,14 +59,6 @@
             count = dateNow.getSeconds() - date.getSeconds();
             return count.toString() + " сек.";
         }
-
-        $scope.getSquareImage = function(id) {
-            var width = $("#" + id).attr("width");
-            var height = $("#" + id).attr("height");
-            width = min(width, height);
-            $("#" + id).width(width);
-            $("#" + id).height(width);
-        };
         
         $scope.getImage = function (fileName) {
             $scope.imageId = fileName;
@@ -82,9 +77,5 @@
             var monthes = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
             return date.getDate() + " " + monthes[date.getMonth()] + " " + date.getFullYear() + " г.";
         };
-
-        $scope.redirectToSearch = function() {
-            window.location.replace("/User/Index?searchString=" + $scope.searchString);
-        }
     }
 ]);

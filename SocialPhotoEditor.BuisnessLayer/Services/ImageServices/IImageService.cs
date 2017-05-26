@@ -11,6 +11,6 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices
 
         bool DeleteImage(string currentUserName, string imageFileName);
 
-        string AddImage(string currentUserName, string imageFileName);
+        string AddImage(string currentUserName, string imageFileName, string folderId, string subscribe);
     }
 }
