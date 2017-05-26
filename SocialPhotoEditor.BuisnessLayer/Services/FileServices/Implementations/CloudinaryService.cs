@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -32,6 +34,14 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations
             var imageInStorage = await Cloudinary.UploadAsync(param);
             fileInfo.Delete();
             return imageInStorage.Uri.AbsoluteUri;
+        }
+
+        public void RemoveFromStorage(string fileName)
+        { 
+            var splits = fileName.Split('/', '.');
+            var publicId = splits[splits.Length - 2];
+            var param = new DelResParams {PublicIds = new List<string> { publicId } };
+            Cloudinary.DeleteResourcesAsync(param);
         }
     }
 }

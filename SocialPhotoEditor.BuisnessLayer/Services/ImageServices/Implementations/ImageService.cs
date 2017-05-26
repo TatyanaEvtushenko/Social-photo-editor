@@ -2,6 +2,8 @@
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
@@ -28,6 +30,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
         private static readonly ICommentService CommentService = new CommentService();
         private static readonly ILikeService LikeService = new LikeService();
         private static readonly IUserService UserService = new UserService();
+        private static readonly IFileService FileService = new CloudinaryService();
 
         public ImageViewModel GetImage(string currentUserName, string imageId)
         {
@@ -68,6 +71,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
         {
             if (currentUserName != ImageRepository.GetFirst(imageFileName).OwnerId) return false;
             if (!ImageRepository.Delete(imageFileName)) return false;
+            FileService.RemoveFromStorage(imageFileName);
             var likes = LikeRepository.GetAll().Where(x => x.ImageId == imageFileName);
             foreach (var like in likes)
             {
