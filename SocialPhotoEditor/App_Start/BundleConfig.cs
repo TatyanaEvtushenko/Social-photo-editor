@@ -33,13 +33,6 @@ namespace SocialPhotoEditor
                 "~/Scripts/angular-resource.min.js",
                 "~/Scripts/Angular/module.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/cloudinary").Include(
-                "~/Scripts/jquery.ui.widget.js",
-                "~/Scripts/jquery.iframe-transport.js",
-                "~/Scripts/jquery.fileupload.js",
-                "~/Scripts/jquery.cloudinary.js",
-                "~/Scripts/Cloudinary/cloudinary-config.js"));
-
             //MVC ANGULAR __ MY
             bundles.Add(new ScriptBundle("~/bundles/current-user").Include(
                 "~/Scripts/Angular/current-user/current-user.controller.js",

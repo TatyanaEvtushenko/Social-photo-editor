@@ -98,12 +98,16 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
                 OwnerId = currentUserName
             };
             var imageId = ImageRepository.Add(image);
-            if (subscribe != null)
-            {
-                var comment = new Comment {CommentatorId = currentUserName, ImageId = imageId, Text = subscribe};
-                CommentRepository.Add(comment);
-            }
+            if (subscribe == null) return imageId;
+            var comment = new Comment {CommentatorId = currentUserName, ImageId = imageId, Text = subscribe};
+            CommentRepository.Add(comment);
             return imageId;
+        }
+
+        public void CancelAdding(string imageFileName)
+        {
+            if (ImageRepository.GetAll().FirstOrDefault(x => x.FileName.Contains(imageFileName)) != null) return;
+            FileService.RemoveFromStorage(imageFileName);
         }
     }
 }

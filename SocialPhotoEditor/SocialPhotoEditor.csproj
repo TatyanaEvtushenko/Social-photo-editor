@@ -242,6 +242,7 @@
     <Compile Include="Controllers\UserController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\3d0e8cd12a26b33399801ea536d3fa12.jpg" />
     <Content Include="Content\avatar.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -249,6 +250,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\emojionearea.min.css" />
     <Content Include="Content\fireworks.png" />
+    <Content Include="Content\vintazhnyy-most.jpg" />
+    <Content Include="Content\wallhaven-321312.jpg" />
+    <Content Include="Content\Yandex-Images-2015-09-02.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -305,7 +309,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\canvas-to-blob.min.js" />
-    <Content Include="Scripts\Cloudinary\cloudinary-config.js" />
     <Content Include="Scripts\emojionearea.min.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />

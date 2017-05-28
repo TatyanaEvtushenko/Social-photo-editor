@@ -14,10 +14,12 @@
     <div class="row">
         <div class="col-md-4">
             <div class="jumbotron">
-                <img class="avatar big_avatar" src="{{getAvatar(user.AvatarFileName)}}"/>
-                <br/><br /><br />
-                <h4>{{user.UserName}}</h4>
-                <h5 class="text-muted">Дата регистрации: {{getStrDate(user.RegisterDate)}}</h5>
+                <img class="avatar big_avatar center-block" src="{{getAvatar(user.AvatarFileName)}}"/>
+                <br/><br/><br/>
+                <div class="center-block">
+                    <h4>{{user.UserName}}</h4>
+                    <h5 class="text-muted">Дата регистрации: {{getStrDate(user.RegisterDate)}}</h5>
+                </div>
             </div>
         </div>
         <div class="col-md-8">

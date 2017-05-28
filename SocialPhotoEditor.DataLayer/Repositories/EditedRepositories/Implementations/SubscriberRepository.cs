@@ -28,7 +28,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementa
         {
             try
             {
-                data.Id = data.UserName + data.SubscriberName + DateTime.Now;
+                data.Id = Guid.NewGuid().ToString();
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.Subscribers.FirstOrDefault(x => x.Id == data.Id) != null)

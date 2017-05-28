@@ -1,7 +1,7 @@
 ﻿app.controller("UserListController", [
     "$scope", "UserListService", function ($scope, UserListService) {
         
-      //  $scope.searchString = $scope.getParamFromUrl("searchString");
+        $scope.searchString = $scope.getParamFromUrl("searchString");
 
         $scope.getUserList = function (pageCount) {
             if (pageCount === 0) {
@@ -74,10 +74,10 @@
                         break;
                     case 1:
                         $scope.userLists.sort(function (a, b) {
-                            if (a.Popularity > b.Popularity) {
+                            if (a.Popularity < b.Popularity) {
                                 return 1;
                             }
-                            if (a.Popularity < b.Popularity) {
+                            if (a.Popularity > b.Popularity) {
                                 return -1;
                             }
                             return 0;

@@ -43,8 +43,13 @@
         }
 
         $scope.updateUserInfo = function () {
+            var birthday = new Date($scope.birthdayInput);
+            birthday.setHours(0);
+            birthday.setMinutes(0);
+            birthday.setSeconds(0);
+            birthday.setMinutes(birthday.getUTCMinutes() - birthday.getTimezoneOffset());
             SettingService.updateUserInfo($scope.user.AvatarFileName, $scope.nameInput, $scope.surnameInput, $("#subscribe").data("emojioneArea").getText(),
-                $scope.citySelect, $scope.countrySelect, $("#sex").val(), $scope.birthdayInput).then(function (http) {
+                $scope.citySelect, $scope.countrySelect, $("#sex").val(), birthday).then(function (http) {
                 if (http.data) {
                     $("#saveAlert").show(); 
                     setTimeout(function () { $("#saveAlert").hide(); }, 2000);

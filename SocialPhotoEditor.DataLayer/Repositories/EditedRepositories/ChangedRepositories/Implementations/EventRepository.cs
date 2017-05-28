@@ -29,8 +29,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
             try
             {
                 data.IsSeen = false;
-                data.Time = DateTime.Now;
-                data.Id = data.TypeElementId + data.Type + data.Time;
+                data.Time = DateTime.UtcNow;
+                data.Id = Guid.NewGuid().ToString();
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.Events.FirstOrDefault(x => x.Id == data.Id) != null)

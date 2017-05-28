@@ -5,10 +5,9 @@ namespace SocialPhotoEditor.Controllers
     [Authorize]
     public class UserController : Controller
     {
-        [HttpPost]
+        [HttpGet]
         public ActionResult Index(string searchString)
         {
-            ViewData["SearchString"] = searchString;
             return View();
         }
 

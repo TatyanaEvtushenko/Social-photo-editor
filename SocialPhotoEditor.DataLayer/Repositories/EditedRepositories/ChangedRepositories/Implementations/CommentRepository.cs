@@ -28,8 +28,8 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             try
             {
-                data.Time = DateTime.Now;
-                data.Id = data.CommentatorId + data.Time + data.ImageId.GetHashCode();
+                data.Time = DateTime.UtcNow;
+                data.Id = Guid.NewGuid().ToString();
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.Comments.FirstOrDefault(x => x.Id == data.Id) != null)

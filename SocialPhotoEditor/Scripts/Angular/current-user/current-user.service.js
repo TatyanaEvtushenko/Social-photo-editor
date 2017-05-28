@@ -4,5 +4,9 @@
         this.getCurrentUserMinInfo = function () {
             return $http.get("/api/CurrentUserWebApi");
         }
+
+        this.getEvents = function() {
+            return $http.get("/api/CurrentUserWebApi/GetEvents");
+        }
     }
 ]);

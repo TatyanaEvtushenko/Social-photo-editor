@@ -7,13 +7,13 @@
 <br/><br/>
 <div ng-controller="NewImageController" class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-5 col-md-offset-7">
             <p class="text-muted">@ViewData["ImageName"]</p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-7">
-            <img id="img" class="image" src="@ViewData["ImagePath"]"/>
+            <img id="img" class="image center-block" src="@ViewData["ImagePath"]"/>
         </div>
         <div class="col-md-5">
             <ul class="list-group pull-left">
@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <a href="#folderModal" class="tumbnail" data-toggle="modal" ng-click="openAddFolder(userPage.UserName)">
+                            <a href="#folderModal" class="tumbnail" data-toggle="modal" ng-click="openAddFolder(currentUser.User.UserName)">
                                 <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Новый альбом</button>
                             </a>
                         </div>
@@ -44,6 +44,12 @@
                             <input type="radio" name="options" ng-focus="editDefault()"> Без эффектов
                         </label>
                         <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editRedEyes()"> Удаление красных глаз
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editImprove()"> Улучшить
+                        </label>
+                        <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editAutoBrightness()"> Корректировка яркости
                         </label>
                         <label class="btn btn-primary">
@@ -53,16 +59,34 @@
                             <input type="radio" name="options" ng-focus="editAutoContrast()"> Корректировка контраста
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editBlurFaces()"> Размытые лица
+                            <input type="radio" name="options" ng-focus="editOutline()"> Рамка
                         </label>
                         <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editBlur()"> Размытие
                         </label>
                         <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editBlurFaces()"> Размытие лиц
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editPixelate()"> Пиксилизация
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editPixelateFaces()"> Пиксилизация лиц
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editRed()"> Red
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editGreen()"> Green
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" ng-focus="editBlue()"> Blue
+                        </label>
+                        <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editArtistic()"> Artistic
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editBlackWhite()"> BlackWhite
+                            <input type="radio" name="options" ng-focus="editBlackWhite()"> Black and white
                         </label>
                         <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editCartoonify()"> Cartoonify
@@ -74,9 +98,6 @@
                             <input type="radio" name="options" ng-focus="editHue()"> Hue
                         </label>
                         <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editImprove()"> Улучшить
-                        </label>
-                        <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editNegate()"> Negate
                         </label>
                         <label class="btn btn-primary">
@@ -84,15 +105,6 @@
                         </label>
                         <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editOrderedDither()"> Ordered dither
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editOutline()"> Рамка
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editPixelate()"> Pixelate
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editPixelateFaces()"> Pixelate faces
                         </label>
                         <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editSaturation()"> Saturation
@@ -106,18 +118,6 @@
                         <label class="btn btn-primary">
                             <input type="radio" name="options" ng-focus="editVignette()"> Vignette
                         </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editRed()"> Red
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editRedEyes()"> Удаление красных глаз
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editGreen()"> Green
-                        </label>
-                        <label class="btn btn-primary">
-                            <input type="radio" name="options" ng-focus="editBlue()"> Blue
-                        </label>
                     </div>
                 </li>
                 <li class="list-group-item">
@@ -129,10 +129,18 @@
                     </div>
                 </li>
             </ul>
-            <button type="submit" class="btn btn-success pull-right btn-lg" ng-click="addImage()">Добавить</button>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-default btn-lg" ng-click="cancelAdding()">Отмена</button>
+                        <button type="submit" class="btn btn-success btn-lg" ng-click="addImage()">Добавить</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    @Html.Partial("NewFolderModal")
 </div>
 
-@Html.Partial("NewFolderModal")
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web;
 using System.Web.Http;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices;
 using SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations;
@@ -25,12 +24,16 @@ namespace SocialPhotoEditor.Controllers
         }
 
         [HttpPut]
-        public void AddImage(NewImageResponse response)
+        public string AddImage(NewImageResponse response)
         {
-            Service.AddImage(User.Identity.Name, response.ImagePath, response.FolderId, response.Subscribe);
-            var url = HttpContext.Current.Request.ServerVariables["SERVER_NAME"] + "/User/Page/?userName=" +
-                      User.Identity.Name;
-            Redirect(url);
+            return Service.AddImage(User.Identity.Name, response.ImagePath, response.FolderId, response.Subscribe);
+        }
+
+        [HttpPost]
+        [Route("api/ImageWebApi/CancelAdding")]
+        public void CancelAdding(string imageFileName)
+        {
+            Service.CancelAdding(imageFileName);
         }
 
         [HttpDelete]

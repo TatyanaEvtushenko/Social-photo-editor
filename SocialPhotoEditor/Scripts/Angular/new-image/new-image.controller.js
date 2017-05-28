@@ -1,19 +1,36 @@
 ﻿app.controller("NewImageController", [
     "$scope", "NewImageService", function ($scope, NewImageService) {
 
+        $scope.folderSelect = "";
+        $scope.folders = [];
+        var sourceImage = null;
+
         NewImageService.getFoldersList().then(function (http) {
             $scope.folders = http.data;
         }, function (error) {
-            console.log("Error from server! (countries)");
+            console.log("Error from server! (folders)");
         });
-
-        $scope.folderSelect = "";
-        var sourceImage = null;
 
         $(document).ready(function () {
             $("#subscribe").emojioneArea();
             $(".btn").button();
         });
+
+        $scope.addImage = function() {
+            NewImageService.addImage($("#img").attr("src"), $scope.folderSelect, $("#subscribe").data("emojioneArea").getText()).then(function(http) {
+                if (http.data != null) {
+                    window.location.href = window.location.origin + "/User/Page/?userName=" + $scope.currentUser.User.UserName;
+                }
+            }, function (error) {
+                console.log("Error from server! (add image)");
+            });
+        }
+
+        $scope.cancelAdding = function () {
+            var path = sourceImage == null ? $("#img").attr("src") : sourceImage;
+            NewImageService.cancelAdding(path).then();
+            window.location.href = window.location.origin + "/User/Page/?userName=" + $scope.currentUser.User.UserName;
+        }
 
         function editImage(effect) {
             if (sourceImage == null) {
@@ -21,10 +38,6 @@
             }
             var newPath = sourceImage.replace(/upload/, "upload/" + effect);
             $("#img").attr("src", newPath);
-        }
-
-        $scope.addImage = function() {
-            NewImageService.addImage($("#img").attr("src"), $scope.folderSelect, $("#subscribe").data("emojioneArea").getText());
         }
 
         $scope.editDefault = function () {

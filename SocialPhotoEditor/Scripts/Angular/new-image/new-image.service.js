@@ -13,5 +13,9 @@
             };
             return $http.put("/api/ImageWebApi/", response);
         }
+
+        this.cancelAdding = function (imageFileName) {
+            return $http({ method: "POST", url: "/api/ImageWebApi/CancelAdding/", params: { 'imageFileName': imageFileName } });
+        }
     }
 ]);

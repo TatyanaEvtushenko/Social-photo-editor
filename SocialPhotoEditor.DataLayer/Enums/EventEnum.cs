@@ -4,6 +4,7 @@
     {
         Like,
         Comment,
-        Subscription
+        Subscription,
+        CommentAnswer
     };
 }

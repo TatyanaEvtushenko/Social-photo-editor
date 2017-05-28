@@ -11,7 +11,6 @@
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/cloudinary")
     @Scripts.Render("~/bundles/current-user")
 </head>
 <body data-ng-app="APIModule" ng-controller="CurrentUserController">
@@ -26,33 +25,45 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="search">
-                            <form method="POST" id="formSearch" action="/User/Index" >
-                                <a @*href="~/User/Index?searchString="*@ class="navbar-link" onclick="$('#formSearch').submit()">
-                                    <span class="glyphicon glyphicon-search"></span> 
-                                </a>
-                                <input type="text" placeholder="Поиск пользователей" name="searchString" ng-model="searchString" ng-enter="redirectToSearch()">
-                            </form>
+                        <div class="center-block">
+                            <div class="input-group search_line">
+                                <input type="text" class="form-control" placeholder="Поиск пользователей" name="searchString" ng-model="searchString" ng-enter="redirectToSearch()">
+                                <a href="~/User/Index?searchString=" class="navbar-link input-group-addon"><span class="glyphicon glyphicon-search"></span></a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="navbar-collapse collapse pull-right">
                             <ul class="nav navbar-nav">
                                 <li>
-                                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Уведомления">
+                                    <a href="#" ng-click="changeEventsView()" ng-blur="hideEvents()">
                                         <span ng-if="currentUser.NewEventsCount > 0" class="label label-danger">{{currentUser.NewEventsCount}}</span>  <span class="glyphicon glyphicon-bullhorn"></span>
                                     </a>
-                                    @*<a href="#" role="button" data-toggle="popover" data-placement="bottom" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">
-                                        <span ng-if="currentUser.NewEventsCount > 0" class="label label-danger">{{currentUser.NewEventsCount}}</span>  <span class="glyphicon glyphicon-bullhorn"></span>
-                                    </a>
-                                    <div id="example" class="popover bottom fade in">
+                                    <div id="event-popover" class="popover bottom">
                                         <div class="arrow"></div>
-                                        <h3 class="popover-title">Информер внизу</h3>
-
+                                        <h3 class="popover-title">Уведомления</h3>
                                         <div class="popover-content">
-                                            <p>Здесь произвольный текст. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+                                            <div class="scroll_list comment_list">
+                                                <div ng-repeat="event in events track by $index">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <a href="~/User/Page/?userName={{event.Owner.UserName}}">
+                                                                <img class="avatar small_avatar" src="{{getAvatar(event.Owner.AvatarFileName)}}"/>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <p>{{getDate(event.Time)}} {{event.Owner.UserName}},</p>
+                                                            {{getEventText(event.Type)}}
+                                                        </div>
+                                                        <div class="col-md-2" ng-if="event.ImageFileName != null">
+                                                            <img class="avatar small_avatar" src="{{event.ImageFileName}}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>*@
+                                    </div>
                                 </li>
                                 <li>
                                     <a href="#" onclick="$('#fileNewImage').click()" data-toogle="tooltip" data-placement="bottom" title="Добавить изображение">
@@ -76,7 +87,7 @@
                                                 <li class="divider"></li>
                                                 <li><a href="~/User/Setting">Редактировать</a></li>
                                                 <li><a href="#">Настроить</a></li>
-                                                <li><a href="~/Manage/Index">Сменить пароль</a></li>
+                                                <li><a href="~/Manage/ChangePassword">Сменить пароль</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
                                             </ul>
@@ -106,6 +117,7 @@
         <div id="footer">
             <div class="container">
                 <ul class="list-inline">
+                    <li><a href="~/Home/Index">Главная страница</a></li>
                     <li><a href="~/Home/About">О программе</a></li>
                     <li><a href="~/Home/Contact">Связь</a></li>
                 </ul>

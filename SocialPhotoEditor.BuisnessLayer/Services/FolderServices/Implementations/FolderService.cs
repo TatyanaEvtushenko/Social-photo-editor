@@ -60,7 +60,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FolderServices.Implementation
         private static IEnumerable<ImageListViewModel> GetMoreAnyImages(int pageNumber, IEnumerable<Image> images)
         {
             var countOnPage = IntSettings.CountImageLists;
-            return images.OrderBy(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage).Select(x => new ImageListViewModel
+            return images.OrderByDescending(x => x.Time).Skip(countOnPage * pageNumber).Take(countOnPage).Select(x => new ImageListViewModel
             {
                 FileName = x.FileName,
                 CommentsCount = CommentService.GetCommentsCount(x.FileName),
