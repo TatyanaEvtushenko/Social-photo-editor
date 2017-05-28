@@ -23,6 +23,19 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetNews(pageNumber, User.Identity.Name);
         }
 
+        [HttpPut]
+        public string AddImage(NewImageResponse response)
+        {
+            return Service.AddImage(User.Identity.Name, response.ImagePath, response.FolderId, response.Subscribe);
+        }
+
+        [HttpPost]
+        [Route("api/ImageWebApi/CancelAdding")]
+        public void CancelAdding(string imageFileName)
+        {
+            Service.CancelAdding(imageFileName);
+        }
+
         [HttpDelete]
         public bool DeleteImage(string imageFileName)
         {

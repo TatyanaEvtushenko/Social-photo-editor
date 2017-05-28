@@ -94,8 +94,10 @@
             });
         };
 
-        $scope.checkIfBirthday = function(date) {
-            return new Date(date).getDate() === new Date().getDate();
+        $scope.checkIfBirthday = function (date) {
+            var today = new Date(Date.now());
+            date = new Date(date);
+            return date.getDate() === today.getUTCDate() && date.getMonth() === today.getUTCMonth();
         };
 
         $scope.getSubscribers = function () {

@@ -24,7 +24,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
         public IEnumerable<CommentViewModel> GetComments(string imageId)
         {
             var imagesComments = CommentRepository.GetAll().Where(x => x.ImageId == imageId);
-            return imagesComments.Select(x => new CommentViewModel
+            return imagesComments.OrderBy(x => x.Time).Select(x => new CommentViewModel
             {
                 OwnerUserName = x.CommentatorId,
                 RecipientUserName = x.RecipientId,
@@ -44,9 +44,11 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementatio
                 RecipientId = recipientUserName
             };
             var commentId = CommentRepository.Add(comment);
-            if (commentId != null)
+            if (commentId == null) return null;
+            EventService.AddEvent(commentatorUserName, imageId, EventEnum.Comment, commentId);
+            if (recipientUserName != null)
             {
-                EventService.AddEvent(commentatorUserName, EventEnum.Comment, recipientUserName, commentId);
+                EventService.AddEvent(commentatorUserName, EventEnum.CommentAnswer, commentId, recipientUserName);
             }
             return commentId;
         }

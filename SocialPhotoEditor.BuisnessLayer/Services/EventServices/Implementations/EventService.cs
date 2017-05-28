@@ -33,8 +33,9 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                 switch (userEvent.Type)
                 {
                     case EventEnum.Comment:
+                    case EventEnum.CommentAnswer:
                         var comment = CommentRepository.GetFirst(userEvent.TypeElementId);
-                        eventViewModel.ImageFileName = comment.ImageId;
+                        eventViewModel.ImageFileName = userEvent.Type == EventEnum.CommentAnswer ? null : comment.ImageId;
                         eventViewModel.Owner = UserService.GetUserMinInfo(comment.CommentatorId);
                         break;
                     case EventEnum.Like:
@@ -52,6 +53,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
                 }
                 result.Add(eventViewModel);
             }
+            SeeNewEvents(currentUserName);
             return result;
         }
 
@@ -62,7 +64,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
             return events.Count(x => EventRepository.Update(x.Id, seenEvent));
         }
 
-        public void AddEvent(string currentUserName, EventEnum type, string recipientUserName, string elementId)
+        public void AddEvent(string currentUserName, EventEnum type, string elementId, string recipientUserName)
         {
             if (currentUserName == recipientUserName) return;
             var userEvent = new Event {Type = type, TypeElementId = elementId, RecipientId = recipientUserName};
@@ -72,7 +74,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.EventServices.Implementations
         public void AddEvent(string currentUserName, string image, EventEnum type, string elementId)
         {
             var recipientUserName = ImageRepository.GetFirst(image)?.OwnerId;
-            AddEvent(currentUserName, type, recipientUserName, elementId);
+            AddEvent(currentUserName, type, elementId, recipientUserName);
         }
 
         public void DeleteEvent(EventEnum typeElement, string elementId)

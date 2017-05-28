@@ -1,31 +1,48 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная страница";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div id="carousel-example-captions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-captions" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-captions" data-slide-to="1" class=""></li>
+        <li data-target="#carousel-example-captions" data-slide-to="2" class=""></li>
+        <li data-target="#carousel-example-captions" data-slide-to="3" class=""></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item active">
+            <img data-src="holder.js/900x500/auto/index.htm#777:#777" alt="900x500" src="~/Content/3d0e8cd12a26b33399801ea536d3fa12.jpg">
+            <div class="carousel-caption">
+                <h2>Добро пожаловать на наш сайт!</h2>
+                <p>Создайте аккаунт, чтобы по достоинству оценить все возможности Social photo editor.</p>
+            </div>
+        </div>
+        <div class="item">
+            <img data-src="holder.js/900x500/auto/index.htm#666:#666" alt="900x500" src="~/Content/vintazhnyy-most.jpg">
+            <div class="carousel-caption">
+                <h2>Добавляйте фотографии!</h2>
+                <p>Используйте доступные фильтры, чтобы сделать ваши изображения по-настоящему уникальными.</p>
+            </div>
+        </div>
+        <div class="item">
+            <img data-src="holder.js/900x500/auto/index.htm#555:#5555" alt="900x500" src="~/Content/wallhaven-321312.jpg">
+            <div class="carousel-caption">
+                <h2>Создавайте альбомы!</h2>
+                <p>Группируйте фотографии по тематике и объединяйте их в тематические альбомы.</p>
+            </div>
+        </div>
+        <div class="item">
+            <img data-src="holder.js/900x500/auto/index.htm#555:#5555" alt="900x500" src="~/Content/Yandex-Images-2015-09-02.jpg">
+            <div class="carousel-caption">
+                <h2>Оценивайте фотографии пользователей!</h2>
+                <p>Оценивайте и комментируйте фотографии других пользователей, а так же подписывайтесь на интересные аккаунты, чтобы всегда следить за их обновлениями.</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    <a class="left carousel-control" href="#carousel-example-captions" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-captions" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>

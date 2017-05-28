@@ -28,7 +28,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             try
             {
-                data.Time = DateTime.Now;
+                data.Time = DateTime.UtcNow;
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.Images.FirstOrDefault(x => x.FileName == data.FileName) != null)

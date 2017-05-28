@@ -2,6 +2,8 @@
 using System.Linq;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices;
 using SocialPhotoEditor.BuisnessLayer.Services.CommentServices.Implementations;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices;
+using SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices;
 using SocialPhotoEditor.BuisnessLayer.Services.LikeServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.Services.UserServices;
@@ -9,6 +11,7 @@ using SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations;
 using SocialPhotoEditor.BuisnessLayer.ViewModels.ImageViewModels;
 using SocialPhotoEditor.DataLayer.DatabaseModels;
 using SocialPhotoEditor.DataLayer.Repositories;
+using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRepositories.Implementations;
 using SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.Implementations;
@@ -20,13 +23,14 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
     {
         private static readonly IChangedRepository<Image> ImageRepository = new ImageRepository();
         private static readonly IRepository<Like> LikeRepository = new LikeRepository();
-        private static readonly IRepository<Comment> CommentRepository = new CommentRepository();
+        private static readonly IEditedRepository<Comment> CommentRepository = new CommentRepository();
         private static readonly IRepository<Subscriber> SubscriberRepository = new SubscriberRepository();
         private static readonly IChangedRepository<UserInfo> UserInfoRepository = new UserInfoRepository();
 
         private static readonly ICommentService CommentService = new CommentService();
         private static readonly ILikeService LikeService = new LikeService();
         private static readonly IUserService UserService = new UserService();
+        private static readonly IFileService FileService = new CloudinaryService();
 
         public ImageViewModel GetImage(string currentUserName, string imageId)
         {
@@ -67,6 +71,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
         {
             if (currentUserName != ImageRepository.GetFirst(imageFileName).OwnerId) return false;
             if (!ImageRepository.Delete(imageFileName)) return false;
+            FileService.RemoveFromStorage(imageFileName);
             var likes = LikeRepository.GetAll().Where(x => x.ImageId == imageFileName);
             foreach (var like in likes)
             {
@@ -84,9 +89,25 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.ImageServices.Implementations
             return true;
         }
 
-        public string AddImage(string currentUserName, string imageFileName)
+        public string AddImage(string currentUserName, string imageFileName, string folderId, string subscribe)
         {
-            throw new System.NotImplementedException();
+            var image = new Image
+            {
+                FileName = imageFileName,
+                FolderId = folderId,
+                OwnerId = currentUserName
+            };
+            var imageId = ImageRepository.Add(image);
+            if (subscribe == null) return imageId;
+            var comment = new Comment {CommentatorId = currentUserName, ImageId = imageId, Text = subscribe};
+            CommentRepository.Add(comment);
+            return imageId;
+        }
+
+        public void CancelAdding(string imageFileName)
+        {
+            if (ImageRepository.GetAll().FirstOrDefault(x => x.FileName.Contains(imageFileName)) != null) return;
+            FileService.RemoveFromStorage(imageFileName);
         }
     }
 }

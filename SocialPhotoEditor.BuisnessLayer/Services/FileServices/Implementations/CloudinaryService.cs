@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
@@ -8,18 +12,36 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.FileServices.Implementations
     {
         private static readonly Cloudinary Cloudinary = new Cloudinary(new Account("tantadamcloud", "382595625523566", "kXNP5CO_ozA_qBwDC5ZvyLThAHs"));
 
-        public async Task<string> DownloadToStorage(string fileName)
+        private Transformation GetSquareAvatarTransformation(string fileName)
         {
-            var param = new ImageUploadParams { File = new FileDescription(fileName) };
-            var uploadResult = await Cloudinary.UploadAsync(param);
-            return uploadResult.Uri.AbsolutePath; 
+            using (var fileStream = new FileStream(fileName, FileMode.Open))
+            {
+                var image = Image.FromStream(fileStream);
+                var width = image.Width < image.Height ? image.Width : image.Height;
+                return new Transformation().Width(width).Height(width).Crop("fill").Gravity("face");
+            }
         }
 
-        public string GetAvatarUrl(string fileName)
+        public async Task<string> DownloadToStorage(string fileName)
         {
-            var width = 250;
-            var imageCrop = Cloudinary.Api.UrlImgUp.Transform(new Transformation().Width(width).Height(width).Crop("fill").Gravity("face").Radius("max")).BuildUrl(fileName);
-            return imageCrop;
+            var fileInfo = new FileInfo(fileName);
+            if (!fileInfo.Exists) return null;
+            var param = new ImageUploadParams
+            {
+                File = new FileDescription(fileName),
+                Transformation = GetSquareAvatarTransformation(fileName)
+            };
+            var imageInStorage = await Cloudinary.UploadAsync(param);
+            fileInfo.Delete();
+            return imageInStorage.Uri.AbsoluteUri;
+        }
+
+        public void RemoveFromStorage(string fileName)
+        { 
+            var splits = fileName.Split('/', '.');
+            var publicId = splits[splits.Length - 2];
+            var param = new DelResParams {PublicIds = new List<string> { publicId } };
+            Cloudinary.DeleteResourcesAsync(param);
         }
     }
 }

@@ -13,5 +13,7 @@ namespace SocialPhotoEditor.BuisnessLayer.ViewModels.EventViewModels
         public EventEnum Type { get; set; }
 
         public DateTime Time { get; set; }
+
+        public bool IsSeen { get; set; }
     }
 }

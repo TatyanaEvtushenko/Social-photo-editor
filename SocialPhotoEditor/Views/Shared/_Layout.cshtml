@@ -11,7 +11,6 @@
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/cloudinary")
     @Scripts.Render("~/bundles/current-user")
 </head>
 <body data-ng-app="APIModule" ng-controller="CurrentUserController">
@@ -19,54 +18,91 @@
         <div class="container">
             @if (Request.IsAuthenticated)
             {
-                <div class="navbar-header">
-                    @Html.ActionLink("Social photo editor", "News", "Image", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <div class="search">
-                                <a href="~/User/Index?searchString="><span class="glyphicon glyphicon-search"></span></a>
-                                <input type="text" placeholder="Поиск пользователей" ng-model="searchString" ng-enter="redirectToSearch()">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="navbar-header">
+                            <a href="~/Image/News/" class="navbar-brand">Social photo editor</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="center-block">
+                            <div class="input-group search_line">
+                                <input type="text" class="form-control" placeholder="Поиск пользователей" name="searchString" ng-model="searchString" ng-enter="redirectToSearch()">
+                                <a href="~/User/Index?searchString=" class="navbar-link input-group-addon"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
-                        </li>
-
-
-                        <li><a href="~/User/Index"><span class="glyphicon glyphicon-heart"></span></a></li>
-                        <li><a href="~/Image/News"><span class="glyphicon glyphicon-globe"></span></a></li>
-                        <li><a data-container="body" data-toggle="popover" data-placement="bottom" data-content="Здесь должны быть уведомления">
-                            <span ng-if="currentUser.NewEventsCount > 0" class="label label-danger">{{currentUser.NewEventsCount}}</span>  <span class="glyphicon glyphicon-bullhorn"></span>
-                        </a></li>
-                    </ul>
-                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
-                    {
-                    @Html.AntiForgeryToken()
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <div class="row">
-                                <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown">
-                                    <img src="{{getAvatar(currentUser.User.AvatarFileName)}}" class="avatar small_avatar" />{{currentUser.User.UserName}}  <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="~/User/Page?userName={{currentUser.User.UserName}}">Профиль</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Редактировать</a></li>
-                                    <li><a href="#">Настроить</a></li>
-                                    <li><a href="~/Manage/Index">Сменить пароль</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="navbar-collapse collapse pull-right">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="#" ng-click="changeEventsView()" ng-blur="hideEvents()">
+                                        <span ng-if="currentUser.NewEventsCount > 0" class="label label-danger">{{currentUser.NewEventsCount}}</span>  <span class="glyphicon glyphicon-bullhorn"></span>
+                                    </a>
+                                    <div id="event-popover" class="popover bottom">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title">Уведомления</h3>
+                                        <div class="popover-content">
+                                            <div class="scroll_list comment_list">
+                                                <div ng-repeat="event in events track by $index">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <a href="~/User/Page/?userName={{event.Owner.UserName}}">
+                                                                <img class="avatar small_avatar" src="{{getAvatar(event.Owner.AvatarFileName)}}"/>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <p>{{getDate(event.Time)}} {{event.Owner.UserName}},</p>
+                                                            {{getEventText(event.Type)}}
+                                                        </div>
+                                                        <div class="col-md-2" ng-if="event.ImageFileName != null">
+                                                            <img class="avatar small_avatar" src="{{event.ImageFileName}}" />
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="$('#fileNewImage').click()" data-toogle="tooltip" data-placement="bottom" title="Добавить изображение">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                    <form enctype="multipart/form-data" id="formNewImage" action="/Image/Index" method="POST">
+                                        <input type="file" class="hide" id="fileNewImage" name="file" accept="image/*" onchange="$('#formNewImage').submit()"/>
+                                    </form>
+                                </li>
+                            </ul>
+                            <form class="navbar-right ng-pristine ng-valid" action="/Account/LogOff" method="POST" id="logoutForm">
+                                @Html.AntiForgeryToken()
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-lg btn-link dropdown-toggle" data-toggle="dropdown">
+                                                <img src="{{getAvatar(currentUser.User.AvatarFileName)}}" class="avatar small_avatar"/>{{currentUser.User.UserName}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="~/User/Page?userName={{currentUser.User.UserName}}">Профиль</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="~/User/Setting">Редактировать</a></li>
+                                                <li><a href="#">Настроить</a></li>
+                                                <li><a href="~/Manage/ChangePassword">Сменить пароль</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
                                 </ul>
-                            </div>
-                        </li>
-                    </ul>
-                    }
+                            </form>
+                        </div>
+                    </div>
                 </div>
             }
             else
             {
                 <div class="navbar-header">
-                    @Html.ActionLink("Social photo editor", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    <a href="~/Home/Index/" class="navbar-brand">Social photo editor</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     @Html.Partial("_LoginPartial")
@@ -81,6 +117,7 @@
         <div id="footer">
             <div class="container">
                 <ul class="list-inline">
+                    <li><a href="~/Home/Index">Главная страница</a></li>
                     <li><a href="~/Home/About">О программе</a></li>
                     <li><a href="~/Home/Contact">Связь</a></li>
                 </ul>

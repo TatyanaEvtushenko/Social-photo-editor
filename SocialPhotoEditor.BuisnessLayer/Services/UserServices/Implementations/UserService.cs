@@ -173,7 +173,8 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
         {
             return new CurrentUserViewModel
             {
-                User = GetUserMinInfo(userName), NewEventsCount = EventRepository.GetAll().Count(x => x.RecipientId == userName && x.IsSeen == false)
+                User = GetUserMinInfo(userName),
+                NewEventsCount = EventRepository.GetAll().Count(x => x.RecipientId == userName && x.IsSeen == false)
             };
         }
 
@@ -242,7 +243,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.UserServices.Implementations
         {
             var info = new UserInfo
             {
-                AvatarFileName = avatarFileName,
+                AvatarFileName = avatarFileName ?? InfoRepository.GetFirst(currentUserName).AvatarFileName,
                 Name = name,
                 Surname = surname,
                 Birthday = birthday,

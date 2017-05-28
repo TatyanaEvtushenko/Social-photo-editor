@@ -28,7 +28,11 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             try
             {
-                data.RegisterDate = DateTime.Now;
+                data.RegisterDate = DateTime.UtcNow;
+                if (data.Birthday != null)
+                {
+                    data.Birthday = data.Birthday.Value.ToUniversalTime();
+                }
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.UserInfos.FirstOrDefault(x => x.UserName == data.UserName) != null)

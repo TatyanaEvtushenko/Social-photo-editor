@@ -16,13 +16,13 @@
                         Name: name,
                         ImagesCount: 0
                     };
-                    var folders = typeof $scope.userPage === "undefined" ? null : $scope.userPage.Folders;
+                    var folders = $scope.userPage === undefined ? $scope.folders : $scope.userPage.Folders;
                     folders[folders.length] = newFolder;
-                    $("#folderModal").modal("hide");
                 }
             }, function(error) {
                 console.log("Error from server! (new folder)");
             });
+            $("#folderModal").modal("hide");
         }
     }
 ]);

@@ -31,6 +31,12 @@ namespace SocialPhotoEditor.Controllers
             return Service.GetMoreUserImages(response.PageNumber, response.UserName);
         }
 
+        [HttpGet]
+        public IEnumerable<FolderListViewModel> GetFolderList()
+        {
+            return Service.GetFolderLists(User.Identity.Name);
+        }
+            
         [HttpPut]
         public string AddFolder(NewFolderResponse response)
         {

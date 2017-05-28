@@ -2,10 +2,10 @@
 
 namespace SocialPhotoEditor.BuisnessLayer.Services.FileServices
 {
-    interface IFileService
+    public interface IFileService
     {
         Task<string> DownloadToStorage(string fileName);
 
-        string GetAvatarUrl(string fileName);
+        void RemoveFromStorage(string fileName);
     }
 }

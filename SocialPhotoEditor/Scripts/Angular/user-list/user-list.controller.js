@@ -23,13 +23,16 @@
             console.log("Error from server! (countries)");
         });
 
+        var pageCount = 0;
         $scope.minAge = null;
         $scope.maxAge = null;
         $scope.sexSelect = "0";
         $scope.sortSelect = "0";
         $scope.usersCount = 0;
-        var pageCount = 0;
-        $scope.getUserList(pageCount);
+
+        $(document).ready(function () {
+            $scope.getUserList(pageCount);
+        });
 
 
         $scope.getMoreUserList = function() {
@@ -71,10 +74,10 @@
                         break;
                     case 1:
                         $scope.userLists.sort(function (a, b) {
-                            if (a.Popularity > b.Popularity) {
+                            if (a.Popularity < b.Popularity) {
                                 return 1;
                             }
-                            if (a.Popularity < b.Popularity) {
+                            if (a.Popularity > b.Popularity) {
                                 return -1;
                             }
                             return 0;

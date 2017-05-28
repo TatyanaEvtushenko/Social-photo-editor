@@ -26,7 +26,7 @@ namespace SocialPhotoEditor.BuisnessLayer.Services.RelationshipServices.Implemen
             var id = SubscriberRepository.Add(relationship);
             if (id != null)
             {
-                EventService.AddEvent(followerName, EventEnum.Comment, id, userName);
+                EventService.AddEvent(followerName, EventEnum.Subscription, id, userName);
             }
             return id;
         }

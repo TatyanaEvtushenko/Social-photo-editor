@@ -28,7 +28,7 @@ namespace SocialPhotoEditor.DataLayer.Repositories.EditedRepositories.ChangedRep
         {
             try
             {
-                data.Id = data.Name + data.OwnerId + DateTime.Now;
+                data.Id = Guid.NewGuid().ToString();
                 using (var db = new ApplicationDbContext())
                 {
                     if (db.Folders.FirstOrDefault(x => x.Id == data.Id) != null)
